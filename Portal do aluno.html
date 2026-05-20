@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Académico UnISCED - Login</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Ícones do Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Animação do Gradiente Líquido Cinza (Suave e Corporativo) */
+        @keyframes liquidGray {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .liquid-gray-bg {
+            /* Transição fluida entre tons neutros premium: grafite, ardósia e um toque sutil de azul-escuro */
+            background: linear-gradient(-45deg, #0f172a, #1e293b, #334155, #1e293b, #0f172a);
+            background-size: 300% 300%;
+            animation: liquidGray 18s ease infinite;
+        }
+
+        /* Suavização global para interações */
+        input, button, a {
+            transition: all 0.25s ease-in-out;
+        }
+    </style>
+</head>
+<body class="liquid-gray-bg h-screen w-screen flex items-center justify-center font-sans antialiased selection:bg-blue-500 selection:text-white p-4 sm:p-6 relative overflow-hidden">
+
+    <!-- Malha digital subtil para textura de fundo -->
+    <div class="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none"></div>
+
+    <!-- SELETOR DE IDIOMA E VOLTAR (Flutuantes no topo) -->
+    <div class="absolute top-6 left-6 right-6 flex justify-between items-center z-50">
+        <a href="index.html" id="btn-voltar" class="text-sm font-medium text-gray-300 hover:text-white flex items-center gap-2 bg-white/[0.03] hover:bg-white/[0.08] px-4 py-2 rounded-full backdrop-blur-md border border-white/5">
+            <i class="fa-solid fa-arrow-left text-xs"></i> Voltar ao início
+        </a>
+
+        <div class="relative inline-block text-left">
+            <button id="btn-idioma" class="flex items-center gap-2 text-gray-300 hover:text-white font-semibold text-sm focus:outline-none bg-white/[0.03] hover:bg-white/[0.08] px-4 py-2 rounded-full backdrop-blur-md border border-white/5">
+                <span id="idioma-atual">PT</span>
+                <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200" id="seta-idioma"></i>
+            </button>
+
+            <div id="menu-idioma" class="hidden absolute right-0 mt-2 w-32 bg-slate-900/95 border border-white/10 rounded-xl shadow-2xl py-1 z-50 backdrop-blur-xl">
+                <button onclick="mudarIdioma('pt')" class="w-full text-left px-4 py-2.5 text-sm text-gray-200 hover:bg-white/10 flex items-center gap-2 font-medium">
+                    <span>🇲🇿</span> Português
+                </button>
+                <button onclick="mudarIdioma('en')" class="w-full text-left px-4 py-2.5 text-sm text-gray-200 hover:bg-white/10 flex items-center gap-2 font-medium">
+                    <span>🇬🇧</span> English
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CARD DE LOGIN LARGADO (Glassmorphism Executivo) -->
+    <div class="max-w-2xl w-full bg-white/[0.04] backdrop-blur-2xl rounded-3xl p-8 sm:p-12 border border-white/10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)] z-10">
+        
+        <!-- Logotipo UnISCED e Boas-vindas -->
+        <div class="mb-10 text-center">
+            <span class="text-4xl font-black text-white tracking-tight block mb-2">Un<span class="text-blue-400">ISCED</span></span>
+            <h2 id="login-boasvindas" class="text-2xl font-bold text-white tracking-tight">Bem-vindo de volta!</h2>
+            <p id="login-subtexto" class="text-gray-400 text-sm mt-1">Insira os seus dados para aceder à sala virtual.</p>
+        </div>
+
+        <form action="#" class="space-y-6">
+            <!-- Grid de Inputs para aproveitar o espaço largo se necessário (mantido em coluna para leitura limpa) -->
+            <div class="space-y-5">
+                <!-- Input Utilizador -->
+                <div>
+                    <label id="label-estudante" class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Código de Estudante ou Email</label>
+                    <div class="relative group">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-500 group-focus-within:text-blue-400">
+                            <i class="fa-solid fa-user text-sm"></i>
+                        </span>
+                        <input type="text" placeholder="Ex: siquisseRodrigues@unisced.estudantes" 
+                            class="w-full pl-12 pr-4 py-3.5 bg-white/[0.03] border border-white/10 rounded-xl focus:bg-white/[0.07] focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 outline-none text-white text-sm placeholder:text-white/20 font-medium tracking-wide" required>
+                    </div>
+                </div>
+
+                <!-- Input Senha -->
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <label id="label-senha" class="text-xs font-bold uppercase tracking-wider text-gray-400">Palavra-passe</label>
+                        <a href="#" id="link-esqueceu" class="text-xs font-semibold text-blue-400 hover:text-blue-300 hover:underline">Esqueceu a senha?</a>
+                    </div>
+                    <div class="relative group">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-500 group-focus-within:text-blue-400">
+                            <i class="fa-solid fa-lock text-sm"></i>
+                        </span>
+                        <input type="password" placeholder="••••••••" 
+                            class="w-full pl-12 pr-4 py-3.5 bg-white/[0.03] border border-white/10 rounded-xl focus:bg-white/[0.07] focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 outline-none text-white text-sm placeholder:text-white/20" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Checkbox Lembrar -->
+            <div class="flex items-center">
+                <input id="lembrar" type="checkbox" class="h-4 w-4 rounded border-white/10 bg-white/5 text-blue-500 focus:ring-blue-500/20 cursor-pointer accent-blue-500">
+                <label for="lembrar" id="label-lembrar" class="ml-2.5 block text-sm text-gray-400 hover:text-gray-200 cursor-pointer select-none font-medium">Manter a sessão iniciada</label>
+            </div>
+
+            <!-- Botões de Ação Dinâmicos -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                <button type="submit" id="btn-entrar" 
+                    class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold p-3.5 rounded-xl shadow-lg shadow-blue-950/50 active:scale-[0.98] text-sm tracking-wide border border-blue-500/30">
+                    Entrar no Portal
+                </button>
+                
+                <!-- Botão Guia em Vídeo Lado a Lado -->
+                <a href="https://www.youtube.com/watch?v=2rpV-YhYkFc" target="_blank" id="btn-ajuda-video"
+                    class="w-full flex items-center justify-center gap-2 border border-dashed border-white/10 hover:border-red-500/30 bg-white/[0.02] hover:bg-red-500/5 text-gray-300 hover:text-white font-medium p-3.5 rounded-xl text-xs active:scale-[0.99]">
+                    <i class="fa-solid fa-circle-play text-red-500 text-sm animate-pulse"></i>
+                    <span id="txt-ajuda-video" class="text-center">Primeira vez? Assista ao guia</span>
+                </a>
+            </div>
+        </form>
+
+        <!-- Secção Help Desk Organizada em Grid Largo -->
+        <div class="mt-10 pt-8 border-t border-white/5 text-center">
+            <p id="txt-problemas" class="text-xs font-bold uppercase tracking-wider text-gray-500 mb-4">Problemas com o acesso? Contacte o Help Desk</p>
+            
+            <div class="flex flex-col sm:flex-row gap-3 justify-center items-center">
+                <a href="tel:+258840943449" class="w-full sm:w-auto text-gray-300 hover:text-white bg-white/[0.02] hover:bg-white/[0.06] px-5 py-2.5 rounded-xl border border-white/5 flex items-center justify-center gap-2 text-xs font-medium">
+                    <i class="fa-solid fa-phone text-blue-400 text-[11px]"></i> +258 84 094 3449
+                </a>
+                <a href="tel:+258847322199" class="w-full sm:w-auto text-gray-300 hover:text-white bg-white/[0.02] hover:bg-white/[0.06] px-5 py-2.5 rounded-xl border border-white/5 flex items-center justify-center gap-2 text-xs font-medium">
+                    <i class="fa-solid fa-phone text-blue-400 text-[11px]"></i> +258 84 732 2199
+                </a>
+                <a href="mailto:suporte@unisced.edu.mz?subject=Suporte%20Acesso%20Sala%20Virtual" target="_blank" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 text-blue-400 hover:text-blue-300 text-xs bg-blue-500/10 hover:bg-blue-500/20 px-5 py-2.5 rounded-xl border border-blue-500/20 font-semibold">
+                    <i class="fa-solid fa-envelope text-blue-400"></i> suporte@unisced.edu.mz
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGICA JAVASCRIPT PARA TRADUÇÃO -->
+    <script>
+        const btnIdioma = document.getElementById('btn-idioma');
+        const menuIdioma = document.getElementById('menu-idioma');
+        const setaIdioma = document.getElementById('seta-idioma');
+
+        btnIdioma.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menuIdioma.classList.toggle('hidden');
+            setaIdioma.classList.toggle('rotate-180');
+        });
+
+        window.addEventListener('click', () => {
+            menuIdioma.classList.add('hidden');
+            setaIdioma.classList.remove('rotate-180');
+        });
+
+        const traducoes = {
+            pt: {
+                voltar: "Voltar ao início",
+                boasvindas: "Bem-vindo de volta!",
+                subtexto: "Insira os seus dados para aceder à sala virtual.",
+                estudante: "Código de Estudante ou Email",
+                senha: "Palavra-passe",
+                esqueceu: "Esqueceu a senha?",
+                lembrar: "Manter a sessão iniciada",
+                entrar: "Entrar no Portal",
+                ajudaVideo: "Primeira vez? Assista ao guia",
+                problemas: "Problemas com o acesso? Contacte o Help Desk"
+            },
+            en: {
+                voltar: "Back to home",
+                boasvindas: "Welcome back!",
+                subtexto: "Enter your details to access the virtual classroom.",
+                estudante: "Student ID or Email",
+                senha: "Password",
+                esqueceu: "Forgot password?",
+                lembrar: "Keep me logged in",
+                entrar: "Sign In",
+                ajudaVideo: "First time? Watch the guide",
+                problemas: "Having trouble logging in? Contact Help Desk"
+            }
+        };
+
+        function mudarIdioma(lang) {
+            document.getElementById('idioma-atual').innerText = lang.toUpperCase();
+            document.getElementById('btn-voltar').innerHTML = `<i class="fa-solid fa-arrow-left text-xs"></i> ${traducoes[lang].voltar}`;
+            document.getElementById('login-boasvindas').innerText = traducoes[lang].boasvindas;
+            document.getElementById('login-subtexto').innerText = traducoes[lang].subtexto;
+            document.getElementById('label-estudante').innerText = traducoes[lang].estudante;
+            document.getElementById('label-senha').innerText = traducoes[lang].senha;
+            document.getElementById('link-esqueceu').innerText = traducoes[lang].esqueceu;
+            document.getElementById('label-lembrar').innerText = traducoes[lang].lembrar;
+            document.getElementById('btn-entrar').innerText = traducoes[lang].entrar;
+            document.getElementById('txt-ajuda-video').innerText = traducoes[lang].ajudaVideo;
+            document.getElementById('txt-problemas').innerText = traducoes[lang].problemas;
+        }
+    </script>
+</body>
+</html>
