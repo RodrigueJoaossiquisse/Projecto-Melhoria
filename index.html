@@ -48,6 +48,55 @@
     <div
       class="fixed top-0 w-full z-50 px-0 sm:px-0 lg:px-0 transition-all duration-500 hover:pt-3 hover:px-4"
     >
+      <button
+        id="mobile-menu-btn"
+        class="md:hidden text-gray-700 hover:text-blue-900 focus:outline-none"
+      >
+        <svg
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+      </button>
+
+      <div
+        id="mobile-menu"
+        class="hidden md:hidden absolute top-16 left-0 w-full bg-white border-b border-gray-200 shadow-lg p-4 flex-col gap-4 z-40"
+      >
+        <a
+          href="#"
+          class="block text-gray-700 hover:text-blue-900 font-semibold"
+          >Início</a
+        >
+        <a
+          href="cursos.html"
+          class="block text-gray-700 hover:text-blue-900 font-semibold"
+          >Cursos</a
+        >
+        <a
+          href="#"
+          class="block text-gray-700 hover:text-blue-900 font-semibold"
+          >Centro de Recursos</a
+        >
+        <a
+          href="noticias.html"
+          class="block text-gray-700 hover:text-blue-900 font-semibold"
+          >Notícias</a
+        >
+        <a
+          href="Sobre.html"
+          class="block text-gray-700 hover:text-blue-900 font-semibold"
+          >Sobre Nós</a
+        >
+      </div>
       <nav
         id="navbar"
         class="w-full bg-white/90 backdrop-blur-none border-b border-gray-200/80 nav-transition shadow-sm hover:rounded-2xl hover:bg-white/40 hover:backdrop-blur-xl hover:border-white/40 hover:shadow-[0_8px_32px_0_rgba(30,58,138,0.15)] hover:shadow-blue-900/10 before:content-[''] before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-b before:from-white/20 before:to-transparent before:opacity-0 hover:before:opacity-100 before:pointer-events-none"
@@ -201,11 +250,13 @@
           gestão académica inteligente do nosso campus de forma 100% flexível.
         </p>
 
-        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" 
-           target="_blank" 
-               class="inline-block bg-white text-blue-950 font-bold px-6 py-3 rounded-xl shadow-md hover:bg-cyan-50 hover:scale-[1.02] transition duration-300">
-                Saber Mais
-</a>
+        <a
+          href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf"
+          target="_blank"
+          class="inline-block bg-white text-blue-950 font-bold px-6 py-3 rounded-xl shadow-md hover:bg-cyan-50 hover:scale-[1.02] transition duration-300"
+        >
+          Saber Mais
+        </a>
       </div>
 
       <!-- SECÇÃO: CAMPANHA INSTITUCIONAL & ESTATÍSTICAS (FUTURO BRILHANTE) -->
@@ -1061,34 +1112,80 @@
     </main>
 
     <!-- RODAPÉ -->
-  <footer class="bg-white border-t border-gray-200 mt-auto">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            
-            <div class="text-center mb-8 text-sm text-gray-600 font-medium border-b border-gray-100 pb-6">
-                <i class="fa-solid fa-location-dot text-blue-800 mr-2"></i>
-                <span><strong>Reitoria:</strong> Rua Carlos Pereira, parcela nº 148/07, Estoril Expansão, na cidade da Beira.</span>
-            </div>
-
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-gray-500">
-                <div class="text-center md:text-left font-medium flex flex-col md:flex-row items-center gap-4">
-                    <span>2026 &copy; <span class="text-blue-800 font-semibold">Universidade Aberta ISCED</span>. <span id="footer-direitos">Todos os direitos reservados.</span></span>
-                    <a href="https://download.moodle.org/mobile?version=2025100600.09&lang=pt&iosappid=633359593&androidappid=com.moodle.moodlemobile&siteurl=https%3A%2F%2Fsalavirtual.unisced.edu.mz" target="_blank" id="btn-app-movel" class="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-600 to-blue-700 text-white font-semibold text-xs px-4 py-2 rounded-full shadow-md border border-white/20 transition-all duration-300 hover:scale-[1.03] hover:shadow-lg active:scale-95 group">
-                        <i class="fa-solid fa-mobile-screen-button text-sm group-hover:animate-bounce"></i>
-                        <span>Obter a nossa aplicação móvel</span>
-                    </a>
-                </div>
-
-                <div class="flex flex-wrap justify-center gap-6">
-                    <a href="#" id="foot-privacidade" class="hover:text-blue-800 transition duration-150">Políticas de Privacidade</a>
-                    <a href="#" id="foot-termos" class="hover:text-blue-800 transition duration-150">Termos de Uso</a>
-                    <a href="#" id="foot-suporte" class="hover:text-blue-800 transition duration-150">Suporte Técnico</a>
-                </div>
-            </div>
+    <footer class="bg-white border-t border-gray-200 mt-auto">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div
+          class="text-center mb-8 text-sm text-gray-600 font-medium border-b border-gray-100 pb-6"
+        >
+          <i class="fa-solid fa-location-dot text-blue-800 mr-2"></i>
+          <span
+            ><strong>Reitoria:</strong> Rua Carlos Pereira, parcela nº 148/07,
+            Estoril Expansão, na cidade da Beira.</span
+          >
         </div>
+
+        <div
+          class="flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-gray-500"
+        >
+          <div
+            class="text-center md:text-left font-medium flex flex-col md:flex-row items-center gap-4"
+          >
+            <span
+              >2026 &copy;
+              <span class="text-blue-800 font-semibold"
+                >Universidade Aberta ISCED</span
+              >.
+              <span id="footer-direitos"
+                >Todos os direitos reservados.</span
+              ></span
+            >
+            <a
+              href="https://download.moodle.org/mobile?version=2025100600.09&lang=pt&iosappid=633359593&androidappid=com.moodle.moodlemobile&siteurl=https%3A%2F%2Fsalavirtual.unisced.edu.mz"
+              target="_blank"
+              id="btn-app-movel"
+              class="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-600 to-blue-700 text-white font-semibold text-xs px-4 py-2 rounded-full shadow-md border border-white/20 transition-all duration-300 hover:scale-[1.03] hover:shadow-lg active:scale-95 group"
+            >
+              <i
+                class="fa-solid fa-mobile-screen-button text-sm group-hover:animate-bounce"
+              ></i>
+              <span>Obter a nossa aplicação móvel</span>
+            </a>
+          </div>
+
+          <div class="flex flex-wrap justify-center gap-6">
+            <a
+              href="#"
+              id="foot-privacidade"
+              class="hover:text-blue-800 transition duration-150"
+              >Políticas de Privacidade</a
+            >
+            <a
+              href="#"
+              id="foot-termos"
+              class="hover:text-blue-800 transition duration-150"
+              >Termos de Uso</a
+            >
+            <a
+              href="#"
+              id="foot-suporte"
+              class="hover:text-blue-800 transition duration-150"
+              >Suporte Técnico</a
+            >
+          </div>
+        </div>
+      </div>
     </footer>
 
     <!-- LOGICA JAVASCRIPT -->
     <script>
+      // Toggle do Menu Mobile
+      const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+      const mobileMenu = document.getElementById("mobile-menu");
+
+      mobileMenuBtn.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+        mobileMenu.classList.toggle("flex");
+      });
       const navbar = document.getElementById("navbar");
       let ultimoScroll = 0;
 
