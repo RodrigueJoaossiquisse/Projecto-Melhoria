@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centro de Recursos de Maputo | UnISCED</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <style>
+        :root {
+            --bg-color: #f9fafb;
+            --text-color: #1e293b;
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --accent-blue: #2563eb;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.8s ease;
+        }
+
+        .dark-mode {
+            --bg-color: #0f172a;
+            --text-color: #f1f5f9;
+            --nav-bg: rgba(15, 23, 42, 0.8);
+        }
+
+        nav { background-color: var(--nav-bg) !important; transition: background-color 0.8s ease; }
+        
+        h1, p { transition: color 0.8s ease; }
+
+        .navbar-hide { transform: translateY(-100%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        /* Ajuste fino para os elementos não ficarem estranhos no dark mode */
+        .dark-mode #titulo { color: #38bdf8; }
+        .dark-mode #texto-principal p { color: #94a3b8; }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar" class="fixed top-0 w-full z-50 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-all duration-500">
+        <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="text-2xl font-extrabold text-blue-800 dark:text-blue-400">Un<span class="text-cyan-600">ISCED</span></div>
+            <div class="flex items-center gap-4">
+                <a href="index.html" id="link-inicio" class="font-semibold hover:text-blue-700">Início</a>
+                <button onclick="mudarFundo()" class="p-2 bg-gray-200 dark:bg-gray-700 rounded-lg transition-all duration-300">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button onclick="trocarIdioma()" id="btn-idioma" class="font-bold text-blue-700 uppercase">PT</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-4 pt-28 pb-12 space-y-6">
+        <h1 id="titulo" class="text-4xl font-extrabold text-blue-900">Centro de Recursos de Maputo</h1>
+        
+        <div id="texto-principal" class="leading-relaxed space-y-4">
+            <p>O Centro de Recursos de Maputo é uma das unidades físicas da Universidade Aberta ISCED (UnISCED) localizada na cidade de Maputo, em Moçambique. Como parte da infra-estrutura da universidade, esse centro tem como objectivo oferecer suporte e acesso aos recursos educacionais necessários para os estudantes matriculados nos cursos online da UnISCED.</p>
+            <p>O Centro de Recursos de Maputo é um espaço moderno e equipado com tecnologia avançada, computadores, acesso à Internet de alta velocidade e uma biblioteca física e digital. Essas instalações estão disponíveis para os estudantes realizarem suas actividades académicas, pesquisas, consultas de materiais e interacção com outros estudantes, proporcionando um ambiente de aprendizado inspirador e colaborativo.</p>
+            <p>Além disso, o centro oferece suporte técnico e orientação académica aos estudantes, auxiliando-os no uso eficaz dos recursos disponíveis e na resolução de eventuais dificuldades. A equipa do Centro de Recursos de Maputo está prontamente disponível para fornecer assistência técnica, orientação sobre o uso das plataformas online da universidade e apoio na busca de materiais e recursos relevantes para a sua formação.</p>
+        </div>
+
+        <div class="pt-6 space-y-6">
+            <div class="bg-blue-600 text-white p-6 rounded-2xl shadow-xl text-center">
+                <p id="texto-espera" class="text-lg font-bold">Estamos à sua espera!</p>
+            </div>
+
+            <a href="https://maps.app.goo.gl/bf3RwMEkd3WMctUN8" 
+               class="inline-flex w-full justify-center items-center gap-2 px-8 py-4 bg-gray-900 hover:bg-gray-800 text-white font-bold rounded-2xl shadow-lg transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98]">
+               <i class="fa-solid fa-location-dot"></i>
+               <span id="texto-botao">Ver no Mapa</span>
+            </a>
+        </div>
+    </main>
+
+    <script>
+        function mudarFundo() { 
+            document.body.classList.toggle('dark-mode'); 
+            const icone = document.querySelector('button i');
+            icone.style.transform = "rotate(180deg)";
+            setTimeout(() => {
+                icone.classList.toggle('fa-moon');
+                icone.classList.toggle('fa-sun');
+                icone.style.transform = "rotate(0deg)";
+            }, 200);
+        }
+
+        const textos = {
+            pt: {
+                inicio: "Início", titulo: "Centro de Recursos de Maputo", botao: "Ver no Mapa", espera: "Estamos à sua espera!",
+                paragrafos: ["O Centro de Recursos de Maputo é uma das unidades físicas da Universidade Aberta ISCED (UnISCED) localizada na cidade de Maputo, em Moçambique. Como parte da infra-estrutura da universidade, esse centro tem como objectivo oferecer suporte e acesso aos recursos educacionais necessários para os estudantes matriculados nos cursos online da UnISCED.", "O Centro de Recursos de Maputo é um espaço moderno e equipado com tecnologia avançada, computadores, acesso à Internet de alta velocidade e uma biblioteca física e digital. Essas instalações estão disponíveis para os estudantes realizarem suas actividades académicas, pesquisas, consultas de materiais e interacção com outros estudantes, proporcionando um ambiente de aprendizado inspirador e colaborativo.", "Além disso, o centro oferece suporte técnico e orientação académica aos estudantes, auxiliando-os no uso eficaz dos recursos disponíveis e na resolução de eventuais dificuldades. A equipa do Centro de Recursos de Maputo está prontamente disponível para fornecer assistência técnica, orientação sobre o uso das plataformas online da universidade e apoio na busca de materiais e recursos relevantes para a sua formação."]
+            },
+            en: {
+                inicio: "Home", titulo: "Maputo Resource Center", botao: "View on Map", espera: "We are waiting for you!",
+                paragrafos: ["The Maputo Resource Center is one of the physical units of the Open University ISCED (UnISCED) located in the city of Maputo, Mozambique. As part of the university's infrastructure, this center aims to offer support and access to educational resources for students enrolled in UnISCED online courses.", "The Maputo Resource Center is a modern space equipped with advanced technology, computers, high-speed Internet access, and a physical and digital library. These facilities are available for students to carry out their academic activities, research, consult materials, and interact with other students, providing an inspiring and collaborative learning environment.", "In addition, the center offers technical support and academic guidance to students, assisting them in the effective use of available resources and in resolving any difficulties. The Maputo Resource Center team is readily available to provide technical assistance, guidance on the use of the university's online platforms, and support in finding materials and resources relevant to their education."]
+            }
+        };
+
+        let lang = 'pt';
+        function trocarIdioma() {
+            lang = lang === 'pt' ? 'en' : 'pt';
+            document.getElementById('titulo').innerText = textos[lang].titulo;
+            document.getElementById('link-inicio').innerText = textos[lang].inicio;
+            document.getElementById('texto-botao').innerText = textos[lang].botao;
+            document.getElementById('texto-espera').innerText = textos[lang].espera;
+            document.getElementById('btn-idioma').innerText = lang;
+            const divTexto = document.getElementById('texto-principal');
+            divTexto.innerHTML = '';
+            textos[lang].paragrafos.forEach(p => { 
+                const novoP = document.createElement('p'); 
+                novoP.innerText = p; 
+                divTexto.appendChild(novoP); 
+            });
+        }
+
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.pageYOffset > lastScroll && window.pageYOffset > 50) navbar.classList.add('navbar-hide');
+            else navbar.classList.remove('navbar-hide');
+            lastScroll = window.pageYOffset;
+        });
+    </script>
+</body>
+</html>
