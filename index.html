@@ -48,10 +48,7 @@
     <div
       class="fixed top-0 w-full z-50 px-0 sm:px-0 lg:px-0 transition-all duration-500 hover:pt-3 hover:px-4"
     >
-      <button
-        id="mobile-menu-btn"
-        class="md:hidden text-gray-700 hover:text-blue-900 focus:outline-none"
-      >
+  
         <svg
           class="h-6 w-6"
           fill="none"
@@ -96,6 +93,7 @@
           class="block text-gray-700 hover:text-blue-900 font-semibold"
           >Sobre Nós</a
         >
+        
       </div>
       <nav
         id="navbar"
@@ -119,7 +117,7 @@
             </button>
 
             <!-- Links de Navegação -->
-            <div class="hidden md:flex items-center space-x-6">
+            <div class="hidden min-[400px]:flex items-center space-x-6">
               <a
                 href="#"
                 id="link-inicio"
@@ -1178,14 +1176,6 @@
 
     <!-- LOGICA JAVASCRIPT -->
     <script>
-      // Toggle do Menu Mobile
-      const mobileMenuBtn = document.getElementById("mobile-menu-btn");
-      const mobileMenu = document.getElementById("mobile-menu");
-
-      mobileMenuBtn.addEventListener("click", () => {
-        mobileMenu.classList.toggle("hidden");
-        mobileMenu.classList.toggle("flex");
-      });
       const navbar = document.getElementById("navbar");
       let ultimoScroll = 0;
 

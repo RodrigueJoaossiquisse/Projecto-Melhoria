@@ -1,82 +1,154 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Notícias | UnISCED</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .nav-hidden { top: -100px !important; }
-        .card-glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); }
-        .dark .card-glass { background: rgba(30, 30, 30, 0.7); color: white; }
+      .nav-hidden {
+        top: -100px !important;
+      }
+      .card-glass {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+      .dark .card-glass {
+        background: rgba(30, 30, 30, 0.7);
+        color: white;
+      }
     </style>
-</head>
-<body class="bg-stone-100 transition-colors duration-500 pt-24 px-4">
-
+  </head>
+  <body class="bg-stone-100 transition-colors duration-500 pt-24 px-4">
     <!-- NAVBAR LIQUID GLASS -->
-    <header class="fixed top-0 w-full z-50 transition-all duration-500 ease-in-out hover:pt-3 hover:px-4" id="header-nav">
-        <nav id="navbar" class="w-full bg-white/90 border-b border-gray-200/80 shadow-sm transition-all duration-500
-                    hover:rounded-2xl hover:bg-white/40 hover:backdrop-blur-xl hover:border-white/40 
-                    hover:shadow-[0_8px_32px_0_rgba(30,58,138,0.15)] relative">
-            <div class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
-                <span class="font-bold text-xl tracking-tight text-gray-900 dark:text-white" id="title-main">NOTÍCIAS</span>
-                <div class="flex items-center gap-6 text-sm font-bold text-gray-700 dark:text-gray-300">
-                    <a href="index.html" class="hover:text-red-700 transition-colors" data-i18n="home">HOME</a>
-                    <button id="themeToggle" class="hover:text-red-700 transition-colors" data-i18n="theme">MUDAR TEMA</button>
-                    <button id="langToggle" class="hover:text-red-700 transition-colors border-l pl-4 border-gray-400">PT/EN</button>
-                </div>
-            </div>
-        </nav>
+    <header
+      class="fixed top-0 w-full z-50 transition-all duration-500 ease-in-out hover:pt-3 hover:px-4"
+      id="header-nav"
+    >
+      <nav
+        id="navbar"
+        class="w-full bg-white/90 border-b border-gray-200/80 shadow-sm transition-all duration-500 hover:rounded-2xl hover:bg-white/40 hover:backdrop-blur-xl hover:border-white/40 hover:shadow-[0_8px_32px_0_rgba(30,58,138,0.15)] relative"
+      >
+        <div
+          class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center"
+        >
+          <span
+            class="font-bold text-xl tracking-tight text-gray-900 dark:text-white"
+            id="title-main"
+            >NOTÍCIAS</span
+          >
+          <div
+            class="flex items-center gap-6 text-sm font-bold text-gray-700 dark:text-gray-300"
+          >
+            <a
+              href="index.html"
+              class="hover:text-red-700 transition-colors"
+              data-i18n="home"
+              >HOME</a
+            >
+            <button
+              id="themeToggle"
+              class="hover:text-red-700 transition-colors"
+              data-i18n="theme"
+            >
+              MUDAR TEMA
+            </button>
+            <button
+              id="langToggle"
+              class="hover:text-red-700 transition-colors border-l pl-4 border-gray-400"
+            >
+              PT/EN
+            </button>
+          </div>
+        </div>
+      </nav>
     </header>
 
     <main class="max-w-4xl mx-auto text-center" id="container-noticias"></main>
 
-    <button id="backToTop" class="fixed bottom-10 right-10 bg-red-700 text-white p-4 rounded-full shadow-lg hidden hover:scale-110 transition-transform z-50">↑</button>
+    <button
+      id="backToTop"
+      class="fixed bottom-10 right-10 bg-red-700 text-white p-4 rounded-full shadow-lg hidden hover:scale-110 transition-transform z-50"
+    >
+      ↑
+    </button>
 
     <script>
-        const dict = {
-            pt: { home: "HOME", theme: "MUDAR TEMA", title: "NOTÍCIAS" },
-            en: { home: "HOME", theme: "CHANGE THEME", title: "NEWS" }
-        };
-        let currentLang = 'pt';
-        let isScrolling = true;
+      const dict = {
+        pt: { home: "HOME", theme: "MUDAR TEMA", title: "NOTÍCIAS" },
+        en: { home: "HOME", theme: "CHANGE THEME", title: "NEWS" },
+      };
+      let currentLang = "pt";
+      let isScrolling = true;
 
-        const noticias = [
-            { titulo: "Infraestrutura Académica", url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1425379102957007%2F" },
-            { titulo: "Digitalização e Dados", url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1422905383204379%2F" },
-            { titulo: "Desenvolvimento Tecnológico", url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1409181977910053%2F" },
-            { titulo: "Relatório de Atividades", url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1403635228464728%2F" }
-        ];
+      const noticias = [
+        {
+          titulo: "Infraestrutura Académica",
+          url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1425379102957007%2F",
+        },
+        {
+          titulo: "Digitalização e Dados",
+          url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1422905383204379%2F",
+        },
+        {
+          titulo: "Desenvolvimento Tecnológico",
+          url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1409181977910053%2F",
+        },
+        {
+          titulo: "Relatório de Atividades",
+          url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1403635228464728%2F",
+        },
+      ];
 
-        const container = document.getElementById('container-noticias');
-        noticias.forEach(n => {
-            container.innerHTML += `
+      const container = document.getElementById("container-noticias");
+      noticias.forEach((n) => {
+        container.innerHTML += `
                 <article class="card-glass p-6 mb-10 rounded-2xl shadow-xl transition-all hover:scale-[1.02]">
                     <h2 class="text-2xl font-bold mb-4 dark:text-white">${n.titulo}</h2>
                     <iframe src="${n.url}" width="100%" height="550" class="border-none rounded-lg" scrolling="no" frameborder="0"></iframe>
                 </article>
             `;
-        });
+      });
 
-        let autoScroll = setInterval(() => { if(isScrolling) window.scrollBy(0, 1); }, 50);
-        ['wheel', 'touchstart', 'mousedown'].forEach(evt => window.addEventListener(evt, () => { isScrolling = false; clearInterval(autoScroll); }));
+      let autoScroll = setInterval(() => {
+        if (isScrolling) window.scrollBy(0, 1);
+      }, 50);
+      ["wheel", "touchstart", "mousedown"].forEach((evt) =>
+        window.addEventListener(evt, () => {
+          isScrolling = false;
+          clearInterval(autoScroll);
+        }),
+      );
 
-        window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
-            document.getElementById('header-nav').classList.toggle('nav-hidden', currentScroll > 100 && currentScroll > window.lastScroll);
-            document.getElementById("backToTop").classList.toggle('hidden', currentScroll < 300);
-            window.lastScroll = currentScroll;
-        });
+      window.addEventListener("scroll", () => {
+        const currentScroll = window.pageYOffset;
+        document
+          .getElementById("header-nav")
+          .classList.toggle(
+            "nav-hidden",
+            currentScroll > 100 && currentScroll > window.lastScroll,
+          );
+        document
+          .getElementById("backToTop")
+          .classList.toggle("hidden", currentScroll < 300);
+        window.lastScroll = currentScroll;
+      });
 
-        document.getElementById('langToggle').onclick = () => {
-            currentLang = currentLang === 'pt' ? 'en' : 'pt';
-            document.querySelector('[data-i18n="home"]').innerText = dict[currentLang].home;
-            document.querySelector('[data-i18n="theme"]').innerText = dict[currentLang].theme;
-            document.getElementById('title-main').innerText = dict[currentLang].title;
-        };
+      document.getElementById("langToggle").onclick = () => {
+        currentLang = currentLang === "pt" ? "en" : "pt";
+        document.querySelector('[data-i18n="home"]').innerText =
+          dict[currentLang].home;
+        document.querySelector('[data-i18n="theme"]').innerText =
+          dict[currentLang].theme;
+        document.getElementById("title-main").innerText =
+          dict[currentLang].title;
+      };
 
-        document.getElementById('themeToggle').onclick = () => document.documentElement.classList.toggle('dark');
-        document.getElementById("backToTop").onclick = () => window.scrollTo({top: 0, behavior: 'smooth'});
+      document.getElementById("theme").onclick = () =>
+        document.documentElement.classList.toggle("dark");
+      document.getElementById("backToTop").onclick = () =>
+        window.scrollTo({ top: 0, behavior: "smooth" });
     </script>
-</body>
+  </body>
 </html>
