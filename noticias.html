@@ -160,6 +160,7 @@
         .zoom-img { transition: transform 0.5s ease; }
         .zoom-img:hover { transform: scale(1.03); }
         
+        /* MODAL MELHORADO - FUNDO BRANCO E TEXTO ESCURO LEGÍVEL */
         .modal {
             display: none;
             position: fixed;
@@ -167,7 +168,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(8px);
             z-index: 1000;
             align-items: center;
@@ -178,22 +179,20 @@
             max-width: 700px;
             max-height: 85vh;
             overflow-y: auto;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(12px);
+            background: #ffffff !important;
             border-radius: 1.5rem;
             padding: 2rem;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
         body.dark .modal-content {
-            background: rgba(30, 41, 59, 0.95);
-            color: #e2e8f0;
+            background: #1e293b !important;
         }
         .modal-close {
             position: absolute;
             top: 20px;
             right: 20px;
             cursor: pointer;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.6);
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -203,7 +202,28 @@
             color: white;
             transition: all 0.2s;
         }
-        .modal-close:hover { background: rgba(0,0,0,0.8); transform: scale(1.1); }
+        .modal-close:hover { background: rgba(0,0,0,0.9); transform: scale(1.1); }
+        
+        /* Estilo do texto dentro do modal */
+        .modal-content p {
+            color: #1e293b !important;
+            line-height: 1.6;
+        }
+        body.dark .modal-content p {
+            color: #e2e8f0 !important;
+        }
+        .modal-content strong {
+            color: #2563eb;
+        }
+        body.dark .modal-content strong {
+            color: #60a5fa;
+        }
+        .modal-content .bg-blue-50 {
+            background-color: #eff6ff !important;
+        }
+        body.dark .modal-content .bg-blue-50 {
+            background-color: #1e3a5f !important;
+        }
     </style>
 </head>
 <body>
@@ -223,7 +243,7 @@
         <div class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark text-xl"></i></div>
         <div class="modal-content">
             <h2 id="modal-title" class="text-2xl font-black text-gray-800 dark:text-white mb-4">Título</h2>
-            <div id="modal-body" class="text-gray-700 dark:text-gray-300 space-y-4 leading-relaxed"></div>
+            <div id="modal-body" class="space-y-4 leading-relaxed"></div>
         </div>
     </div>
 
@@ -553,11 +573,11 @@
                         <p>A comitiva foi recebida pelo Vice-Reitor da UnISCED para a Área Académica, <strong>Prof. Doutor Simone Mura</strong>, acompanhado pelo Director de Recursos Virtuais e Multimédia, <strong>António Chimuzo</strong>. Durante o encontro, a Directora Pedagógica da UMUM, <strong>Nomissa Chadreca Faduco</strong>, explicou que a visita visava colher experiências para melhorar as práticas pedagógicas da sua instituição, principalmente na área do ensino à distância, em que a UnISCED já possui uma experiência consolidada.</p>
                         <p>Faduco destacou que a parceria com a UnISCED poderá fornecer novas perspectivas para a expansão para outras regiões do país da sua instituição, pois até ao momento opera apenas na Província de Inhambane. Além disso, destacou que esta parceria irá permitir a implementação de processos mais organizados, com a meta de oferecer uma educação de qualidade à população, além de contribuir para o desenvolvimento do país.</p>
                         <p>Outro ponto importante abordado durante a visita foi a possibilidade de se estabelecer uma <strong>mobilidade de estudantes e docentes</strong> entre as duas universidades, o que permitirá o intercâmbio de conhecimentos, a criação de incubadoras e o desenvolvimento de projectos conjuntos. Faduco também mencionou o interesse da sua instituição em aprender com a UnISCED sobre a gestão do ensino 100% à distância, modalidade que deverá ser implementada na UMUM a partir de 2025.</p>
-                        <p class="bg-blue-50 p-4 rounded-xl italic">Este encontro reforçou o compromisso de ambas as instituições na busca pela melhoria contínua dos seus modelos educacionais e a troca de experiências, com vista a uma educação superior mais acessível e de qualidade para todos os moçambicanos.</p>`,
+                        <p class="bg-blue-100 p-4 rounded-xl italic">Este encontro reforçou o compromisso de ambas as instituições na busca pela melhoria contínua dos seus modelos educacionais e a troca de experiências, com vista a uma educação superior mais acessível e de qualidade para todos os moçambicanos.</p>`,
                 modal_relacoes_title: "UnISCED fortalece relações institucionais",
                 modal_relacoes_body: `<p>Faduco destacou que a parceria com a UnISCED poderá fornecer novas perspectivas para a expansão para outras regiões do país da sua instituição, pois até ao momento opera apenas na Província de Inhambane. Além disso, destacou que esta parceria irá permitir a implementação de processos mais organizados, com a meta de oferecer uma educação de qualidade à população, além de contribuir para o desenvolvimento do país.</p>
                         <p>Outro ponto importante abordado durante a visita foi a possibilidade de se estabelecer uma <strong>mobilidade de estudantes e docentes</strong> entre as duas universidades, o que permitirá o intercâmbio de conhecimentos, a criação de incubadoras e o desenvolvimento de projectos conjuntos. Faduco também mencionou o interesse da sua instituição em aprender com a UnISCED sobre a gestão do ensino 100% à distância, modalidade que deverá ser implementada na UMUM a partir de 2025.</p>
-                        <p class="bg-blue-50 p-4 rounded-xl italic">Este encontro reforçou o compromisso de ambas as instituições na busca pela melhoria contínua dos seus modelos educacionais e a troca de experiências, com vista a uma educação superior mais acessível e de qualidade para todos os moçambicanos.</p>`
+                        <p class="bg-blue-100 p-4 rounded-xl italic">Este encontro reforçou o compromisso de ambas as instituições na busca pela melhoria contínua dos seus modelos educacionais e a troca de experiências, com vista a uma educação superior mais acessível e de qualidade para todos os moçambicanos.</p>`
             },
             en: {
                 link_inicio: "Home", link_cursos: "Courses", link_recursos: "Resource Center", link_sobre: "About",
@@ -589,17 +609,16 @@
                 app_movel: "Mobile App",
                 foot_priv: "Privacy", foot_termos: "Terms", foot_suporte: "Support",
                 whatsapp_text: "Contact us",
-                // Modal texts in English
                 modal_parceria_title: "UnISCED and UMUM discuss partnership for teaching development",
                 modal_parceria_body: `<p>The Open University ISCED (UnISCED) received on January 27 a delegation from the United Methodist University of Mozambique (UMUM), at its premises in the city of Beira. The meeting's main objective was to discuss the creation of partnerships to improve the teaching, research, extension and innovation process.</p>
                         <p>The delegation was received by the Vice-Rector of UnISCED for Academic Affairs, <strong>Prof. Dr. Simone Mura</strong>, accompanied by the Director of Virtual and Multimedia Resources, <strong>António Chimuzo</strong>. During the meeting, UMUM's Pedagogical Director, <strong>Nomissa Chadreca Faduco</strong>, explained that the visit aimed to gather experiences to improve the pedagogical practices of their institution, especially in the area of distance learning, in which UnISCED already has consolidated experience.</p>
                         <p>Faduco highlighted that the partnership with UnISCED could provide new perspectives for the expansion of their institution to other regions of the country, as it currently operates only in Inhambane Province. She also emphasized that this partnership will enable the implementation of more organized processes, with the goal of offering quality education to the population, in addition to contributing to the country's development.</p>
                         <p>Another important point addressed during the visit was the possibility of establishing <strong>student and faculty mobility</strong> between the two universities, which would allow knowledge exchange, the creation of incubators and the development of joint projects. Faduco also mentioned her institution's interest in learning from UnISCED about managing 100% distance learning, a modality that should be implemented at UMUM starting in 2025.</p>
-                        <p class="bg-blue-50 p-4 rounded-xl italic">This meeting reinforced both institutions' commitment to continuously improving their educational models and exchanging experiences, aiming for more accessible and quality higher education for all Mozambicans.</p>`,
+                        <p class="bg-blue-100 p-4 rounded-xl italic">This meeting reinforced both institutions' commitment to continuously improving their educational models and exchanging experiences, aiming for more accessible and quality higher education for all Mozambicans.</p>`,
                 modal_relacoes_title: "UnISCED strengthens institutional relations",
                 modal_relacoes_body: `<p>Faduco highlighted that the partnership with UnISCED could provide new perspectives for the expansion of their institution to other regions of the country, as it currently operates only in Inhambane Province. She also emphasized that this partnership will enable the implementation of more organized processes, with the goal of offering quality education to the population, in addition to contributing to the country's development.</p>
                         <p>Another important point addressed during the visit was the possibility of establishing <strong>student and faculty mobility</strong> between the two universities, which would allow knowledge exchange, the creation of incubators and the development of joint projects. Faduco also mentioned her institution's interest in learning from UnISCED about managing 100% distance learning, a modality that should be implemented at UMUM starting in 2025.</p>
-                        <p class="bg-blue-50 p-4 rounded-xl italic">This meeting reinforced both institutions' commitment to continuously improving their educational models and exchanging experiences, aiming for more accessible and quality higher education for all Mozambicans.</p>`
+                        <p class="bg-blue-100 p-4 rounded-xl italic">This meeting reinforced both institutions' commitment to continuously improving their educational models and exchanging experiences, aiming for more accessible and quality higher education for all Mozambicans.</p>`
             }
         };
 
@@ -607,7 +626,6 @@
         function updateLanguage() {
             const t = dict[lang];
             
-            // Navbar
             document.getElementById('link-inicio').innerText = t.link_inicio;
             document.getElementById('link-cursos').innerText = t.link_cursos;
             document.getElementById('link-recursos').innerText = t.link_recursos;
@@ -617,13 +635,11 @@
             document.getElementById('mobile-link-recursos').innerText = t.link_recursos;
             document.getElementById('mobile-link-sobre').innerText = t.link_sobre;
             
-            // Cabeçalho
             document.getElementById('badge-destaques').innerHTML = `<i class="fa-brands fa-facebook mr-1"></i> ${t.badge_destaques}`;
             document.getElementById('page-title').innerText = t.page_title;
             document.getElementById('page-subtitle').innerText = t.page_subtitle;
             document.getElementById('featured-title').innerHTML = `<i class="fa-regular fa-star text-red-600 mr-2"></i> ${t.featured_title}`;
             
-            // Card 1
             document.getElementById('badge-destaque-card1').innerHTML = `<i class="fa-regular fa-star mr-1"></i> ${t.badge_destaque_card1}`;
             document.getElementById('card1-data').innerText = t.card1_data;
             document.getElementById('card1-tag').innerText = t.card1_tag;
@@ -632,7 +648,6 @@
             document.getElementById('card1-btn-detalhes').innerHTML = `${t.card1_btn_detalhes} <i class="fa-solid fa-arrow-right"></i>`;
             document.getElementById('card1-btn-facebook').innerHTML = `<i class="fa-brands fa-facebook"></i> ${t.card1_btn_facebook}`;
             
-            // Card 2
             document.getElementById('badge-destaque-card2').innerHTML = `<i class="fa-regular fa-building mr-1"></i> ${t.badge_destaque_card2}`;
             document.getElementById('card2-data').innerText = t.card2_data;
             document.getElementById('card2-tag').innerText = t.card2_tag;
@@ -641,7 +656,6 @@
             document.getElementById('card2-btn-detalhes').innerHTML = `${t.card2_btn_detalhes} <i class="fa-solid fa-arrow-right"></i>`;
             document.getElementById('card2-btn-facebook').innerHTML = `<i class="fa-brands fa-facebook"></i> ${t.card2_btn_facebook}`;
             
-            // Últimas Notícias
             document.getElementById('ultimas-title').innerHTML = `<i class="fa-regular fa-clock text-blue-600 mr-2"></i> ${t.ultimas_title}`;
             
             document.getElementById('news1-tag').innerText = t.news1_tag;
@@ -668,7 +682,6 @@
             document.getElementById('news4-desc').innerText = t.news4_desc;
             document.getElementById('news4-btn').innerHTML = `${t.news4_btn} <i class="fa-solid fa-arrow-right ml-1"></i>`;
             
-            // Footer
             document.getElementById('footer-endereco').innerHTML = t.footer_endereco;
             document.getElementById('footer-direitos').innerText = t.footer_direitos;
             document.getElementById('app-movel-text').innerText = t.app_movel;
@@ -677,13 +690,11 @@
             document.getElementById('foot-suporte').innerText = t.foot_suporte;
             document.getElementById('whatsapp-text').innerText = t.whatsapp_text;
             
-            // ATUALIZA OS TEXTOS DO MODAL
             textosModal.parceria.title = t.modal_parceria_title;
             textosModal.parceria.body = t.modal_parceria_body;
             textosModal.relacoes.title = t.modal_relacoes_title;
             textosModal.relacoes.body = t.modal_relacoes_body;
             
-            // Botão idioma
             document.getElementById('btn-idioma').innerText = lang.toUpperCase();
             if(document.getElementById('btn-idioma-mobile')) document.getElementById('btn-idioma-mobile').innerText = lang.toUpperCase();
         }
@@ -693,7 +704,6 @@
         document.getElementById('btn-idioma')?.addEventListener('click', toggleLang);
         document.getElementById('btn-idioma-mobile')?.addEventListener('click', toggleLang);
         
-        // Inicializar com textos em português
         updateLanguage();
     </script>
 </body>
