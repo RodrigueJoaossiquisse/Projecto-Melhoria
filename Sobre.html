@@ -16,6 +16,36 @@
       .nav-hidden {
         transform: translateY(-100%);
       }
+
+      /* ===== EFEITO DE SCROLL SUAVE (DESCER LENTAMENTE) ===== */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Efeito de fade-in ao descer (opcional - deixa mais bonito) */
+      .fade-up {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      }
+
+      .fade-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Efeito de aparecimento gradual para os elementos */
+      .reveal {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
+                    transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
     </style>
   </head>
   <body
@@ -50,12 +80,12 @@
       </div>
     </nav>
 
-    <!-- Imagem de centro -->
-    <div class="flex justify-center my-10 px-6">
+    <!-- Imagem de centro com efeito de zoom suave ao carregar -->
+    <div class="flex justify-center my-10 px-6 reveal">
       <img
         src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/1781014363916.png?raw=true"
         alt="Reitor"
-        class="w-full max-w-3xl rounded-3xl shadow-2xl border-4 border-white object-cover"
+        class="w-full max-w-3xl rounded-3xl shadow-2xl border-4 border-white object-cover transition-transform duration-700 hover:scale-105"
       />
     </div>
 
@@ -63,20 +93,22 @@
       <article
         class="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-gray-100 space-y-10"
       >
-        <h1
-          id="i-titulo"
-          class="text-4xl md:text-5xl font-black text-center text-blue-900"
-        >
-          Sobre a UnISCED
-        </h1>
-        <p
-          id="i-quote"
-          class="italic text-center text-gray-500 max-w-xl mx-auto"
-        >
-          "Até a jornada de mil milhas começa com pequenos passos."
-        </p>
+        <div class="reveal">
+          <h1
+            id="i-titulo"
+            class="text-4xl md:text-5xl font-black text-center text-blue-900"
+          >
+            Sobre a UnISCED
+          </h1>
+          <p
+            id="i-quote"
+            class="italic text-center text-gray-500 max-w-xl mx-auto mt-4"
+          >
+            "Até a jornada de mil milhas começa com pequenos passos."
+          </p>
+        </div>
 
-        <div class="text-justify text-gray-700 leading-relaxed space-y-6">
+        <div class="text-justify text-gray-700 leading-relaxed space-y-6 reveal">
           <p id="i-p1">
             A Universidade Aberta ISCED (UnISCED) resulta da transformação do
             Instituto de Ciências e Educação à Distância (ISCED), fundada em
@@ -94,7 +126,7 @@
         </div>
 
         <div class="grid md:grid-cols-2 gap-8">
-          <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100">
+          <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100 reveal">
             <h3 id="i-h-missao" class="font-bold text-xl text-blue-900 mb-2">
               Missão
             </h3>
@@ -103,7 +135,7 @@
               comunidades, usando tecnologias de informação e comunicação.
             </p>
           </div>
-          <div class="bg-cyan-50 p-6 rounded-2xl border border-cyan-100">
+          <div class="bg-cyan-50 p-6 rounded-2xl border border-cyan-100 reveal">
             <h3 id="i-h-visao" class="font-bold text-xl text-cyan-950 mb-2">
               Visão
             </h3>
@@ -115,7 +147,7 @@
           </div>
         </div>
 
-        <div>
+        <div class="reveal">
           <h3 id="i-h-reitoria" class="text-2xl font-black text-blue-900 mb-4">
             A Reitoria
           </h3>
@@ -128,7 +160,7 @@
         </div>
 
         <div
-          class="bg-white/30 backdrop-blur-md border border-white/20 p-8 rounded-3xl shadow-lg mt-8"
+          class="bg-white/30 backdrop-blur-md border border-white/20 p-8 rounded-3xl shadow-lg mt-8 reveal"
         >
           <h3 id="i-h-valores" class="font-black text-2xl text-blue-900 mb-6">
             Valores
@@ -164,12 +196,12 @@
           </ul>
         </div>
 
-        <!-- Bloco do Reitor - ESTRUTURA CORRIGIDA -->
-        <div class="bg-blue-950 text-white p-8 rounded-2xl shadow-xl">
+        <!-- Bloco do Reitor -->
+        <div class="bg-blue-950 text-white p-8 rounded-2xl shadow-xl reveal">
           <div class="grid md:grid-cols-3 gap-6 items-center">
             <!-- Foto do Reitor -->
             <div class="flex justify-center">
-              <div class="p-2 bg-blue-800 rounded-full shadow-xl">
+              <div class="p-2 bg-blue-800 rounded-full shadow-xl transition-transform duration-500 hover:scale-105">
                 <img
                   src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Martins-Dos-Santos-Vilanculos-Laita.jpg?raw=true"
                   alt="Prof. Doutor Martins Dos Santos Laita"
@@ -202,7 +234,7 @@
 
     <footer
       id="footer"
-      class="bg-white border-t border-gray-200 py-10 text-center text-gray-500"
+      class="bg-white border-t border-gray-200 py-10 text-center text-gray-500 reveal"
     >
       <p id="i-endereco" class="text-sm">
         Rua Carlos Pereira, parcela nº 148/07, Estoril Expansão, na cidade da Beira.
@@ -215,7 +247,7 @@
     <button
       id="btn-top"
       onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
-      class="fixed bottom-10 right-10 bg-blue-700 text-white p-4 rounded-full shadow-lg hidden hover:bg-blue-800 transition"
+      class="fixed bottom-10 right-10 bg-blue-700 text-white p-4 rounded-full shadow-lg hidden hover:bg-blue-800 transition hover:scale-110"
     >
       <i class="fa-solid fa-arrow-up"></i>
     </button>
@@ -290,7 +322,6 @@
       document.getElementById("btn-idioma").onclick = () => {
         lang = lang === "pt" ? "en" : "pt";
         
-        // Tradução dos elementos
         document.getElementById("nav-inicio").innerText = trad[lang].nav;
         document.getElementById("i-titulo").innerText = trad[lang].titulo;
         document.getElementById("i-quote").innerText = trad[lang].quote;
@@ -310,7 +341,6 @@
         document.getElementById("i-endereco").innerHTML = trad[lang].endereco;
         document.getElementById("i-copyright").innerHTML = trad[lang].copyright;
 
-        // Tradução da Lista de Valores
         const lista = document.getElementById("i-lista-valores").getElementsByTagName("li");
         for (let i = 0; i < lista.length; i++) {
             lista[i].innerHTML = trad[lang].val[i];
@@ -338,7 +368,7 @@
         }
       }
 
-      // 4. SCROLL
+      // 4. SCROLL PARA NAVBAR
       let lastScroll = 0;
       window.addEventListener("scroll", () => {
         const currentScroll = window.pageYOffset;
@@ -351,6 +381,35 @@
         }
         btnTop.classList.toggle("hidden", currentScroll < 300);
         lastScroll = currentScroll;
+      });
+
+      // 5. EFEITO DE REVELAÇÃO AO SCROLL (DESCER LENTAMENTE)
+      const revealElements = document.querySelectorAll('.reveal');
+      
+      function checkReveal() {
+        for (let i = 0; i < revealElements.length; i++) {
+          const element = revealElements[i];
+          const windowHeight = window.innerHeight;
+          const elementTop = element.getBoundingClientRect().top;
+          const revealPoint = 100;
+          
+          if (elementTop < windowHeight - revealPoint) {
+            element.classList.add('visible');
+          }
+        }
+      }
+      
+      // Executa ao carregar e ao scrollar
+      window.addEventListener('load', checkReveal);
+      window.addEventListener('scroll', checkReveal);
+      
+      // Efeito extra: parallax suave na imagem principal (opcional)
+      window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const heroImage = document.querySelector('.flex.justify-center.my-10.px-6 img');
+        if (heroImage && scrolled < 600) {
+          heroImage.style.transform = `translateY(${scrolled * 0.1}px)`;
+        }
       });
     </script>
   </body>
