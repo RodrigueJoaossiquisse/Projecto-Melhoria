@@ -2,7 +2,7 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal do Aluno | UnISCED</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -14,8 +14,7 @@
             background: linear-gradient(-45deg, #e0f2fe, #fae8ff, #fef3c7, #d1fae5);
             background-size: 400% 400%;
             animation: liquidMove 18s ease infinite;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
         }
         
         body.dark {
@@ -335,6 +334,15 @@
         .mobile-menu.hidden {
             display: none;
         }
+        
+        /* Container principal com scroll */
+        .main-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 1rem 2rem;
+        }
     </style>
 </head>
 <body>
@@ -390,7 +398,7 @@
     <div class="bubble w-48 h-48 top-1/3 right-20 float-animation" style="animation-delay: 4s;"></div>
     <div class="bubble w-32 h-32 bottom-1/4 left-1/4 float-animation" style="animation-delay: 1s;"></div>
 
-    <!-- Botão Voltar ao Início (esquerdo) e Menu Hambúrguer (direito) -->
+    <!-- Botão Voltar ao Início -->
     <div class="fixed top-6 left-6 z-50">
         <a href="index.html" class="back-btn flex items-center gap-2 text-gray-700 dark:text-gray-300 font-medium px-3 py-1.5 rounded-full text-xs transition">
             <i class="fa-solid fa-arrow-left text-[10px]"></i>
@@ -432,8 +440,8 @@
         </div>
     </div>
 
-    <!-- CARD PRINCIPAL -->
-    <div class="h-screen flex items-center justify-center p-4 relative z-10">
+    <!-- CARD PRINCIPAL - COM SCROLL -->
+    <div class="main-container">
         <div class="max-w-sm w-full glass-card rounded-2xl p-6">
             
             <div class="text-center mb-5">
@@ -757,7 +765,6 @@
             document.getElementById('txt-ajuda-video').innerText = traducoes[lang].ajudaVideo;
             document.getElementById('txt-problemas').innerText = traducoes[lang].problemas;
             
-            // Tradução do menu mobile
             document.getElementById('mobile-link-inicio').innerHTML = `<i class="fa-solid fa-house text-xs"></i> ${traducoes[lang].mobile_inicio}`;
             document.getElementById('mobile-link-cursos').innerHTML = `<i class="fa-solid fa-book text-xs"></i> ${traducoes[lang].mobile_cursos}`;
             document.getElementById('mobile-link-recursos').innerHTML = `<i class="fa-solid fa-folder-open text-xs"></i> ${traducoes[lang].mobile_recursos}`;
