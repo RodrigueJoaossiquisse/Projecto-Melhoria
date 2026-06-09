@@ -10,7 +10,7 @@
     <style>
         * { font-family: 'Inter', system-ui, sans-serif; }
         
-        /* FUNDO LÍQUIDO SUAVE (ANTERIOR) */
+        /* FUNDO LÍQUIDO SUAVE */
         body {
             background: linear-gradient(-45deg, #e0f2fe, #fae8ff, #fef3c7, #d1fae5);
             background-size: 400% 400%;
@@ -18,7 +18,7 @@
             transition: background 0.5s ease;
         }
         
-        /* MODO DARK SUAVE (NÃO AGRESSIVO) */
+        /* MODO DARK SUAVE */
         body.dark {
             background: linear-gradient(-45deg, #1e293b, #0f172a, #1e1b4b, #0c4a6e);
             background-size: 400% 400%;
@@ -31,7 +31,7 @@
             100% { background-position: 0% 50%; }
         }
         
-        /* Camada de vidro sobre o fundo líquido */
+        /* Camada de vidro */
         body::before {
             content: '';
             position: fixed;
@@ -66,7 +66,7 @@
             color: #94a3b8 !important;
         }
         
-        /* Navbar transparente */
+        /* Navbar */
         #navbar {
             background: rgba(255, 255, 255, 0.7) !important;
             backdrop-filter: blur(12px);
@@ -82,7 +82,7 @@
             color: #cbd5e1 !important;
         }
         
-        /* Rodapé glassmorphism */
+        /* Rodapé */
         .footer-glass {
             background: rgba(255, 255, 255, 0.75) !important;
             backdrop-filter: blur(10px);
@@ -112,7 +112,6 @@
         .info-card { transition: all 0.25s ease; }
         .info-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px -12px rgba(0,0,0,0.15); }
         
-        /* Botão WhatsApp */
         .whatsapp-btn {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -160,16 +159,16 @@
     </div>
 
     <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16 relative z-10">
-        <!-- IMAGEM MAIOR EM ALTURA (aumentada) -->
+        <!-- IMAGEM COM ALTURA MUITO MAIOR -->
         <div class="reveal mb-8">
             <div class="relative rounded-2xl overflow-hidden shadow-xl">
                 <img src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/IMG_20260609_160324.jpg?raw=true" 
                      alt="Centro de Recursos de Maputo" 
-                     class="w-full h-96 md:h-[32rem] object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-                <div class="absolute bottom-5 left-5">
-                    <span class="bg-blue-600/80 text-white text-xs px-3 py-1 rounded-full"><i class="fa-solid fa-location-dot mr-1"></i> Maputo, Moçambique</span>
-                    <h1 id="titulo" class="text-2xl md:text-4xl font-black text-white drop-shadow mt-2">Centro de Recursos de Maputo</h1>
+                     class="w-full h-[28rem] md:h-[36rem] lg:h-[42rem] object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                <div class="absolute bottom-6 left-6">
+                    <span class="bg-blue-600/80 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full"><i class="fa-solid fa-location-dot mr-1"></i> Maputo, Moçambique</span>
+                    <h1 id="titulo" class="text-2xl md:text-4xl lg:text-5xl font-black text-white drop-shadow-lg mt-3">Centro de Recursos de Maputo</h1>
                 </div>
             </div>
         </div>

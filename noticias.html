@@ -1,117 +1,566 @@
-<!doctype html>
-<html lang="pt-pt" class="scroll-smooth">
+<!DOCTYPE html>
+<html lang="pt">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notícias | UnISCED</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>tailwind.config = { darkMode: 'class' }</script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .nav-hidden { top: -100px !important; }
+        * { font-family: 'Inter', system-ui, sans-serif; }
+        
+        body {
+            background: linear-gradient(-45deg, #e0f2fe, #fae8ff, #fef3c7, #d1fae5);
+            background-size: 400% 400%;
+            animation: liquidMove 15s ease infinite;
+            transition: background 0.5s ease;
+        }
+        
+        body.dark {
+            background: linear-gradient(-45deg, #1e293b, #0f172a, #1e1b4b, #0c4a6e);
+            background-size: 400% 400%;
+            animation: liquidMove 15s ease infinite;
+        }
+        
+        @keyframes liquidMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
         .card-glass {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
-        .dark .card-glass {
-            background: rgba(30, 41, 59, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        
+        body.dark .card-glass {
+            background: rgba(30, 41, 59, 0.85) !important;
+            border-color: rgba(255, 255, 255, 0.1);
         }
-        body { transition: background-color 0.5s ease; }
+        
+        body.dark .card-glass .text-gray-700,
+        body.dark .card-glass .text-gray-600,
+        body.dark .card-glass .text-gray-800 {
+            color: #e2e8f0 !important;
+        }
+        
+        #navbar {
+            background: rgba(255, 255, 255, 0.7) !important;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+        }
+        
+        body.dark #navbar {
+            background: rgba(15, 23, 42, 0.8) !important;
+        }
+        
+        body.dark #navbar .text-gray-700,
+        body.dark #navbar .text-blue-700 {
+            color: #cbd5e1 !important;
+        }
+        
+        .nav-hidden { transform: translateY(-120%); transition: transform 0.4s ease; }
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .theme-btn { transition: all 0.2s ease; }
+        .theme-btn:hover { transform: scale(1.05) rotate(8deg); }
+        
+        .whatsapp-btn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .whatsapp-btn:hover { transform: scale(1.1); box-shadow: 0 10px 25px -5px rgba(34, 197, 94, 0.4); }
+        
+        .nav-bubble { position: relative; overflow: visible; }
+        .nav-bubble .bubble-particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.6), rgba(6, 182, 212, 0.3));
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            transition: all 0.5s ease-out;
+            z-index: 2;
+        }
+        .nav-bubble:hover .bubble-particle { animation: floatBubble 1.2s ease-out forwards; }
+        @keyframes floatBubble {
+            0% { transform: scale(0) translate(0, 0); opacity: 0; }
+            20% { opacity: 0.6; }
+            100% { transform: scale(1.5) translate(var(--tx, 30px), var(--ty, -40px)); opacity: 0; }
+        }
+        .nav-liquid { position: relative; transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+        .nav-liquid:hover { transform: translateY(-2px); }
+        .nav-liquid:hover .liquid-shine { opacity: 1; transform: translateX(100%); }
+        .liquid-shine {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: all 0.6s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .footer-glass {
+            background: rgba(255, 255, 255, 0.75) !important;
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        
+        body.dark .footer-glass {
+            background: rgba(15, 23, 42, 0.8) !important;
+            border-top-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        body.dark .footer-glass .text-gray-700,
+        body.dark .footer-glass .text-gray-600,
+        body.dark .footer-glass .text-gray-500 {
+            color: #cbd5e1 !important;
+        }
+        
+        .toast-notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: rgba(30, 64, 175, 0.95);
+            backdrop-filter: blur(12px);
+            border-radius: 1rem;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            z-index: 1000;
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 380px;
+        }
+        
+        body.dark .toast-notification { background: rgba(15, 23, 42, 0.95); }
+        .toast-notification.show { transform: translateX(0); }
+        .toast-icon { width: 32px; height: 32px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .toast-title { font-weight: 700; font-size: 0.875rem; color: white; }
+        .toast-message { font-size: 0.75rem; color: rgba(255, 255, 255, 0.8); margin-top: 2px; }
+        .toast-close { cursor: pointer; color: rgba(255, 255, 255, 0.6); transition: color 0.2s; }
+        .toast-close:hover { color: white; }
+        
+        .zoom-img { transition: transform 0.5s ease; }
+        .zoom-img:hover { transform: scale(1.03); }
+        
+        /* Modal para detalhes da notícia */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            max-width: 700px;
+            max-height: 85vh;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        body.dark .modal-content {
+            background: rgba(30, 41, 59, 0.95);
+            color: #e2e8f0;
+        }
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            background: rgba(0,0,0,0.5);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.2s;
+        }
+        .modal-close:hover { background: rgba(0,0,0,0.8); transform: scale(1.1); }
     </style>
 </head>
-<body class="bg-stone-100 dark:bg-slate-900 transition-colors duration-500 pt-24 px-4">
+<body>
 
-    <header class="fixed top-0 w-full z-50 transition-all duration-500" id="header-nav">
-        <nav id="navbar" class="max-w-5xl mx-auto mt-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border border-white/20 shadow-lg rounded-2xl">
-            <div class="px-6 h-16 flex justify-between items-center">
-                <span class="font-bold text-xl text-gray-900 dark:text-white" id="title-main">NOTÍCIAS</span>
-                <div class="flex items-center gap-6 text-xs font-bold text-gray-700 dark:text-gray-300">
-                    <a href="index.html" class="hover:text-red-600 transition-colors" data-i18n="home">HOME</a>
-                    <button id="themeToggle" class="hover:text-red-600 transition-colors" data-i18n="theme">MUDAR TEMA</button>
-                    <button id="langToggle" class="hover:text-red-600 transition-colors border-l pl-4 border-gray-400">PT/EN</button>
+    <!-- TOAST NOTIFICATION -->
+    <div id="toastNotification" class="toast-notification">
+        <div class="toast-icon"><i class="fa-regular fa-newspaper text-white text-sm"></i></div>
+        <div class="toast-content">
+            <div class="toast-title" id="toastTitle">UnISCED</div>
+            <div class="toast-message" id="toastMessage"></div>
+        </div>
+        <div class="toast-close" onclick="hideToast()"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+
+    <!-- MODAL PARA DETALHES DA NOTÍCIA -->
+    <div id="modal" class="modal">
+        <div class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark text-xl"></i></div>
+        <div class="modal-content">
+            <h2 id="modal-title" class="text-2xl font-black text-gray-800 dark:text-white mb-4">Título</h2>
+            <div id="modal-body" class="text-gray-700 dark:text-gray-300 space-y-4 leading-relaxed"></div>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <div id="nav-container" class="fixed top-4 left-0 right-0 z-50 flex justify-center px-4">
+        <nav id="navbar" class="w-full max-w-5xl rounded-2xl shadow-lg nav-liquid">
+            <div class="px-6 py-3 relative">
+                <div class="flex justify-between items-center">
+                    <a href="index.html" class="text-2xl font-extrabold text-blue-800 tracking-tight hover:scale-105 transition nav-bubble">
+                        Un<span class="text-cyan-600">ISCED</span>
+                        <div class="bubble-particle" style="position: absolute; width: 8px; height: 8px; top: 10%; left: 20%; --tx: -20px; --ty: -30px;"></div>
+                        <div class="bubble-particle" style="position: absolute; width: 12px; height: 12px; top: 60%; left: 80%; --tx: 40px; --ty: -50px;"></div>
+                    </a>
+                    
+                    <div class="hidden md:flex items-center gap-6">
+                        <button id="theme-toggle" class="theme-btn p-2 bg-white/50 rounded-full text-gray-800 w-9 h-9 flex items-center justify-center">
+                            <i id="theme-icon" class="fa-solid fa-moon text-sm"></i>
+                        </button>
+                        <button id="btn-idioma" class="font-bold text-blue-700 uppercase text-sm border border-blue-200 px-3 py-1.5 rounded-full hover:bg-blue-50/50 transition">PT</button>
+                        <a href="index.html" id="link-inicio" class="text-gray-700 hover:text-blue-700 font-semibold transition">Início</a>
+                        <a href="cursos.html" id="link-cursos" class="text-gray-700 hover:text-blue-700 font-semibold transition">Cursos</a>
+                        <a href="Centro-Recursos.html" id="link-recursos" class="text-gray-700 hover:text-blue-700 font-semibold transition">Centro de Recursos</a>
+                        <a href="Sobre.html" id="link-sobre" class="text-gray-700 hover:text-blue-700 font-semibold transition">Sobre</a>
+                    </div>
+                    
+                    <div class="md:hidden flex items-center gap-3">
+                        <button id="theme-toggle-mobile" class="theme-btn p-2 bg-white/50 rounded-full text-gray-800 w-8 h-8 flex items-center justify-center">
+                            <i id="theme-icon-mobile" class="fa-solid fa-moon text-xs"></i>
+                        </button>
+                        <button id="btn-idioma-mobile" class="font-bold text-blue-700 uppercase text-xs border border-blue-200 px-2 py-1 rounded-full">PT</button>
+                        <button id="menu-hamburger" class="text-gray-700 p-1">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                        </button>
+                    </div>
                 </div>
+                <div class="liquid-shine"></div>
             </div>
         </nav>
-    </header>
+        
+        <div id="mobile-menu" class="hidden absolute top-16 left-4 right-4 bg-white/95 backdrop-blur-md rounded-2xl shadow-lg border border-white/30 mt-2">
+            <div class="px-4 py-4 space-y-3">
+                <a href="index.html" id="mobile-link-inicio" class="flex items-center gap-3 text-gray-700 font-semibold py-2 px-3 rounded-xl hover:bg-blue-50 transition">Início</a>
+                <a href="cursos.html" id="mobile-link-cursos" class="flex items-center gap-3 text-gray-700 font-semibold py-2 px-3 rounded-xl hover:bg-blue-50 transition">Cursos</a>
+                <a href="Centro-Recursos.html" id="mobile-link-recursos" class="flex items-center gap-3 text-gray-700 font-semibold py-2 px-3 rounded-xl hover:bg-blue-50 transition">Centro de Recursos</a>
+                <a href="Sobre.html" id="mobile-link-sobre" class="flex items-center gap-3 text-gray-700 font-semibold py-2 px-3 rounded-xl hover:bg-blue-50 transition">Sobre</a>
+            </div>
+        </div>
+    </div>
 
-    <main class="max-w-4xl mx-auto text-center" id="container-noticias"></main>
+    <main class="max-w-6xl mx-auto px-4 pt-32 pb-16 relative z-10">
+        
+        <!-- CABEÇALHO -->
+        <div class="text-center mb-12 reveal">
+            <span class="inline-block bg-blue-100 text-blue-700 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3"><i class="fa-brands fa-facebook mr-1"></i> Destaques</span>
+            <h1 id="page-title" class="text-4xl md:text-5xl font-black text-gray-800">Notícias da UnISCED</h1>
+            <p id="page-subtitle" class="text-gray-500 mt-2 max-w-2xl mx-auto">Acompanhe as últimas novidades da Universidade Aberta ISCED</p>
+        </div>
 
-    <button id="backToTop" class="fixed bottom-10 right-10 bg-red-700 text-white p-4 rounded-full shadow-lg hidden hover:scale-110 transition-transform z-50">
-        ↑
-    </button>
+        <!-- NOTÍCIAS EM DESTAQUE -->
+        <div class="mb-12 reveal">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-1 h-8 bg-red-600 rounded-full"></div>
+                <h2 class="text-2xl font-black text-gray-800"><i class="fa-regular fa-star text-red-600 mr-2"></i> Notícias em Destaque</h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                
+                <!-- CARD 1 - PARCERIA UnISCED + UMUM (COM TEXTO COMPLETO) -->
+                <div class="card-glass rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col h-full">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://raw.githubusercontent.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/main/IMG_9488-Enhanced-NR.jpg" 
+                             alt="Parceria UnISCED e UMUM" 
+                             class="w-full h-full object-cover zoom-img"
+                             onerror="this.src='https://placehold.co/800x500/1e3a8a/white?text=UnISCED'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-3 left-3">
+                            <span class="bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md"><i class="fa-regular fa-star mr-1"></i> Em Destaque</span>
+                        </div>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <div class="flex items-center gap-2 text-xs text-gray-500 mb-2">
+                            <span><i class="fa-regular fa-calendar mr-1"></i> 29 de Janeiro de 2025</span>
+                            <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-[10px]"><i class="fa-regular fa-handshake mr-1"></i> Parceria</span>
+                        </div>
+                        <h3 class="font-black text-gray-800 group-hover:text-blue-600 transition text-xl">UnISCED e UMUM discutem parceria para desenvolvimento do ensino</h3>
+                        <p class="text-sm text-gray-600 mt-2 flex-grow">A Universidade Aberta ISCED recebeu comitiva da Universidade Metodista Unida de Moçambique para discutir cooperação académica.</p>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <button onclick="openModal('parceria')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm font-semibold transition flex items-center gap-2">Ver detalhes <i class="fa-solid fa-arrow-right"></i></button>
+                            <a href="https://web.facebook.com/UnISCEDmz" target="_blank" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-sm font-semibold transition flex items-center gap-2"><i class="fa-brands fa-facebook"></i> Ver no Facebook</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CARD 2 - UnISCED fortalece relações institucionais -->
+                <div class="card-glass rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col h-full">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://raw.githubusercontent.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/main/IMG_9424-1024x682.jpg" 
+                             alt="Encontro UnISCED" 
+                             class="w-full h-full object-cover zoom-img"
+                             onerror="this.src='https://placehold.co/800x500/0f172a/white?text=UnISCED'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-3 left-3">
+                            <span class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md"><i class="fa-regular fa-building mr-1"></i> Institucional</span>
+                        </div>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <div class="flex items-center gap-2 text-xs text-gray-500 mb-2">
+                            <span><i class="fa-regular fa-calendar mr-1"></i> Janeiro 2025</span>
+                            <span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full text-[10px]"><i class="fa-regular fa-handshake mr-1"></i> Cooperação</span>
+                        </div>
+                        <h3 class="font-black text-gray-800 group-hover:text-blue-600 transition text-xl">UnISCED fortalece relações institucionais</h3>
+                        <p class="text-sm text-gray-600 mt-2 flex-grow">Encontro marcou um passo importante para o desenvolvimento do ensino superior em Moçambique.</p>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <button onclick="openModal('relacoes')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm font-semibold transition flex items-center gap-2">Ver detalhes <i class="fa-solid fa-arrow-right"></i></button>
+                            <a href="https://web.facebook.com/UnISCEDmz" target="_blank" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-sm font-semibold transition flex items-center gap-2"><i class="fa-brands fa-facebook"></i> Ver no Facebook</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- OUTRAS NOTÍCIAS -->
+        <div class="reveal">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-1 h-8 bg-blue-600 rounded-full"></div>
+                <h2 class="text-2xl font-black text-gray-800"><i class="fa-regular fa-clock text-blue-600 mr-2"></i> Últimas Notícias</h2>
+            </div>
+            
+            <div class="space-y-4" id="noticias-container">
+                <!-- Notícia 1 -->
+                <div class="card-glass rounded-xl p-4 hover:shadow-md transition flex flex-col md:flex-row gap-4 items-start group">
+                    <div class="w-full md:w-20 h-20 bg-amber-100 rounded-xl flex items-center justify-center text-amber-700 text-2xl shadow-sm flex-shrink-0"><i class="fa-solid fa-bullhorn"></i></div>
+                    <div class="flex-1"><div class="flex items-center gap-2 text-xs text-gray-500 mb-1"><span class="bg-gray-100 px-2 py-0.5 rounded-full">Comunicado</span><span><i class="fa-regular fa-calendar mr-1"></i> 08/06/2026</span></div>
+                    <h4 class="font-black text-gray-800 group-hover:text-blue-600 transition">Comunicado Oficial UnISCED</h4>
+                    <p class="text-sm text-gray-600">Informações importantes sobre o calendário académico 2026.</p></div>
+                    <a href="https://web.facebook.com/UnISCEDmz" target="_blank" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-semibold hover:bg-blue-600 hover:text-white transition flex-shrink-0">Ver <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                </div>
+                
+                <!-- Notícia 2 -->
+                <div class="card-glass rounded-xl p-4 hover:shadow-md transition flex flex-col md:flex-row gap-4 items-start group">
+                    <div class="w-full md:w-20 h-20 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-700 text-2xl shadow-sm flex-shrink-0"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <div class="flex-1"><div class="flex items-center gap-2 text-xs text-gray-500 mb-1"><span class="bg-gray-100 px-2 py-0.5 rounded-full">Evento</span><span><i class="fa-regular fa-calendar mr-1"></i> 05/06/2026</span></div>
+                    <h4 class="font-black text-gray-800 group-hover:text-blue-600 transition">Cerimónia de Graduação 2026</h4>
+                    <p class="text-sm text-gray-600">Data e local da próxima cerimónia de graduação dos finalistas.</p></div>
+                    <a href="https://web.facebook.com/UnISCEDmz" target="_blank" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-semibold hover:bg-blue-600 hover:text-white transition flex-shrink-0">Ver <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                </div>
+                
+                <!-- Notícia 3 -->
+                <div class="card-glass rounded-xl p-4 hover:shadow-md transition flex flex-col md:flex-row gap-4 items-start group">
+                    <div class="w-full md:w-20 h-20 bg-cyan-100 rounded-xl flex items-center justify-center text-cyan-700 text-2xl shadow-sm flex-shrink-0"><i class="fa-solid fa-pen-to-square"></i></div>
+                    <div class="flex-1"><div class="flex items-center gap-2 text-xs text-gray-500 mb-1"><span class="bg-gray-100 px-2 py-0.5 rounded-full">Inscrições</span><span><i class="fa-regular fa-calendar mr-1"></i> 01/06/2026</span></div>
+                    <h4 class="font-black text-gray-800 group-hover:text-blue-600 transition">Abertura de Inscrições 2026</h4>
+                    <p class="text-sm text-gray-600">Estão abertas as inscrições para os novos candidatos.</p></div>
+                    <a href="https://web.facebook.com/UnISCEDmz" target="_blank" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-semibold hover:bg-blue-600 hover:text-white transition flex-shrink-0">Ver <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                </div>
+                
+                <!-- Notícia 4 -->
+                <div class="card-glass rounded-xl p-4 hover:shadow-md transition flex flex-col md:flex-row gap-4 items-start group">
+                    <div class="w-full md:w-20 h-20 bg-purple-100 rounded-xl flex items-center justify-center text-purple-700 text-2xl shadow-sm flex-shrink-0"><i class="fa-solid fa-laptop-code"></i></div>
+                    <div class="flex-1"><div class="flex items-center gap-2 text-xs text-gray-500 mb-1"><span class="bg-gray-100 px-2 py-0.5 rounded-full">Tecnologia</span><span><i class="fa-regular fa-calendar mr-1"></i> 20/05/2026</span></div>
+                    <h4 class="font-black text-gray-800 group-hover:text-blue-600 transition">Plataforma Inovadora com IA</h4>
+                    <p class="text-sm text-gray-600">Nova plataforma de ensino com inteligência artificial foi lançada.</p></div>
+                    <a href="https://web.facebook.com/UnISCEDmz" target="_blank" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-semibold hover:bg-blue-600 hover:text-white transition flex-shrink-0">Ver <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- RODAPÉ -->
+    <footer class="footer-glass py-8 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-6 pb-4 border-b border-white/30">
+                <i class="fa-solid fa-location-dot text-blue-600 mr-2"></i>
+                <span class="text-gray-700 text-sm"><strong>Reitoria:</strong> Rua Carlos Pereira, parcela nº 148/07, Estoril Expansão, Beira</span>
+            </div>
+            <div class="text-center">
+                <p class="text-gray-600 text-sm mb-3">2026 © <span class="text-blue-700 font-semibold">Universidade Aberta ISCED</span>. Todos os direitos reservados.</p>
+                <a href="#" id="btn-app-movel" class="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold text-xs px-4 py-2 rounded-full shadow-md transition hover:scale-105 mb-4">
+                    <i class="fa-solid fa-mobile-screen-button"></i> <span>App móvel</span>
+                </a>
+                <div class="flex flex-wrap justify-center items-center gap-2 text-sm">
+                    <a href="#" id="foot-privacidade" class="text-gray-500 hover:text-blue-600 transition">Privacidade</a>
+                    <span class="text-gray-400">|</span>
+                    <a href="#" id="foot-termos" class="text-gray-500 hover:text-blue-600 transition">Termos</a>
+                    <span class="text-gray-400">|</span>
+                    <a href="#" id="foot-suporte" class="text-gray-500 hover:text-blue-600 transition">Suporte</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BOTÕES FLUTUANTES -->
+    <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" id="btn-top" class="fixed bottom-24 right-5 bg-blue-700 text-white p-3 rounded-full shadow-lg hidden hover:scale-105 transition z-40"><i class="fa-solid fa-arrow-up"></i></button>
+    <a href="https://wa.me/258840000000?text=Olá!%20Gostaria%20de%20receber%20notícias%20da%20UnISCED" target="_blank" class="whatsapp-btn fixed bottom-5 left-5 bg-green-500 text-white p-4 rounded-full shadow-lg z-50 flex items-center gap-2">
+        <i class="fa-brands fa-whatsapp text-2xl"></i>
+        <span class="hidden md:inline text-sm font-semibold">Fale connosco</span>
+    </a>
 
     <script>
-        const dict = {
-            pt: { home: "HOME", theme: "MUDAR TEMA", title: "NOTÍCIAS" },
-            en: { home: "HOME", theme: "CHANGE THEME", title: "NEWS" },
+        // ================== TOAST ==================
+        let toastTimeout;
+        function showToast(message, title = "UnISCED") {
+            const toast = document.getElementById('toastNotification');
+            document.getElementById('toastTitle').textContent = title;
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.add('show');
+            if (toastTimeout) clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+        function hideToast() { document.getElementById('toastNotification').classList.remove('show'); if (toastTimeout) clearTimeout(toastTimeout); }
+        
+        // ================== MODAL ==================
+        const modal = document.getElementById('modal');
+        
+        const textosModal = {
+            parceria: {
+                title: "UnISCED e UMUM discutem parceria para desenvolvimento do ensino",
+                body: `<p>A Universidade Aberta ISCED (UnISCED) recebeu no dia 27 de Janeiro uma comitiva da Universidade Metodista Unida de Moçambique (UMUM), nas suas instalações na Cidade da Beira. O encontro teve como principal objectivo discutir a criação de parcerias para o aprimoramento do processo de ensino, pesquisa, extensão e inovação.</p>
+                        <p>A comitiva foi recebida pelo Vice-Reitor da UnISCED para a Área Académica, <strong>Prof. Doutor Simone Mura</strong>, acompanhado pelo Director de Recursos Virtuais e Multimédia, <strong>António Chimuzo</strong>. Durante o encontro, a Directora Pedagógica da UMUM, <strong>Nomissa Chadreca Faduco</strong>, explicou que a visita visava colher experiências para melhorar as práticas pedagógicas da sua instituição, principalmente na área do ensino à distância, em que a UnISCED já possui uma experiência consolidada.</p>
+                        <p>Faduco destacou que a parceria com a UnISCED poderá fornecer novas perspectivas para a expansão para outras regiões do país da sua instituição, pois até ao momento opera apenas na Província de Inhambane. Além disso, destacou que esta parceria irá permitir a implementação de processos mais organizados, com a meta de oferecer uma educação de qualidade à população, além de contribuir para o desenvolvimento do país.</p>
+                        <p>Outro ponto importante abordado durante a visita foi a possibilidade de se estabelecer uma <strong>mobilidade de estudantes e docentes</strong> entre as duas universidades, o que permitirá o intercâmbio de conhecimentos, a criação de incubadoras e o desenvolvimento de projectos conjuntos. Faduco também mencionou o interesse da sua instituição em aprender com a UnISCED sobre a gestão do ensino 100% à distância, modalidade que deverá ser implementada na UMUM a partir de 2025.</p>
+                        <p class="bg-blue-50 p-4 rounded-xl italic">Este encontro reforçou o compromisso de ambas as instituições na busca pela melhoria contínua dos seus modelos educacionais e a troca de experiências, com vista a uma educação superior mais acessível e de qualidade para todos os moçambicanos.</p>`
+            },
+            relacoes: {
+                title: "UnISCED fortalece relações institucionais",
+                body: `<p>Faduco destacou que a parceria com a UnISCED poderá fornecer novas perspectivas para a expansão para outras regiões do país da sua instituição, pois até ao momento opera apenas na Província de Inhambane. Além disso, destacou que esta parceria irá permitir a implementação de processos mais organizados, com a meta de oferecer uma educação de qualidade à população, além de contribuir para o desenvolvimento do país.</p>
+                        <p>Outro ponto importante abordado durante a visita foi a possibilidade de se estabelecer uma <strong>mobilidade de estudantes e docentes</strong> entre as duas universidades, o que permitirá o intercâmbio de conhecimentos, a criação de incubadoras e o desenvolvimento de projectos conjuntos. Faduco também mencionou o interesse da sua instituição em aprender com a UnISCED sobre a gestão do ensino 100% à distância, modalidade que deverá ser implementada na UMUM a partir de 2025.</p>
+                        <p class="bg-blue-50 p-4 rounded-xl italic">Este encontro reforçou o compromisso de ambas as instituições na busca pela melhoria contínua dos seus modelos educacionais e a troca de experiências, com vista a uma educação superior mais acessível e de qualidade para todos os moçambicanos.</p>`
+            }
         };
-        let currentLang = "pt";
-        let isScrolling = true;
-
-        // Auto-scroll ativado
-        let autoScroll = setInterval(() => {
-            if (isScrolling) window.scrollBy(0, 1);
-        }, 50);
-
-        // Para o auto-scroll se o utilizador interagir
-        ["wheel", "touchstart", "mousedown"].forEach((evt) =>
-            window.addEventListener(evt, () => {
-                isScrolling = false;
-                clearInterval(autoScroll);
-            })
-        );
-
-        const noticias = [
-            { titulo: "Atualização Académica", url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1427085216119729%2F" },
-            { titulo: "Destaque UnISCED", url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1426192929542291%2F" },
-            { titulo: "Notícias Recentes", url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1402909368537314%2F" },
-            { titulo: "Comunicado UnISCED", url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1402008781960706%2F" },
-            { titulo: "Destaque Académico", url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1398868062274778%2F" },
-            { titulo: "Aviso Importante", url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1398796992281885%2F" },
-            { titulo: "Interação", url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1398219635672954%2F" },
-            { titulo: "Notícias Gerais", url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1397232439105007%2F" },
-            { titulo: "Atualização", url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1396046052556979%2F" },
-            { titulo: "Info UnISCED", url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1392163272945257%2F" },
-            { titulo: "Destaque", url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1390519006443017%2F" },
-            { titulo: "Aviso", url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1389983463163238%2F" },
-            { titulo: "Notícia de Destaque", url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1388873856607532%2F" },
-            { titulo: "Relatório", url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1385642856930632%2F" },
-            { titulo: "Atualização Geral", url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1384841267010791%2F" },
-            { titulo: "Notícias UnISCED", url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1384711863690398%2F" },
-            { titulo: "Diretrizes", url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1384069377087980%2F" },
-            { titulo: "Comunicado", url: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F100064547928167%2Fposts%2F1384067897088128%2F" }
-        ];
-
-        const container = document.getElementById("container-noticias");
-        noticias.forEach((n) => {
-            container.innerHTML += `
-                <article class="card-glass p-6 mb-10 rounded-3xl shadow-xl transition-all hover:scale-[1.01]">
-                    <h2 class="text-2xl font-black mb-4 text-gray-900 dark:text-white">${n.titulo}</h2>
-                    <div class="overflow-hidden rounded-xl">
-                        <iframe src="${n.url}" width="100%" height="550" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-                    </div>
-                </article>`;
+        
+        function openModal(tipo) {
+            const data = textosModal[tipo];
+            if (data) {
+                document.getElementById('modal-title').innerHTML = data.title;
+                document.getElementById('modal-body').innerHTML = data.body;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
         });
+        
+        // ================== MODO DARK ==================
+        let dark = false;
+        function toggleTheme() {
+            dark = !dark;
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            const iconMob = document.getElementById('theme-icon-mobile');
+            if (dark) {
+                body.classList.add('dark');
+                if (icon) icon.className = 'fa-solid fa-sun';
+                if (iconMob) iconMob.className = 'fa-solid fa-sun';
+            } else {
+                body.classList.remove('dark');
+                if (icon) icon.className = 'fa-solid fa-moon';
+                if (iconMob) iconMob.className = 'fa-solid fa-moon';
+            }
+        }
+        document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
+        document.getElementById('theme-toggle-mobile')?.addEventListener('click', toggleTheme);
 
-        document.getElementById("themeToggle").onclick = () => document.documentElement.classList.toggle("dark");
+        // ================== MENU HAMBÚRGUER ==================
+        const hamburger = document.getElementById('menu-hamburger');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (hamburger && mobileMenu) {
+            hamburger.addEventListener('click', (e) => { e.stopPropagation(); mobileMenu.classList.toggle('hidden'); });
+            document.addEventListener('click', (e) => {
+                if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) mobileMenu.classList.add('hidden');
+            });
+        }
 
+        // ================== SCROLL ==================
         let lastScroll = 0;
-        window.addEventListener("scroll", () => {
-            const currentScroll = window.pageYOffset;
-            document.getElementById("header-nav").classList.toggle("nav-hidden", currentScroll > 100 && currentScroll > lastScroll);
-            document.getElementById("backToTop").classList.toggle("hidden", currentScroll < 300);
-            lastScroll = currentScroll;
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            const scrollY = window.scrollY;
+            if (scrollY > lastScroll && scrollY > 100) nav?.classList.add('nav-hidden');
+            else nav?.classList.remove('nav-hidden');
+            lastScroll = scrollY;
+            document.getElementById('btn-top')?.classList.toggle('hidden', scrollY < 300);
         });
 
-        document.getElementById("langToggle").onclick = () => {
-            currentLang = currentLang === "pt" ? "en" : "pt";
-            document.querySelector('[data-i18n="home"]').innerText = dict[currentLang].home;
-            document.querySelector('[data-i18n="theme"]').innerText = dict[currentLang].theme;
-            document.getElementById("title-main").innerText = dict[currentLang].title;
+        // ================== REVEAL ==================
+        const reveals = document.querySelectorAll('.reveal');
+        function checkReveal() { reveals.forEach(el => { if (el.getBoundingClientRect().top < window.innerHeight - 80) el.classList.add('visible'); }); }
+        window.addEventListener('load', checkReveal);
+        window.addEventListener('scroll', checkReveal);
+
+        // ================== TRADUÇÃO ==================
+        const dict = {
+            pt: {
+                link_inicio: "Início", link_cursos: "Cursos", link_recursos: "Centro de Recursos", link_sobre: "Sobre",
+                page_title: "Notícias da UnISCED", page_subtitle: "Acompanhe as últimas novidades da Universidade Aberta ISCED",
+                foot_priv: "Privacidade", foot_termos: "Termos", foot_suporte: "Suporte", app_movel: "App móvel"
+            },
+            en: {
+                link_inicio: "Home", link_cursos: "Courses", link_recursos: "Resource Center", link_sobre: "About",
+                page_title: "UnISCED News", page_subtitle: "Stay updated with the latest news from the Open University ISCED",
+                foot_priv: "Privacy", foot_termos: "Terms", foot_suporte: "Support", app_movel: "Mobile App"
+            }
         };
 
-        document.getElementById("backToTop").onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
+        let lang = 'pt';
+        function updateLanguage() {
+            const t = dict[lang];
+            document.getElementById('link-inicio').innerText = t.link_inicio;
+            document.getElementById('link-cursos').innerText = t.link_cursos;
+            document.getElementById('link-recursos').innerText = t.link_recursos;
+            document.getElementById('link-sobre').innerText = t.link_sobre;
+            document.getElementById('mobile-link-inicio').innerText = t.link_inicio;
+            document.getElementById('mobile-link-cursos').innerText = t.link_cursos;
+            document.getElementById('mobile-link-recursos').innerText = t.link_recursos;
+            document.getElementById('mobile-link-sobre').innerText = t.link_sobre;
+            document.getElementById('page-title').innerText = t.page_title;
+            document.getElementById('page-subtitle').innerText = t.page_subtitle;
+            document.getElementById('foot-privacidade').innerText = t.foot_priv;
+            document.getElementById('foot-termos').innerText = t.foot_termos;
+            document.getElementById('foot-suporte').innerText = t.foot_suporte;
+            document.getElementById('btn-app-movel').querySelector('span').innerText = t.app_movel;
+            document.getElementById('btn-idioma').innerText = lang.toUpperCase();
+            if(document.getElementById('btn-idioma-mobile')) document.getElementById('btn-idioma-mobile').innerText = lang.toUpperCase();
+        }
+        
+        function toggleLang() { lang = lang === 'pt' ? 'en' : 'pt'; updateLanguage(); }
+        
+        document.getElementById('btn-idioma')?.addEventListener('click', toggleLang);
+        document.getElementById('btn-idioma-mobile')?.addEventListener('click', toggleLang);
+        updateLanguage();
     </script>
 </body>
 </html>

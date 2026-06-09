@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Centro de Recursos | UnISCED</title>
+    <title>Cursos | UnISCED</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,7 +18,6 @@
             transition: background 0.5s ease;
         }
         
-        /* MODO DARK SUAVE */
         body.dark {
             background: linear-gradient(-45deg, #1e293b, #0f172a, #1e1b4b, #0c4a6e);
             background-size: 400% 400%;
@@ -31,7 +30,7 @@
             100% { background-position: 0% 50%; }
         }
         
-        /* Camada de vidro */
+        /* Camada de vidro sobre o fundo */
         body::before {
             content: '';
             position: fixed;
@@ -44,7 +43,7 @@
             z-index: 0;
         }
         
-        /* Cards com fundo semi-transparente */
+        /* Cards com vidro */
         .card-glass {
             background: rgba(255, 255, 255, 0.85) !important;
             backdrop-filter: blur(2px);
@@ -62,11 +61,7 @@
             color: #e2e8f0 !important;
         }
         
-        body.dark .card-glass .text-gray-500 {
-            color: #94a3b8 !important;
-        }
-        
-        /* Navbar */
+        /* Navbar glass */
         #navbar {
             background: rgba(255, 255, 255, 0.7) !important;
             backdrop-filter: blur(12px);
@@ -82,7 +77,7 @@
             color: #cbd5e1 !important;
         }
         
-        /* Rodapé */
+        /* Rodapé glass */
         .footer-glass {
             background: rgba(255, 255, 255, 0.75) !important;
             backdrop-filter: blur(10px);
@@ -104,40 +99,93 @@
             color: #60a5fa !important;
         }
         
-        .navbar-hide { transform: translateY(-100%); transition: transform 0.3s ease; }
-        .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        /* Navbar hide */
+        .nav-hidden { transform: translateY(-120%); transition: transform 0.4s ease; }
+        
+        /* Efeito reveal */
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
         .reveal.visible { opacity: 1; transform: translateY(0); }
+        
+        /* Botão de tema */
         .theme-btn { transition: all 0.2s ease; }
         .theme-btn:hover { transform: scale(1.05) rotate(8deg); }
-        .info-card { transition: all 0.25s ease; }
-        .info-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px -12px rgba(0,0,0,0.15); }
         
-        .whatsapp-btn {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        /* Slider */
+        .slide { display: none; opacity: 0; transition: opacity 0.5s ease-in-out; }
+        .slide.active { display: block; opacity: 1; }
+        
+        /* Cards hover */
+        .course-card { transition: all 0.3s ease; }
+        .course-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -12px rgba(0,0,0,0.15); }
+        
+        /* WhatsApp */
+        .whatsapp-btn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .whatsapp-btn:hover { transform: scale(1.1); box-shadow: 0 10px 25px -5px rgba(34, 197, 94, 0.4); }
+        
+        /* Bolhas de água */
+        .nav-bubble { position: relative; overflow: visible; }
+        .nav-bubble .bubble-particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.6), rgba(6, 182, 212, 0.3));
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            transition: all 0.5s ease-out;
+            z-index: 2;
         }
-        .whatsapp-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 10px 25px -5px rgba(34, 197, 94, 0.4);
+        .nav-bubble:hover .bubble-particle { animation: floatBubble 1.2s ease-out forwards; }
+        @keyframes floatBubble {
+            0% { transform: scale(0) translate(0, 0); opacity: 0; }
+            20% { opacity: 0.6; }
+            100% { transform: scale(1.5) translate(var(--tx, 30px), var(--ty, -40px)); opacity: 0; }
+        }
+        .nav-liquid { position: relative; transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+        .nav-liquid:hover { transform: translateY(-2px); }
+        .nav-liquid:hover .liquid-shine { opacity: 1; transform: translateX(100%); }
+        .liquid-shine {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: all 0.6s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        /* Link do PDF */
+        .pdf-link {
+            transition: all 0.2s ease;
+        }
+        .pdf-link:hover {
+            background-color: #1e40af !important;
+            transform: scale(1.02);
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR SIMPLES -->
-    <div id="nav-container" class="fixed top-0 w-full z-50">
-        <nav id="navbar" class="w-full border-b border-white/30 shadow-sm transition-all duration-300">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between h-16 items-center">
-                    <a href="index.html" class="text-2xl font-extrabold text-blue-800 tracking-tight hover:scale-105 transition">
+    <!-- NAVBAR COM BOLHAS -->
+    <div id="nav-container" class="fixed top-4 left-0 right-0 z-50 flex justify-center px-4">
+        <nav id="navbar" class="w-full max-w-5xl rounded-2xl shadow-lg nav-liquid">
+            <div class="px-6 py-3 relative">
+                <div class="flex justify-between items-center">
+                    <a href="index.html" class="text-2xl font-extrabold text-blue-800 tracking-tight hover:scale-105 transition nav-bubble" style="position: relative; display: inline-block;">
                         Un<span class="text-cyan-600">ISCED</span>
+                        <div class="bubble-particle" style="position: absolute; width: 8px; height: 8px; top: 10%; left: 20%; --tx: -20px; --ty: -30px;"></div>
+                        <div class="bubble-particle" style="position: absolute; width: 12px; height: 12px; top: 60%; left: 80%; --tx: 40px; --ty: -50px;"></div>
                     </a>
+                    
                     <div class="hidden md:flex items-center gap-6">
-                        <a href="index.html" id="link-inicio" class="text-gray-700 hover:text-blue-700 font-semibold transition">Início</a>
                         <button id="theme-toggle" class="theme-btn p-2 bg-white/50 rounded-full text-gray-800 w-9 h-9 flex items-center justify-center">
                             <i id="theme-icon" class="fa-solid fa-moon text-sm"></i>
                         </button>
                         <button id="btn-idioma" class="font-bold text-blue-700 uppercase text-sm border border-blue-200 px-3 py-1.5 rounded-full hover:bg-blue-50/50 transition">PT</button>
+                        <a href="index.html" id="link-inicio" class="text-gray-700 hover:text-blue-700 font-semibold transition">Início</a>
+                        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-md hover:bg-blue-700 transition">Editais 2026</a>
                     </div>
+                    
                     <div class="md:hidden flex items-center gap-3">
                         <button id="theme-toggle-mobile" class="theme-btn p-2 bg-white/50 rounded-full text-gray-800 w-8 h-8 flex items-center justify-center">
                             <i id="theme-icon-mobile" class="fa-solid fa-moon text-xs"></i>
@@ -148,93 +196,146 @@
                         </button>
                     </div>
                 </div>
+                <div class="liquid-shine"></div>
             </div>
         </nav>
-        <div id="mobile-menu" class="hidden md:hidden bg-white/80 backdrop-blur-md border-b border-white/30 shadow-md">
-            <div class="px-4 py-3 space-y-2">
-                <a href="index.html" id="mobile-link-inicio" class="block py-2 text-gray-700 font-semibold hover:text-blue-700">Início</a>
-                <a href="Portal do aluno.html" id="mobile-btn-portal" class="block py-2 text-blue-700 font-semibold">Portal do Aluno</a>
+        
+        <!-- MENU MOBILE -->
+        <div id="mobile-menu" class="hidden absolute top-16 left-4 right-4 bg-white/95 backdrop-blur-md rounded-2xl shadow-lg border border-white/30 mt-2">
+            <div class="px-4 py-4 space-y-3">
+                <a href="index.html" id="mobile-link-inicio" class="flex items-center gap-3 text-gray-700 font-semibold py-2 px-3 rounded-xl hover:bg-blue-50 transition">Início</a>
+                <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" id="mobile-editais" class="flex items-center gap-3 text-white bg-blue-600 font-semibold py-2 px-3 rounded-xl transition justify-center">Editais 2026</a>
             </div>
         </div>
     </div>
 
-    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16 relative z-10">
-        <!-- IMAGEM COM ALTURA MUITO MAIOR -->
-        <div class="reveal mb-8">
-            <div class="relative rounded-2xl overflow-hidden shadow-xl">
-                <img src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/IMG_20260609_160324.jpg?raw=true" 
-                     alt="Centro de Recursos de Maputo" 
-                     class="w-full h-[28rem] md:h-[36rem] lg:h-[42rem] object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
-                <div class="absolute bottom-6 left-6">
-                    <span class="bg-blue-600/80 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full"><i class="fa-solid fa-location-dot mr-1"></i> Maputo, Moçambique</span>
-                    <h1 id="titulo" class="text-2xl md:text-4xl lg:text-5xl font-black text-white drop-shadow-lg mt-3">Centro de Recursos de Maputo</h1>
+    <main class="max-w-7xl mx-auto px-4 pt-32 pb-16 relative z-10">
+        
+        <!-- MESTRADOS - SLIDER -->
+        <section class="mb-24 reveal">
+            <h2 id="master_title" class="text-4xl md:text-5xl font-black text-center mb-12 text-gray-800">Programas de Mestrado</h2>
+            <div class="relative w-full h-[500px] rounded-3xl overflow-hidden shadow-2xl">
+                <!-- Slide 1 - Gestão -->
+                <div class="slide active absolute inset-0">
+                    <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                    <div class="absolute bottom-8 left-8 right-8 text-white">
+                        <div class="flex items-center gap-2 mb-3"><span class="bg-blue-600 text-xs px-3 py-1 rounded-full">Mestrado</span><span class="bg-amber-500 text-xs px-3 py-1 rounded-full"><i class="fa-regular fa-clock mr-1"></i> 2 Anos</span></div>
+                        <h3 id="m_gestao_title" class="text-3xl font-black">Mestrado em Gestão</h3>
+                        <p id="m_gestao_desc" class="text-sm text-white/80 mt-2 max-w-2xl">Formação avançada em gestão estratégica, liderança organizacional e inovação.</p>
+                        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="pdf-link inline-block mt-4 bg-white text-gray-900 px-5 py-2 rounded-full text-sm font-bold hover:bg-gray-100 transition">Saiba mais →</a>
+                    </div>
+                </div>
+                <!-- Slide 2 - Direito -->
+                <div class="slide absolute inset-0">
+                    <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                    <div class="absolute bottom-8 left-8 right-8 text-white">
+                        <div class="flex items-center gap-2 mb-3"><span class="bg-blue-600 text-xs px-3 py-1 rounded-full">Mestrado</span><span class="bg-amber-500 text-xs px-3 py-1 rounded-full"><i class="fa-regular fa-clock mr-1"></i> 2 Anos</span></div>
+                        <h3 id="m_direito_title" class="text-3xl font-black">Mestrado em Direito Fiscal</h3>
+                        <p id="m_direito_desc" class="text-sm text-white/80 mt-2 max-w-2xl">Especialização em direito tributário, aduaneiro e governança fiscal.</p>
+                        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="pdf-link inline-block mt-4 bg-white text-gray-900 px-5 py-2 rounded-full text-sm font-bold hover:bg-gray-100 transition">Saiba mais →</a>
+                    </div>
+                </div>
+                <!-- Slide 3 - Saúde -->
+                <div class="slide absolute inset-0">
+                    <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                    <div class="absolute bottom-8 left-8 right-8 text-white">
+                        <div class="flex items-center gap-2 mb-3"><span class="bg-blue-600 text-xs px-3 py-1 rounded-full">Mestrado</span><span class="bg-amber-500 text-xs px-3 py-1 rounded-full"><i class="fa-regular fa-clock mr-1"></i> 2 Anos</span></div>
+                        <h3 id="m_saude_title" class="text-3xl font-black">Mestrado em Saúde Pública</h3>
+                        <p id="m_saude_desc" class="text-sm text-white/80 mt-2 max-w-2xl">Gestão de sistemas de saúde, epidemiologia e políticas públicas.</p>
+                        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="pdf-link inline-block mt-4 bg-white text-gray-900 px-5 py-2 rounded-full text-sm font-bold hover:bg-gray-100 transition">Saiba mais →</a>
+                    </div>
+                </div>
+                
+                <button onclick="plusSlides(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/30 backdrop-blur-sm p-3 rounded-full hover:bg-white/50 transition"><i class="fa-solid fa-chevron-left text-white"></i></button>
+                <button onclick="plusSlides(1)" class="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/30 backdrop-blur-sm p-3 rounded-full hover:bg-white/50 transition"><i class="fa-solid fa-chevron-right text-white"></i></button>
+                
+                <!-- Indicadores -->
+                <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+                    <span class="slide-dot w-2 h-2 rounded-full bg-white/50 cursor-pointer" onclick="currentSlide(0)"></span>
+                    <span class="slide-dot w-2 h-2 rounded-full bg-white/50 cursor-pointer" onclick="currentSlide(1)"></span>
+                    <span class="slide-dot w-2 h-2 rounded-full bg-white/50 cursor-pointer" onclick="currentSlide(2)"></span>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Texto principal -->
-        <div class="rounded-2xl p-6 md:p-8 shadow-sm mb-8 reveal card-glass">
-            <div id="texto-principal" class="space-y-4 text-gray-700 leading-relaxed">
-                <p>O Centro de Recursos de Maputo é uma das unidades físicas da Universidade Aberta ISCED (UnISCED) localizada na cidade de Maputo, em Moçambique. Como parte da infra-estrutura da universidade, esse centro tem como objectivo oferecer suporte e acesso aos recursos educacionais necessários para os estudantes matriculados nos cursos online da UnISCED.</p>
-                <p>O Centro de Recursos de Maputo é um espaço moderno e equipado com tecnologia avançada, computadores, acesso à Internet de alta velocidade e uma biblioteca física e digital. Essas instalações estão disponíveis para os estudantes realizarem suas actividades académicas, pesquisas, consultas de materiais e interacção com outros estudantes, proporcionando um ambiente de aprendizado inspirador e colaborativo.</p>
-                <p>Além disso, o centro oferece suporte técnico e orientação académica aos estudantes, auxiliando-os no uso eficaz dos recursos disponíveis e na resolução de eventuais dificuldades. A equipa do Centro de Recursos de Maputo está prontamente disponível para fornecer assistência técnica, orientação sobre o uso das plataformas online da universidade e apoio na busca de materiais e recursos relevantes para a sua formação.</p>
+        <!-- LICENCIATURAS -->
+        <section class="reveal">
+            <h2 id="bach_title" class="text-4xl md:text-5xl font-black text-center mb-12 text-gray-800">Programas de Licenciatura</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Curso 1 - Saúde -->
+                <div class="card-glass rounded-2xl overflow-hidden shadow-sm course-card reveal">
+                    <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=400" class="w-full h-48 object-cover">
+                    <div class="p-5">
+                        <div class="flex items-center justify-between mb-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">Licenciatura</span><span class="text-gray-400 text-xs"><i class="fa-regular fa-clock mr-1"></i> 4 Anos</span></div>
+                        <h3 id="bach_saude_title" class="text-xl font-black text-gray-800">Ciências da Saúde</h3>
+                        <p id="bach_saude_desc" class="text-sm text-gray-600 mt-1">Nutrição, Psicologia, Enfermagem e áreas afins.</p>
+                        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="inline-block mt-4 text-blue-600 text-sm font-semibold hover:text-blue-800 transition">Ver detalhes <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+                <!-- Curso 2 - Educação -->
+                <div class="card-glass rounded-2xl overflow-hidden shadow-sm course-card reveal">
+                    <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=400" class="w-full h-48 object-cover">
+                    <div class="p-5">
+                        <div class="flex items-center justify-between mb-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">Licenciatura</span><span class="text-gray-400 text-xs"><i class="fa-regular fa-clock mr-1"></i> 4 Anos</span></div>
+                        <h3 id="bach_educacao_title" class="text-xl font-black text-gray-800">Ciências da Educação</h3>
+                        <p id="bach_educacao_desc" class="text-sm text-gray-600 mt-1">Biologia, Matemática, Pedagogia e Formação de Professores.</p>
+                        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="inline-block mt-4 text-blue-600 text-sm font-semibold hover:text-blue-800 transition">Ver detalhes <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+                <!-- Curso 3 - Direito -->
+                <div class="card-glass rounded-2xl overflow-hidden shadow-sm course-card reveal">
+                    <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=400" class="w-full h-48 object-cover">
+                    <div class="p-5">
+                        <div class="flex items-center justify-between mb-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">Licenciatura</span><span class="text-gray-400 text-xs"><i class="fa-regular fa-clock mr-1"></i> 4 Anos</span></div>
+                        <h3 id="bach_direito_title" class="text-xl font-black text-gray-800">Ciências Jurídicas</h3>
+                        <p id="bach_direito_desc" class="text-sm text-gray-600 mt-1">Direito, Legislação, Prática Jurídica e Advocacia.</p>
+                        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="inline-block mt-4 text-blue-600 text-sm font-semibold hover:text-blue-800 transition">Ver detalhes <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+                <!-- Curso 4 - Gestão -->
+                <div class="card-glass rounded-2xl overflow-hidden shadow-sm course-card reveal">
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400" class="w-full h-48 object-cover">
+                    <div class="p-5">
+                        <div class="flex items-center justify-between mb-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">Licenciatura</span><span class="text-gray-400 text-xs"><i class="fa-regular fa-clock mr-1"></i> 4 Anos</span></div>
+                        <h3 id="bach_gestao_title" class="text-xl font-black text-gray-800">Gestão e Negócios</h3>
+                        <p id="bach_gestao_desc" class="text-sm text-gray-600 mt-1">Contabilidade, Recursos Humanos, Administração e Empreendedorismo.</p>
+                        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="inline-block mt-4 text-blue-600 text-sm font-semibold hover:text-blue-800 transition">Ver detalhes <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+                <!-- Curso 5 - Engenharias -->
+                <div class="card-glass rounded-2xl overflow-hidden shadow-sm course-card reveal">
+                    <img src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?w=400" class="w-full h-48 object-cover">
+                    <div class="p-5">
+                        <div class="flex items-center justify-between mb-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">Licenciatura</span><span class="text-gray-400 text-xs"><i class="fa-regular fa-clock mr-1"></i> 4 Anos</span></div>
+                        <h3 id="bach_engenharia_title" class="text-xl font-black text-gray-800">Engenharias</h3>
+                        <p id="bach_engenharia_desc" class="text-sm text-gray-600 mt-1">Informática, Agronegócios, Software e Redes.</p>
+                        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="inline-block mt-4 text-blue-600 text-sm font-semibold hover:text-blue-800 transition">Ver detalhes <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+                <!-- Curso 6 - Humanas -->
+                <div class="card-glass rounded-2xl overflow-hidden shadow-sm course-card reveal">
+                    <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=400" class="w-full h-48 object-cover">
+                    <div class="p-5">
+                        <div class="flex items-center justify-between mb-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">Licenciatura</span><span class="text-gray-400 text-xs"><i class="fa-regular fa-clock mr-1"></i> 4 Anos</span></div>
+                        <h3 id="bach_humanas_title" class="text-xl font-black text-gray-800">Ciências Humanas</h3>
+                        <p id="bach_humanas_desc" class="text-sm text-gray-600 mt-1">Jornalismo, Marketing, Comunicação e Relações Públicas.</p>
+                        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="inline-block mt-4 text-blue-600 text-sm font-semibold hover:text-blue-800 transition">Ver detalhes <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <!-- Cards informativos -->
-        <div class="grid md:grid-cols-3 gap-6 mb-8">
-            <div class="p-5 rounded-xl border border-white/50 shadow-sm info-card card-glass reveal">
-                <div class="w-12 h-12 bg-blue-100/80 rounded-xl flex items-center justify-center text-blue-700 text-xl mb-3"><i class="fa-solid fa-laptop-code"></i></div>
-                <h3 class="font-bold text-gray-800" id="card1-titulo">Tecnologia Avançada</h3>
-                <p class="text-sm text-gray-600" id="card1-texto">Computadores modernos, Internet de alta velocidade.</p>
-            </div>
-            <div class="p-5 rounded-xl border border-white/50 shadow-sm info-card card-glass reveal">
-                <div class="w-12 h-12 bg-cyan-100/80 rounded-xl flex items-center justify-center text-cyan-700 text-xl mb-3"><i class="fa-solid fa-book-open"></i></div>
-                <h3 class="font-bold text-gray-800" id="card2-titulo">Biblioteca Digital</h3>
-                <p class="text-sm text-gray-600" id="card2-texto">Acervo de livros, artigos e materiais online.</p>
-            </div>
-            <div class="p-5 rounded-xl border border-white/50 shadow-sm info-card card-glass reveal">
-                <div class="w-12 h-12 bg-emerald-100/80 rounded-xl flex items-center justify-center text-emerald-700 text-xl mb-3"><i class="fa-solid fa-headset"></i></div>
-                <h3 class="font-bold text-gray-800" id="card3-titulo">Suporte Técnico</h3>
-                <p class="text-sm text-gray-600" id="card3-texto">Assistência e orientação académica presencial.</p>
-            </div>
-        </div>
-
-        <!-- Mapa + horário -->
-        <div class="grid md:grid-cols-2 gap-6 reveal">
-            <div class="bg-gradient-to-r from-blue-700 to-cyan-700 rounded-xl p-6 text-white text-center shadow">
-                <i class="fa-regular fa-heart text-3xl mb-2 opacity-80"></i>
-                <p id="texto-espera" class="text-xl font-bold">Estamos à sua espera!</p>
-                <p class="text-sm text-blue-100" id="texto-visita">Venha conhecer as nossas instalações</p>
-            </div>
-            <a href="https://maps.app.goo.gl/bf3RwMEkd3WMctUN8" target="_blank" 
-               class="flex items-center justify-center gap-2 bg-gray-800/80 backdrop-blur-sm hover:bg-gray-700/90 text-white font-semibold py-4 rounded-xl transition shadow">
-                <i class="fa-solid fa-location-dot"></i> <span id="texto-botao">Ver no Mapa</span> <i class="fa-solid fa-arrow-right text-sm"></i>
-            </a>
-        </div>
-
-        <!-- Horário de funcionamento -->
-        <div class="mt-8 rounded-xl p-5 border border-white/50 shadow-sm reveal card-glass">
-            <h3 class="font-bold text-gray-800 flex items-center gap-2 mb-3"><i class="fa-regular fa-clock text-blue-600"></i> <span id="horario-titulo">Horário de Funcionamento</span></h3>
-            <div class="grid grid-cols-2 gap-2 text-sm">
-                <span class="text-gray-600" id="dia-semana">Segunda a Sexta</span><span class="font-semibold text-gray-800" id="hora-semana">08:00 – 17:00</span>
-                <span class="text-gray-600" id="dia-sabado">Sábado</span><span class="font-semibold text-gray-800" id="hora-sabado">09:00 – 13:00</span>
-                <span class="text-gray-600" id="dia-domingo">Domingo</span><span class="font-semibold text-green-600" id="hora-domingo">Fechado</span>
-            </div>
-        </div>
+        </section>
     </main>
 
     <!-- RODAPÉ CENTRALIZADO -->
-    <footer class="footer-glass py-8 mt-8">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Endereço -->
+    <footer class="footer-glass py-8 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-6 pb-4 border-b border-white/30">
                 <i class="fa-solid fa-location-dot text-blue-600 mr-2"></i>
                 <span class="text-gray-700 text-sm"><strong>Reitoria:</strong> Rua Carlos Pereira, parcela nº 148/07, Estoril Expansão, Beira</span>
             </div>
-            
-            <!-- Tudo centralizado -->
             <div class="text-center">
                 <p class="text-gray-600 text-sm mb-3">2026 © <span class="text-blue-700 font-semibold">Universidade Aberta ISCED</span>. Todos os direitos reservados.</p>
                 <a href="#" id="btn-app-movel" class="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold text-xs px-4 py-2 rounded-full shadow-md transition hover:scale-105 mb-4">
@@ -251,26 +352,21 @@
         </div>
     </footer>
 
-    <!-- BOTÃO VOLTAR AO TOPO -->
+    <!-- BOTÕES FLUTUANTES -->
     <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" id="btn-top" class="fixed bottom-24 right-5 bg-blue-700 text-white p-3 rounded-full shadow-lg hidden hover:scale-105 transition z-40"><i class="fa-solid fa-arrow-up"></i></button>
-    
-    <!-- BOTÃO WHATSAPP FLUTUANTE -->
-    <a href="https://wa.me/258840000000?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20o%20Centro%20de%20Recursos%20de%20Maputo" 
-       target="_blank" 
-       class="whatsapp-btn fixed bottom-5 left-5 bg-green-500 text-white p-4 rounded-full shadow-lg z-50 flex items-center gap-2">
+    <a href="https://wa.me/258840000000?text=Olá!%20Gostaria%20de%20informações%20sobre%20os%20cursos%20da%20UnISCED" target="_blank" class="whatsapp-btn fixed bottom-5 left-5 bg-green-500 text-white p-4 rounded-full shadow-lg z-50 flex items-center gap-2">
         <i class="fa-brands fa-whatsapp text-2xl"></i>
         <span class="hidden md:inline text-sm font-semibold">Fale connosco</span>
     </a>
 
     <script>
-        // ================== MODO DARK SUAVE ==================
+        // ================== MODO DARK ==================
         let dark = false;
         function toggleTheme() {
             dark = !dark;
             const body = document.body;
             const icon = document.getElementById('theme-icon');
             const iconMob = document.getElementById('theme-icon-mobile');
-            
             if (dark) {
                 body.classList.add('dark');
                 if (icon) icon.className = 'fa-solid fa-sun';
@@ -281,31 +377,48 @@
                 if (iconMob) iconMob.className = 'fa-solid fa-moon';
             }
         }
-        
         document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
         document.getElementById('theme-toggle-mobile')?.addEventListener('click', toggleTheme);
 
         // ================== MENU HAMBÚRGUER ==================
         const hamburger = document.getElementById('menu-hamburger');
-        const mobileMenuDiv = document.getElementById('mobile-menu');
-        if (hamburger && mobileMenuDiv) {
-            hamburger.addEventListener('click', (e) => { e.stopPropagation(); mobileMenuDiv.classList.toggle('hidden'); });
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (hamburger && mobileMenu) {
+            hamburger.addEventListener('click', (e) => { e.stopPropagation(); mobileMenu.classList.toggle('hidden'); });
             document.addEventListener('click', (e) => {
-                if (!mobileMenuDiv.contains(e.target) && !hamburger.contains(e.target)) mobileMenuDiv.classList.add('hidden');
+                if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) mobileMenu.classList.add('hidden');
             });
         }
 
         // ================== SCROLL ==================
         let lastScroll = 0;
         window.addEventListener('scroll', () => {
-            const nav = document.getElementById('nav-container');
+            const nav = document.getElementById('navbar');
             const scrollY = window.scrollY;
-            if (scrollY > lastScroll && scrollY > 80) nav.style.transform = 'translateY(-100%)';
-            else nav.style.transform = 'translateY(0)';
+            if (scrollY > lastScroll && scrollY > 100) nav?.classList.add('nav-hidden');
+            else nav?.classList.remove('nav-hidden');
             lastScroll = scrollY;
             const btnTop = document.getElementById('btn-top');
             if (btnTop) btnTop.classList.toggle('hidden', scrollY < 300);
         });
+
+        // ================== SLIDER ==================
+        let slideIndex = 0;
+        const slides = document.getElementsByClassName("slide");
+        const dots = document.querySelectorAll('.slide-dot');
+        
+        function showSlides(n) {
+            for (let i = 0; i < slides.length; i++) slides[i].classList.remove('active');
+            slideIndex = (n + slides.length) % slides.length;
+            slides[slideIndex].classList.add('active');
+            if (dots) dots.forEach((dot, i) => { dot.style.background = i === slideIndex ? 'white' : 'rgba(255,255,255,0.5)'; });
+        }
+        
+        function plusSlides(n) { showSlides(slideIndex + n); }
+        function currentSlide(n) { showSlides(n); }
+        
+        // Auto slide a cada 5 segundos
+        setInterval(() => plusSlides(1), 5000);
 
         // ================== REVEAL ==================
         const reveals = document.querySelectorAll('.reveal');
@@ -317,79 +430,99 @@
         window.addEventListener('load', checkReveal);
         window.addEventListener('scroll', checkReveal);
 
-        // ================== TRADUÇÃO ==================
-        const transl = {
+        // ================== TRADUÇÃO COMPLETA ==================
+        const dict = {
             pt: {
-                inicio: "Início", portal: "Portal do Aluno",
-                titulo: "Centro de Recursos de Maputo", botao: "Ver no Mapa", espera: "Estamos à sua espera!", visita: "Venha conhecer as nossas instalações",
-                card1Tit: "Tecnologia Avançada", card1Texto: "Computadores modernos, Internet de alta velocidade.",
-                card2Tit: "Biblioteca Digital", card2Texto: "Acervo de livros, artigos e materiais online.",
-                card3Tit: "Suporte Técnico", card3Texto: "Assistência e orientação académica presencial.",
-                horarioTit: "Horário de Funcionamento", diaSemana: "Segunda a Sexta", horaSemana: "08:00 – 17:00",
-                diaSabado: "Sábado", horaSabado: "09:00 – 13:00", diaDomingo: "Domingo", horaDomingo: "Fechado",
-                footPriv: "Privacidade", footTermos: "Termos", footSuporte: "Suporte", appMovel: "App móvel",
-                p1: "O Centro de Recursos de Maputo é uma das unidades físicas da Universidade Aberta ISCED (UnISCED) localizada na cidade de Maputo, em Moçambique. Como parte da infra-estrutura da universidade, esse centro tem como objectivo oferecer suporte e acesso aos recursos educacionais necessários para os estudantes matriculados nos cursos online da UnISCED.",
-                p2: "O Centro de Recursos de Maputo é um espaço moderno e equipado com tecnologia avançada, computadores, acesso à Internet de alta velocidade e uma biblioteca física e digital. Essas instalações estão disponíveis para os estudantes realizarem suas actividades académicas, pesquisas, consultas de materiais e interacção com outros estudantes, proporcionando um ambiente de aprendizado inspirador e colaborativo.",
-                p3: "Além disso, o centro oferece suporte técnico e orientação académica aos estudantes, auxiliando-os no uso eficaz dos recursos disponíveis e na resolução de eventuais dificuldades. A equipa do Centro de Recursos de Maputo está prontamente disponível para fornecer assistência técnica, orientação sobre o uso das plataformas online da universidade e apoio na busca de materiais e recursos relevantes para a sua formação."
+                link_inicio: "Início",
+                master_title: "Programas de Mestrado",
+                bach_title: "Programas de Licenciatura",
+                m_gestao_title: "Mestrado em Gestão",
+                m_gestao_desc: "Formação avançada em gestão estratégica, liderança organizacional e inovação.",
+                m_direito_title: "Mestrado em Direito Fiscal",
+                m_direito_desc: "Especialização em direito tributário, aduaneiro e governança fiscal.",
+                m_saude_title: "Mestrado em Saúde Pública",
+                m_saude_desc: "Gestão de sistemas de saúde, epidemiologia e políticas públicas.",
+                bach_saude_title: "Ciências da Saúde",
+                bach_saude_desc: "Nutrição, Psicologia, Enfermagem e áreas afins.",
+                bach_educacao_title: "Ciências da Educação",
+                bach_educacao_desc: "Biologia, Matemática, Pedagogia e Formação de Professores.",
+                bach_direito_title: "Ciências Jurídicas",
+                bach_direito_desc: "Direito, Legislação, Prática Jurídica e Advocacia.",
+                bach_gestao_title: "Gestão e Negócios",
+                bach_gestao_desc: "Contabilidade, Recursos Humanos, Administração e Empreendedorismo.",
+                bach_engenharia_title: "Engenharias",
+                bach_engenharia_desc: "Informática, Agronegócios, Software e Redes.",
+                bach_humanas_title: "Ciências Humanas",
+                bach_humanas_desc: "Jornalismo, Marketing, Comunicação e Relações Públicas.",
+                foot_priv: "Privacidade", foot_termos: "Termos", foot_suporte: "Suporte", app_movel: "App móvel"
             },
             en: {
-                inicio: "Home", portal: "Student Portal",
-                titulo: "Maputo Resource Center", botao: "View on Map", espera: "We are waiting for you!", visita: "Come visit our facilities",
-                card1Tit: "Advanced Technology", card1Texto: "Modern computers, high-speed internet.",
-                card2Tit: "Digital Library", card2Texto: "Collection of books, articles and online materials.",
-                card3Tit: "Technical Support", card3Texto: "On-site assistance and academic guidance.",
-                horarioTit: "Opening Hours", diaSemana: "Monday to Friday", horaSemana: "08:00 – 17:00",
-                diaSabado: "Saturday", horaSabado: "09:00 – 13:00", diaDomingo: "Sunday", horaDomingo: "Closed",
-                footPriv: "Privacy", footTermos: "Terms", footSuporte: "Support", appMovel: "Mobile App",
-                p1: "The Maputo Resource Center is one of the physical units of the Open University ISCED (UnISCED) located in the city of Maputo, Mozambique. As part of the university's infrastructure, this center aims to offer support and access to educational resources for students enrolled in UnISCED online courses.",
-                p2: "The Maputo Resource Center is a modern space equipped with advanced technology, computers, high-speed Internet access, and a physical and digital library. These facilities are available for students to carry out their academic activities, research, consult materials, and interact with other students, providing an inspiring and collaborative learning environment.",
-                p3: "In addition, the center offers technical support and academic guidance to students, assisting them in the effective use of available resources and in resolving any difficulties. The Maputo Resource Center team is readily available to provide technical assistance, guidance on the use of the university's online platforms, and support in finding materials and resources relevant to their education."
+                link_inicio: "Home",
+                master_title: "Master Programs",
+                bach_title: "Bachelor Programs",
+                m_gestao_title: "Master in Management",
+                m_gestao_desc: "Advanced training in strategic management, organizational leadership and innovation.",
+                m_direito_title: "Master in Tax Law",
+                m_direito_desc: "Specialization in tax law, customs and fiscal governance.",
+                m_saude_title: "Master in Public Health",
+                m_saude_desc: "Health systems management, epidemiology and public policies.",
+                bach_saude_title: "Health Sciences",
+                bach_saude_desc: "Nutrition, Psychology, Nursing and related areas.",
+                bach_educacao_title: "Education Sciences",
+                bach_educacao_desc: "Biology, Mathematics, Pedagogy and Teacher Training.",
+                bach_direito_title: "Legal Sciences",
+                bach_direito_desc: "Law, Legislation, Legal Practice and Advocacy.",
+                bach_gestao_title: "Management and Business",
+                bach_gestao_desc: "Accounting, Human Resources, Administration and Entrepreneurship.",
+                bach_engenharia_title: "Engineering",
+                bach_engenharia_desc: "Computer Science, Agribusiness, Software and Networks.",
+                bach_humanas_title: "Human Sciences",
+                bach_humanas_desc: "Journalism, Marketing, Communication and Public Relations.",
+                foot_priv: "Privacy", foot_termos: "Terms", foot_suporte: "Support", app_movel: "Mobile App"
             }
         };
 
-        let lang = "pt";
-        function updateLanguage(langCode) {
-            const t = transl[langCode];
-            document.getElementById('link-inicio').innerText = t.inicio;
-            document.getElementById('mobile-link-inicio').innerText = t.inicio;
-            document.getElementById('mobile-btn-portal').innerText = t.portal;
-            document.getElementById('titulo').innerText = t.titulo;
-            document.getElementById('texto-botao').innerText = t.botao;
-            document.getElementById('texto-espera').innerText = t.espera;
-            document.getElementById('texto-visita').innerText = t.visita;
-            document.getElementById('card1-titulo').innerText = t.card1Tit;
-            document.getElementById('card1-texto').innerText = t.card1Texto;
-            document.getElementById('card2-titulo').innerText = t.card2Tit;
-            document.getElementById('card2-texto').innerText = t.card2Texto;
-            document.getElementById('card3-titulo').innerText = t.card3Tit;
-            document.getElementById('card3-texto').innerText = t.card3Texto;
-            document.getElementById('horario-titulo').innerText = t.horarioTit;
-            document.getElementById('dia-semana').innerText = t.diaSemana;
-            document.getElementById('hora-semana').innerText = t.horaSemana;
-            document.getElementById('dia-sabado').innerText = t.diaSabado;
-            document.getElementById('hora-sabado').innerText = t.horaSabado;
-            document.getElementById('dia-domingo').innerText = t.diaDomingo;
-            document.getElementById('hora-domingo').innerText = t.horaDomingo;
-            document.getElementById('foot-privacidade').innerText = t.footPriv;
-            document.getElementById('foot-termos').innerText = t.footTermos;
-            document.getElementById('foot-suporte').innerText = t.footSuporte;
-            document.getElementById('btn-app-movel').querySelector('span').innerText = t.appMovel;
-            const textDiv = document.getElementById('texto-principal');
-            textDiv.innerHTML = `<p>${t.p1}</p><p>${t.p2}</p><p>${t.p3}</p>`;
-            document.getElementById('btn-idioma').innerText = langCode.toUpperCase();
-            if(document.getElementById('btn-idioma-mobile')) document.getElementById('btn-idioma-mobile').innerText = langCode.toUpperCase();
+        let lang = 'pt';
+        function updateLanguage() {
+            const t = dict[lang];
+            document.getElementById('link-inicio').innerText = t.link_inicio;
+            document.getElementById('mobile-link-inicio').innerText = t.link_inicio;
+            document.getElementById('master_title').innerText = t.master_title;
+            document.getElementById('bach_title').innerText = t.bach_title;
+            document.getElementById('m_gestao_title').innerText = t.m_gestao_title;
+            document.getElementById('m_gestao_desc').innerText = t.m_gestao_desc;
+            document.getElementById('m_direito_title').innerText = t.m_direito_title;
+            document.getElementById('m_direito_desc').innerText = t.m_direito_desc;
+            document.getElementById('m_saude_title').innerText = t.m_saude_title;
+            document.getElementById('m_saude_desc').innerText = t.m_saude_desc;
+            document.getElementById('bach_saude_title').innerText = t.bach_saude_title;
+            document.getElementById('bach_saude_desc').innerText = t.bach_saude_desc;
+            document.getElementById('bach_educacao_title').innerText = t.bach_educacao_title;
+            document.getElementById('bach_educacao_desc').innerText = t.bach_educacao_desc;
+            document.getElementById('bach_direito_title').innerText = t.bach_direito_title;
+            document.getElementById('bach_direito_desc').innerText = t.bach_direito_desc;
+            document.getElementById('bach_gestao_title').innerText = t.bach_gestao_title;
+            document.getElementById('bach_gestao_desc').innerText = t.bach_gestao_desc;
+            document.getElementById('bach_engenharia_title').innerText = t.bach_engenharia_title;
+            document.getElementById('bach_engenharia_desc').innerText = t.bach_engenharia_desc;
+            document.getElementById('bach_humanas_title').innerText = t.bach_humanas_title;
+            document.getElementById('bach_humanas_desc').innerText = t.bach_humanas_desc;
+            document.getElementById('foot-privacidade').innerText = t.foot_priv;
+            document.getElementById('foot-termos').innerText = t.foot_termos;
+            document.getElementById('foot-suporte').innerText = t.foot_suporte;
+            document.getElementById('btn-app-movel').querySelector('span').innerText = t.app_movel;
+            document.getElementById('btn-idioma').innerText = lang.toUpperCase();
+            if(document.getElementById('btn-idioma-mobile')) document.getElementById('btn-idioma-mobile').innerText = lang.toUpperCase();
         }
-
-        function toggleLanguage() {
-            lang = (lang === "pt") ? "en" : "pt";
-            updateLanguage(lang);
+        
+        function toggleLang() {
+            lang = lang === 'pt' ? 'en' : 'pt';
+            updateLanguage();
         }
-
-        const langBtn = document.getElementById('btn-idioma');
-        const langBtnMob = document.getElementById('btn-idioma-mobile');
-        if (langBtn) langBtn.addEventListener('click', toggleLanguage);
-        if (langBtnMob) langBtnMob.addEventListener('click', toggleLanguage);
-        updateLanguage('pt');
+        
+        document.getElementById('btn-idioma')?.addEventListener('click', toggleLang);
+        document.getElementById('btn-idioma-mobile')?.addEventListener('click', toggleLang);
+        updateLanguage();
     </script>
 </body>
 </html>
