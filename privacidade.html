@@ -40,32 +40,42 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 100%);
+            background: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.03) 100%);
             pointer-events: none;
             z-index: 0;
         }
         
+        /* Card mais opaco para melhor legibilidade */
         .glass-card {
-            background: rgba(255, 255, 255, 0.85) !important;
+            background: rgba(255, 255, 255, 0.96) !important;
             backdrop-filter: blur(2px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.8);
             box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.15);
         }
         
         body.dark .glass-card {
-            background: rgba(30, 41, 59, 0.85) !important;
-            border-color: rgba(255, 255, 255, 0.1);
+            background: rgba(30, 41, 59, 0.96) !important;
+            border-color: rgba(255, 255, 255, 0.15);
         }
         
         body.dark .glass-card .text-gray-700,
         body.dark .glass-card .text-gray-600,
         body.dark .glass-card .text-gray-800 {
-            color: #e2e8f0 !important;
+            color: #f1f5f9 !important;
+        }
+        
+        /* Aumentar contraste dos textos no modo claro */
+        .glass-card .text-gray-700 {
+            color: #1e293b !important;
+        }
+        
+        .glass-card .text-gray-600 {
+            color: #334155 !important;
         }
         
         .back-btn {
-            background: rgba(255, 255, 255, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
@@ -74,67 +84,91 @@
             border-radius: 9999px;
             font-size: 14px;
             font-weight: 500;
-            color: #374151;
+            color: #1e293b;
             text-decoration: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
         
         body.dark .back-btn {
-            background: rgba(30, 41, 59, 0.5);
-            border-color: rgba(255, 255, 255, 0.1);
-            color: #cbd5e1;
+            background: rgba(30, 41, 59, 0.9);
+            border-color: rgba(255, 255, 255, 0.15);
+            color: #f1f5f9;
         }
         
         .back-btn:hover {
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 1);
             transform: translateX(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         
         body.dark .back-btn:hover {
-            background: rgba(30, 41, 59, 0.7);
+            background: rgba(30, 41, 59, 1);
         }
         
         .theme-btn {
             cursor: pointer;
             transition: all 0.2s ease;
-            background: rgba(255, 255, 255, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             width: 36px;
             height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
         
         body.dark .theme-btn {
-            background: rgba(30, 41, 59, 0.5);
-            border-color: rgba(255, 255, 255, 0.1);
+            background: rgba(30, 41, 59, 0.9);
+            border-color: rgba(255, 255, 255, 0.15);
         }
         
         .theme-btn:hover {
             transform: scale(1.05) rotate(8deg);
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 1);
+        }
+        
+        body.dark .theme-btn:hover {
+            background: rgba(30, 41, 59, 1);
         }
         
         .lang-btn {
-            background: rgba(255, 255, 255, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             transition: all 0.2s ease;
             padding: 8px 16px;
             border-radius: 9999px;
             font-size: 12px;
             font-weight: 600;
             cursor: pointer;
+            color: #1e293b;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
         
         body.dark .lang-btn {
-            background: rgba(30, 41, 59, 0.5);
-            border-color: rgba(255, 255, 255, 0.1);
-            color: #cbd5e1;
+            background: rgba(30, 41, 59, 0.9);
+            border-color: rgba(255, 255, 255, 0.15);
+            color: #f1f5f9;
         }
         
         .lang-btn:hover {
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 1);
+        }
+        
+        body.dark .lang-btn:hover {
+            background: rgba(30, 41, 59, 1);
+        }
+        
+        /* Melhor contraste nos cards internos */
+        .info-box {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+        
+        body.dark .info-box {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: rgba(255, 255, 255, 0.08);
         }
     </style>
 </head>
@@ -151,7 +185,7 @@
     </div>
 
     <div class="max-w-3xl w-full relative z-10">
-        <!-- Botão Voltar - agora com href para index.html -->
+        <!-- Botão Voltar -->
         <div class="mb-6">
             <a href="index.html" class="back-btn">
                 <i class="fa-solid fa-arrow-left text-xs"></i>
@@ -165,8 +199,8 @@
                 <div class="w-16 h-16 mx-auto bg-gradient-to-br from-blue-500 to-cyan-600 rounded-2xl flex items-center justify-center shadow-lg mb-4">
                     <i class="fa-solid fa-shield-haltered text-2xl text-white"></i>
                 </div>
-                <h1 id="page-title" class="text-3xl md:text-4xl font-black text-gray-800">Declaração de Privacidade</h1>
-                <p id="page-subtitle" class="text-gray-500 dark:text-gray-400 text-sm mt-2">Política de Acesso Aberto e Licenciamento</p>
+                <h1 id="page-title" class="text-3xl md:text-4xl font-black text-gray-800 dark:text-white">Declaração de Privacidade</h1>
+                <p id="page-subtitle" class="text-gray-600 dark:text-gray-400 text-sm mt-2">Política de Acesso Aberto e Licenciamento</p>
             </div>
 
             <div id="content" class="space-y-6 text-gray-700 dark:text-gray-300 leading-relaxed">
@@ -203,28 +237,28 @@
                 page_subtitle: "Política de Acesso Aberto e Licenciamento",
                 content: `
                     <div class="space-y-5">
-                        <div class="bg-blue-50 dark:bg-blue-900/20 p-5 rounded-xl border border-blue-100 dark:border-blue-800">
-                            <h2 class="text-xl font-black text-blue-800 dark:text-blue-300 mb-3">📖 Acesso Aberto</h2>
+                        <div class="info-box p-5 rounded-xl">
+                            <h2 class="text-xl font-black text-blue-700 dark:text-blue-300 mb-3">📖 Acesso Aberto</h2>
                             <p>A revista adopta a política de <strong>acesso aberto</strong>, sendo que todos os artigos publicados estarão disponíveis online, sem nenhum custo para os leitores. Assim, os leitores terão permissão para ler, baixar, copiar, distribuir, imprimir, buscar, ou citar os artigos publicados, sem precisar de permissão prévia tanto do autor como da revista.</p>
                         </div>
                         
-                        <div class="bg-cyan-50 dark:bg-cyan-900/20 p-5 rounded-xl border border-cyan-100 dark:border-cyan-800">
-                            <h2 class="text-xl font-black text-cyan-800 dark:text-cyan-300 mb-3">🌍 Progresso da Sociedade</h2>
+                        <div class="info-box p-5 rounded-xl">
+                            <h2 class="text-xl font-black text-cyan-700 dark:text-cyan-300 mb-3">🌍 Progresso da Sociedade</h2>
                             <p>A política de acesso aberto é baseada na crença de que a livre disponibilidade do conhecimento científico é essencial para o progresso da sociedade.</p>
                         </div>
                         
-                        <div class="bg-emerald-50 dark:bg-emerald-900/20 p-5 rounded-xl border border-emerald-100 dark:border-emerald-800">
-                            <h2 class="text-xl font-black text-emerald-800 dark:text-emerald-300 mb-3">📄 Licenciamento Creative Commons</h2>
+                        <div class="info-box p-5 rounded-xl">
+                            <h2 class="text-xl font-black text-emerald-700 dark:text-emerald-300 mb-3">📄 Licenciamento Creative Commons</h2>
                             <p>A revista segue as normas internacionais de licenciamento <strong>Creative Commons</strong>, permitindo que os autores partilhem os seus artigos em repositórios institucionais ou de acesso aberto, desde que a revista receba o respectivo crédito.</p>
                         </div>
                         
-                        <div class="bg-amber-50 dark:bg-amber-900/20 p-5 rounded-xl border border-amber-100 dark:border-amber-800">
-                            <h2 class="text-xl font-black text-amber-800 dark:text-amber-300 mb-3">💰 Sem Taxas</h2>
+                        <div class="info-box p-5 rounded-xl">
+                            <h2 class="text-xl font-black text-amber-700 dark:text-amber-300 mb-3">💰 Sem Taxas</h2>
                             <p>A revista <strong>não cobra taxas de submissão ou de publicação</strong> aos autores.</p>
                         </div>
                         
-                        <div class="bg-purple-50 dark:bg-purple-900/20 p-5 rounded-xl border border-purple-100 dark:border-purple-800">
-                            <h2 class="text-xl font-black text-purple-800 dark:text-purple-300 mb-3">🔬 Transparência e Gestão de Dados</h2>
+                        <div class="info-box p-5 rounded-xl">
+                            <h2 class="text-xl font-black text-purple-700 dark:text-purple-300 mb-3">🔬 Transparência e Gestão de Dados</h2>
                             <p>A revista também segue as melhores práticas de gestão de dados e de transparência, garantindo que os dados utilizados nos artigos estejam disponíveis para revisão e análise pelos seus revisores.</p>
                         </div>
                     </div>
@@ -236,28 +270,28 @@
                 page_subtitle: "Open Access and Licensing Policy",
                 content: `
                     <div class="space-y-5">
-                        <div class="bg-blue-50 dark:bg-blue-900/20 p-5 rounded-xl border border-blue-100 dark:border-blue-800">
-                            <h2 class="text-xl font-black text-blue-800 dark:text-blue-300 mb-3">📖 Open Access</h2>
+                        <div class="info-box p-5 rounded-xl">
+                            <h2 class="text-xl font-black text-blue-700 dark:text-blue-300 mb-3">📖 Open Access</h2>
                             <p>The journal adopts an <strong>open access</strong> policy, meaning that all published articles will be available online at no cost to readers. Readers are permitted to read, download, copy, distribute, print, search, or cite the published articles without prior permission from either the author or the journal.</p>
                         </div>
                         
-                        <div class="bg-cyan-50 dark:bg-cyan-900/20 p-5 rounded-xl border border-cyan-100 dark:border-cyan-800">
-                            <h2 class="text-xl font-black text-cyan-800 dark:text-cyan-300 mb-3">🌍 Societal Progress</h2>
+                        <div class="info-box p-5 rounded-xl">
+                            <h2 class="text-xl font-black text-cyan-700 dark:text-cyan-300 mb-3">🌍 Societal Progress</h2>
                             <p>The open access policy is based on the belief that the free availability of scientific knowledge is essential for the progress of society.</p>
                         </div>
                         
-                        <div class="bg-emerald-50 dark:bg-emerald-900/20 p-5 rounded-xl border border-emerald-100 dark:border-emerald-800">
-                            <h2 class="text-xl font-black text-emerald-800 dark:text-emerald-300 mb-3">📄 Creative Commons Licensing</h2>
+                        <div class="info-box p-5 rounded-xl">
+                            <h2 class="text-xl font-black text-emerald-700 dark:text-emerald-300 mb-3">📄 Creative Commons Licensing</h2>
                             <p>The journal follows international <strong>Creative Commons</strong> licensing standards, allowing authors to share their articles in institutional or open-access repositories, as long as the journal receives proper credit.</p>
                         </div>
                         
-                        <div class="bg-amber-50 dark:bg-amber-900/20 p-5 rounded-xl border border-amber-100 dark:border-amber-800">
-                            <h2 class="text-xl font-black text-amber-800 dark:text-amber-300 mb-3">💰 No Fees</h2>
+                        <div class="info-box p-5 rounded-xl">
+                            <h2 class="text-xl font-black text-amber-700 dark:text-amber-300 mb-3">💰 No Fees</h2>
                             <p>The journal <strong>does not charge submission or publication fees</strong> to authors.</p>
                         </div>
                         
-                        <div class="bg-purple-50 dark:bg-purple-900/20 p-5 rounded-xl border border-purple-100 dark:border-purple-800">
-                            <h2 class="text-xl font-black text-purple-800 dark:text-purple-300 mb-3">🔬 Transparency and Data Management</h2>
+                        <div class="info-box p-5 rounded-xl">
+                            <h2 class="text-xl font-black text-purple-700 dark:text-purple-300 mb-3">🔬 Transparency and Data Management</h2>
                             <p>The journal also follows best practices in data management and transparency, ensuring that data used in articles is available for review and analysis by its reviewers.</p>
                         </div>
                     </div>
