@@ -3,197 +3,538 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Académico UnISCED - Login</title>
-    <!-- Tailwind CSS via CDN -->
+    <title>Portal do Aluno | UnISCED</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Ícones do Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Animação do Gradiente Líquido Cinza (Suave e Corporativo) */
-        @keyframes liquidGray {
+        * { font-family: 'Inter', system-ui, sans-serif; }
+        
+        /* FUNDO LÍQUIDO SUAVE */
+        body {
+            background: linear-gradient(-45deg, #e0f2fe, #fae8ff, #fef3c7, #d1fae5);
+            background-size: 400% 400%;
+            animation: liquidMove 18s ease infinite;
+        }
+        
+        body.dark {
+            background: linear-gradient(-45deg, #1e293b, #0f172a, #1e1b4b, #0c4a6e);
+            background-size: 400% 400%;
+            animation: liquidMove 18s ease infinite;
+        }
+        
+        @keyframes liquidMove {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-
-        .liquid-gray-bg {
-            /* Transição fluida entre tons neutros premium: grafite, ardósia e um toque sutil de azul-escuro */
-            background: linear-gradient(-45deg, #0f172a, #1e293b, #334155, #1e293b, #0f172a);
-            background-size: 300% 300%;
-            animation: liquidGray 18s ease infinite;
+        
+        /* Camada de vidro sobre o fundo */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 100%);
+            pointer-events: none;
+            z-index: 0;
         }
-
-        /* Suavização global para interações */
-        input, button, a {
-            transition: all 0.25s ease-in-out;
+        
+        /* Glassmorphism premium */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.15);
+        }
+        
+        body.dark .glass-card {
+            background: rgba(30, 41, 59, 0.85) !important;
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-input {
+            background: rgba(255, 255, 255, 0.5) !important;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+        }
+        
+        body.dark .glass-input {
+            background: rgba(30, 41, 59, 0.6) !important;
+            border-color: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+        
+        .glass-input:focus {
+            background: rgba(255, 255, 255, 0.7) !important;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+            outline: none;
+        }
+        
+        body.dark .glass-input:focus {
+            background: rgba(30, 41, 59, 0.8) !important;
+            border-color: #3b82f6;
+        }
+        
+        /* Botão Entrar */
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.3);
+        }
+        
+        /* Botão secundário */
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+        }
+        
+        body.dark .btn-secondary {
+            background: rgba(30, 41, 59, 0.6);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.7);
+            transform: translateY(-2px);
+        }
+        
+        body.dark .btn-secondary:hover {
+            background: rgba(30, 41, 59, 0.8);
+        }
+        
+        /* Botões de contacto */
+        .contact-btn {
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            transition: all 0.3s ease;
+        }
+        
+        body.dark .contact-btn {
+            background: rgba(30, 41, 59, 0.5);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .contact-btn:hover {
+            background: rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+        }
+        
+        body.dark .contact-btn:hover {
+            background: rgba(30, 41, 59, 0.7);
+        }
+        
+        /* Botão voltar */
+        .back-btn {
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            transition: all 0.3s ease;
+        }
+        
+        body.dark .back-btn {
+            background: rgba(30, 41, 59, 0.5);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.6);
+            transform: translateX(-3px);
+        }
+        
+        body.dark .back-btn:hover {
+            background: rgba(30, 41, 59, 0.7);
+        }
+        
+        /* Checkbox personalizado */
+        .custom-checkbox {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        body.dark .custom-checkbox {
+            background: rgba(30, 41, 59, 0.6);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .custom-checkbox:checked {
+            background: #3b82f6;
+            border-color: #3b82f6;
+            position: relative;
+        }
+        
+        .custom-checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 12px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .custom-checkbox:hover {
+            border-color: #3b82f6;
+        }
+        
+        /* Toast notification */
+        .toast-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border-radius: 1rem;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            z-index: 1000;
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 380px;
+        }
+        
+        body.dark .toast-notification {
+            background: rgba(30, 41, 59, 0.9);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .toast-notification.show { transform: translateX(0); }
+        
+        /* Bolhas decorativas */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(59,130,246,0.12), rgba(59,130,246,0.02));
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
         }
     </style>
 </head>
-<body class="liquid-gray-bg h-screen w-screen flex items-center justify-center font-sans antialiased selection:bg-blue-500 selection:text-white p-4 sm:p-6 relative overflow-hidden">
+<body>
 
-    <!-- Malha digital subtil para textura de fundo -->
-    <div class="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none"></div>
+    <!-- Bolhas decorativas -->
+    <div class="bubble w-64 h-64 top-20 -left-20 float-animation"></div>
+    <div class="bubble w-96 h-96 bottom-20 -right-32 float-animation" style="animation-delay: 2s;"></div>
+    <div class="bubble w-48 h-48 top-1/3 right-20 float-animation" style="animation-delay: 4s;"></div>
+    <div class="bubble w-32 h-32 bottom-1/4 left-1/4 float-animation" style="animation-delay: 1s;"></div>
 
-    <!-- SELETOR DE IDIOMA E VOLTAR (Flutuantes no topo) -->
-    <div class="absolute top-6 left-6 right-6 flex justify-between items-center z-50">
-        <a href="index.html" id="btn-voltar" class="text-sm font-medium text-gray-300 hover:text-white flex items-center gap-2 bg-white/[0.03] hover:bg-white/[0.08] px-4 py-2 rounded-full backdrop-blur-md border border-white/5">
-            <i class="fa-solid fa-arrow-left text-xs"></i> Voltar ao início
+    <!-- Botão Voltar ao Início (canto superior esquerdo) -->
+    <div class="fixed top-6 left-6 z-50">
+        <a href="index.html" class="back-btn flex items-center gap-2 text-gray-700 dark:text-gray-300 font-medium px-4 py-2 rounded-full text-sm transition">
+            <i class="fa-solid fa-arrow-left text-xs"></i>
+            <span>Voltar ao Início</span>
         </a>
+    </div>
 
-        <div class="relative inline-block text-left">
-            <button id="btn-idioma" class="flex items-center gap-2 text-gray-300 hover:text-white font-semibold text-sm focus:outline-none bg-white/[0.03] hover:bg-white/[0.08] px-4 py-2 rounded-full backdrop-blur-md border border-white/5">
+    <!-- Botão de Tema e Idioma (canto superior direito) -->
+    <div class="fixed top-6 right-6 z-50 flex items-center gap-3">
+        <button id="theme-toggle" class="p-2 bg-white/40 dark:bg-slate-800/50 rounded-full text-gray-700 dark:text-gray-300 w-9 h-9 flex items-center justify-center transition hover:scale-105 backdrop-blur-sm">
+            <i id="theme-icon" class="fa-solid fa-moon text-sm"></i>
+        </button>
+        <div class="relative">
+            <button id="btn-idioma" class="flex items-center gap-2 text-gray-700 dark:text-gray-300 font-semibold text-sm bg-white/40 dark:bg-slate-800/50 hover:bg-white/60 dark:hover:bg-slate-700/70 px-4 py-2 rounded-full transition backdrop-blur-sm">
                 <span id="idioma-atual">PT</span>
                 <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200" id="seta-idioma"></i>
             </button>
-
-            <div id="menu-idioma" class="hidden absolute right-0 mt-2 w-32 bg-slate-900/95 border border-white/10 rounded-xl shadow-2xl py-1 z-50 backdrop-blur-xl">
-                <button onclick="mudarIdioma('pt')" class="w-full text-left px-4 py-2.5 text-sm text-gray-200 hover:bg-white/10 flex items-center gap-2 font-medium">
-                    <span>🇲🇿</span> Português
-                </button>
-                <button onclick="mudarIdioma('en')" class="w-full text-left px-4 py-2.5 text-sm text-gray-200 hover:bg-white/10 flex items-center gap-2 font-medium">
-                    <span>🇬🇧</span> English
-                </button>
+            <div id="menu-idioma" class="hidden absolute right-0 mt-2 w-32 bg-white/90 dark:bg-slate-800/95 border border-white/40 dark:border-slate-700/50 rounded-xl shadow-2xl py-1 z-50 backdrop-blur-xl">
+                <button onclick="mudarIdioma('pt')" class="w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-slate-700 flex items-center gap-2 font-medium">🇲🇿 Português</button>
+                <button onclick="mudarIdioma('en')" class="w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-slate-700 flex items-center gap-2 font-medium">🇬🇧 English</button>
             </div>
         </div>
     </div>
 
-    <!-- CARD DE LOGIN LARGADO (Glassmorphism Executivo) -->
-    <div class="max-w-2xl w-full bg-white/[0.04] backdrop-blur-2xl rounded-3xl p-8 sm:p-12 border border-white/10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)] z-10">
-        
-        <!-- Logotipo UnISCED e Boas-vindas -->
-        <div class="mb-10 text-center">
-            <span class="text-4xl font-black text-white tracking-tight block mb-2">Un<span class="text-blue-400">ISCED</span></span>
-            <h2 id="login-boasvindas" class="text-2xl font-bold text-white tracking-tight">Bem-vindo de volta!</h2>
-            <p id="login-subtexto" class="text-gray-400 text-sm mt-1">Insira os seus dados para aceder à sala virtual.</p>
-        </div>
+    <!-- CARD PRINCIPAL -->
+    <div class="min-h-screen flex items-center justify-center p-4 sm:p-6 relative z-10">
+        <div class="max-w-md w-full glass-card rounded-3xl p-8">
+            
+            <!-- Logo e saudação -->
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 mx-auto bg-gradient-to-br from-blue-500 to-cyan-600 rounded-2xl flex items-center justify-center shadow-lg mb-4">
+                    <i class="fa-solid fa-graduation-cap text-3xl text-white"></i>
+                </div>
+                <h2 id="login-boasvindas" class="text-2xl font-black text-gray-800 dark:text-white">Bem-vindo de volta!</h2>
+                <p id="login-subtexto" class="text-gray-500 dark:text-gray-400 text-sm mt-1">Aceda à sua sala virtual</p>
+            </div>
 
-        <form action="#" class="space-y-6">
-            <!-- Grid de Inputs para aproveitar o espaço largo se necessário (mantido em coluna para leitura limpa) -->
-            <div class="space-y-5">
-                <!-- Input Utilizador -->
+            <!-- Formulário de Login -->
+            <form action="#" class="space-y-5" id="login-form">
+                <!-- Campo Estudante -->
                 <div>
-                    <label id="label-estudante" class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Código de Estudante ou Email</label>
-                    <div class="relative group">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-500 group-focus-within:text-blue-400">
+                    <label id="label-estudante" class="block text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">Código de Estudante</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 dark:text-gray-500">
                             <i class="fa-solid fa-user text-sm"></i>
                         </span>
-                        <input type="text" placeholder="Ex: siquisseRodrigues@unisced.estudantes" 
-                            class="w-full pl-12 pr-4 py-3.5 bg-white/[0.03] border border-white/10 rounded-xl focus:bg-white/[0.07] focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 outline-none text-white text-sm placeholder:text-white/20 font-medium tracking-wide" required>
+                        <input type="email" id="student-code" placeholder="siquisse@estudantes.unisced.edu.mz" 
+                            class="w-full pl-11 pr-4 py-3.5 glass-input rounded-xl outline-none text-gray-800 dark:text-white text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 font-medium">
                     </div>
                 </div>
 
-                <!-- Input Senha -->
+                <!-- Campo Senha -->
                 <div>
                     <div class="flex justify-between items-center mb-2">
-                        <label id="label-senha" class="text-xs font-bold uppercase tracking-wider text-gray-400">Palavra-passe</label>
-                        <a href="#" id="link-esqueceu" class="text-xs font-semibold text-blue-400 hover:text-blue-300 hover:underline">Esqueceu a senha?</a>
+                        <label id="label-senha" class="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Palavra-passe</label>
+                        <a href="#" id="link-esqueceu" class="text-xs font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition">Esqueceu?</a>
                     </div>
-                    <div class="relative group">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-500 group-focus-within:text-blue-400">
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 dark:text-gray-500">
                             <i class="fa-solid fa-lock text-sm"></i>
                         </span>
-                        <input type="password" placeholder="••••••••" 
-                            class="w-full pl-12 pr-4 py-3.5 bg-white/[0.03] border border-white/10 rounded-xl focus:bg-white/[0.07] focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 outline-none text-white text-sm placeholder:text-white/20" required>
+                        <input type="password" id="student-password" placeholder="••••••••" 
+                            class="w-full pl-11 pr-12 py-3.5 glass-input rounded-xl outline-none text-gray-800 dark:text-white text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500">
+                        <button type="button" id="toggle-password" class="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300">
+                            <i class="fa-regular fa-eye text-sm"></i>
+                        </button>
                     </div>
+                </div>
+
+                <!-- Checkbox Lembrar + mensagem erro -->
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="lembrar" class="custom-checkbox">
+                        <label for="lembrar" id="label-lembrar" class="text-sm text-gray-600 dark:text-gray-400 cursor-pointer select-none">Manter sessão</label>
+                    </div>
+                    <div id="error-message" class="text-xs text-red-500 dark:text-red-400 hidden"></div>
+                </div>
+
+                <!-- Botão Entrar -->
+                <button type="submit" id="btn-entrar" class="btn-primary w-full text-white font-bold py-3.5 rounded-xl text-sm tracking-wide shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 group">
+                    <span>Entrar no Portal</span>
+                    <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition"></i>
+                </button>
+
+                <!-- Botão Vídeo Guia -->
+                <a href="https://www.youtube.com/watch?v=2rpV-YhYkFc" target="_blank" id="btn-ajuda-video" class="btn-secondary w-full flex items-center justify-center gap-2 text-gray-700 dark:text-gray-300 font-medium py-3.5 rounded-xl text-sm transition">
+                    <i class="fa-solid fa-circle-play text-red-500 text-sm"></i>
+                    <span id="txt-ajuda-video">Primeira vez? Assista ao guia</span>
+                </a>
+            </form>
+
+            <!-- Help Desk -->
+            <div class="mt-8 pt-6 border-t border-gray-200 dark:border-white/10">
+                <p id="txt-problemas" class="text-center text-[11px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-4">Precisa de ajuda?</p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <a href="tel:+258840943449" class="contact-btn text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-xl text-xs font-medium flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-phone text-blue-500 dark:text-blue-400 text-[11px]"></i> 84 094 3449
+                    </a>
+                    <a href="tel:+258847322199" class="contact-btn text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-xl text-xs font-medium flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-phone text-blue-500 dark:text-blue-400 text-[11px]"></i> 84 732 2199
+                    </a>
+                    <a href="mailto:suporte@unisced.edu.mz" target="_blank" class="contact-btn text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 px-3 py-2 rounded-xl text-xs font-medium flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-envelope"></i> suporte
+                    </a>
                 </div>
             </div>
 
-            <!-- Checkbox Lembrar -->
-            <div class="flex items-center">
-                <input id="lembrar" type="checkbox" class="h-4 w-4 rounded border-white/10 bg-white/5 text-blue-500 focus:ring-blue-500/20 cursor-pointer accent-blue-500">
-                <label for="lembrar" id="label-lembrar" class="ml-2.5 block text-sm text-gray-400 hover:text-gray-200 cursor-pointer select-none font-medium">Manter a sessão iniciada</label>
-            </div>
-
-            <!-- Botões de Ação Dinâmicos -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                <button type="submit" id="btn-entrar" 
-                    class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold p-3.5 rounded-xl shadow-lg shadow-blue-950/50 active:scale-[0.98] text-sm tracking-wide border border-blue-500/30">
-                    Entrar no Portal
-                </button>
-                
-                <!-- Botão Guia em Vídeo Lado a Lado -->
-                <a href="https://www.youtube.com/watch?v=2rpV-YhYkFc" target="_blank" id="btn-ajuda-video"
-                    class="w-full flex items-center justify-center gap-2 border border-dashed border-white/10 hover:border-red-500/30 bg-white/[0.02] hover:bg-red-500/5 text-gray-300 hover:text-white font-medium p-3.5 rounded-xl text-xs active:scale-[0.99]">
-                    <i class="fa-solid fa-circle-play text-red-500 text-sm animate-pulse"></i>
-                    <span id="txt-ajuda-video" class="text-center">Primeira vez? Assista ao guia</span>
-                </a>
-            </div>
-        </form>
-
-        <!-- Secção Help Desk Organizada em Grid Largo -->
-        <div class="mt-10 pt-8 border-t border-white/5 text-center">
-            <p id="txt-problemas" class="text-xs font-bold uppercase tracking-wider text-gray-500 mb-4">Problemas com o acesso? Contacte o Help Desk</p>
-            
-            <div class="flex flex-col sm:flex-row gap-3 justify-center items-center">
-                <a href="tel:+258840943449" class="w-full sm:w-auto text-gray-300 hover:text-white bg-white/[0.02] hover:bg-white/[0.06] px-5 py-2.5 rounded-xl border border-white/5 flex items-center justify-center gap-2 text-xs font-medium">
-                    <i class="fa-solid fa-phone text-blue-400 text-[11px]"></i> +258 84 094 3449
-                </a>
-                <a href="tel:+258847322199" class="w-full sm:w-auto text-gray-300 hover:text-white bg-white/[0.02] hover:bg-white/[0.06] px-5 py-2.5 rounded-xl border border-white/5 flex items-center justify-center gap-2 text-xs font-medium">
-                    <i class="fa-solid fa-phone text-blue-400 text-[11px]"></i> +258 84 732 2199
-                </a>
-                <a href="mailto:suporte@unisced.edu.mz?subject=Suporte%20Acesso%20Sala%20Virtual" target="_blank" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 text-blue-400 hover:text-blue-300 text-xs bg-blue-500/10 hover:bg-blue-500/20 px-5 py-2.5 rounded-xl border border-blue-500/20 font-semibold">
-                    <i class="fa-solid fa-envelope text-blue-400"></i> suporte@unisced.edu.mz
-                </a>
-            </div>
+            <!-- Rodapé do card -->
+            <p class="text-center text-[10px] text-gray-400 dark:text-gray-500 mt-6">
+                <i class="fa-regular fa-shield-alt mr-1"></i> Ambiente seguro · SSL ativo
+            </p>
         </div>
     </div>
 
-    <!-- LOGICA JAVASCRIPT PARA TRADUÇÃO -->
+    <!-- Toast de erro/sucesso elegante -->
+    <div id="toast" class="toast-notification">
+        <i id="toast-icon" class="fa-solid fa-circle-exclamation text-red-500"></i>
+        <span id="toast-message" class="text-gray-800 dark:text-gray-200 text-sm">Erro ao entrar</span>
+    </div>
+
     <script>
+        // ================== TOAST ==================
+        let toastTimeout;
+        function showToast(message, isError = true) {
+            const toast = document.getElementById('toast');
+            const toastIcon = document.getElementById('toast-icon');
+            const toastMessage = document.getElementById('toast-message');
+            
+            toastMessage.textContent = message;
+            if (isError) {
+                toastIcon.className = 'fa-solid fa-circle-exclamation text-red-500';
+            } else {
+                toastIcon.className = 'fa-solid fa-circle-check text-green-500';
+            }
+            
+            toast.classList.add('show');
+            if (toastTimeout) clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // ================== MODO DARK ==================
+        let dark = false;
+        function toggleTheme() {
+            dark = !dark;
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            if (dark) {
+                body.classList.add('dark');
+                if (icon) icon.className = 'fa-solid fa-sun';
+            } else {
+                body.classList.remove('dark');
+                if (icon) icon.className = 'fa-solid fa-moon';
+            }
+        }
+        document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
+
+        // ================== MOSTRAR/ESCONDER SENHA ==================
+        const togglePassword = document.getElementById('toggle-password');
+        const passwordInput = document.getElementById('student-password');
+        
+        if (togglePassword && passwordInput) {
+            togglePassword.addEventListener('click', () => {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                togglePassword.querySelector('i').classList.toggle('fa-eye');
+                togglePassword.querySelector('i').classList.toggle('fa-eye-slash');
+            });
+        }
+
+        // ================== LOGIN SIMULADO (REDIRECIONA PARA LINK OFICIAL) ==================
+        const loginForm = document.getElementById('login-form');
+        const studentCodeInput = document.getElementById('student-code');
+        const errorMessageDiv = document.getElementById('error-message');
+        
+        loginForm?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = studentCodeInput.value.trim();
+            const password = passwordInput.value.trim();
+            
+            if (!email || !password) {
+                errorMessageDiv.textContent = 'Preencha todos os campos';
+                errorMessageDiv.classList.remove('hidden');
+                showToast('Preencha o seu email e palavra-passe', true);
+                setTimeout(() => errorMessageDiv.classList.add('hidden'), 3000);
+                return;
+            }
+            
+            if (!email.includes('@') || !email.includes('.') || email.length < 10) {
+                errorMessageDiv.textContent = 'Email inválido';
+                errorMessageDiv.classList.remove('hidden');
+                showToast('Insira um email válido (ex: nome@estudantes.unisced.edu.mz)', true);
+                setTimeout(() => errorMessageDiv.classList.add('hidden'), 3000);
+                return;
+            }
+            
+            // Validação básica de senha (mínimo 4 caracteres)
+            if (password.length < 4) {
+                errorMessageDiv.textContent = 'Senha inválida';
+                errorMessageDiv.classList.remove('hidden');
+                showToast('A palavra-passe deve ter pelo menos 4 caracteres', true);
+                setTimeout(() => errorMessageDiv.classList.add('hidden'), 3000);
+                return;
+            }
+            
+            showToast('A autenticar...', false);
+            
+            // Redireciona para o link oficial da sala virtual após 1 segundo
+            setTimeout(() => {
+                window.location.href = 'https://salavirtual.unisced.edu.mz/login/index.php';
+            }, 1000);
+        });
+
+        // ================== MENU IDIOMA ==================
         const btnIdioma = document.getElementById('btn-idioma');
         const menuIdioma = document.getElementById('menu-idioma');
         const setaIdioma = document.getElementById('seta-idioma');
 
-        btnIdioma.addEventListener('click', (e) => {
-            e.stopPropagation();
-            menuIdioma.classList.toggle('hidden');
-            setaIdioma.classList.toggle('rotate-180');
-        });
+        if (btnIdioma) {
+            btnIdioma.addEventListener('click', (e) => {
+                e.stopPropagation();
+                menuIdioma.classList.toggle('hidden');
+                setaIdioma.classList.toggle('rotate-180');
+            });
+            
+            window.addEventListener('click', () => {
+                menuIdioma.classList.add('hidden');
+                setaIdioma.classList.remove('rotate-180');
+            });
+        }
 
-        window.addEventListener('click', () => {
-            menuIdioma.classList.add('hidden');
-            setaIdioma.classList.remove('rotate-180');
-        });
-
+        // ================== TRADUÇÕES ==================
         const traducoes = {
             pt: {
-                voltar: "Voltar ao início",
                 boasvindas: "Bem-vindo de volta!",
-                subtexto: "Insira os seus dados para aceder à sala virtual.",
-                estudante: "Código de Estudante ou Email",
+                subtexto: "Aceda à sua sala virtual",
+                estudante: "Código de Estudante",
                 senha: "Palavra-passe",
-                esqueceu: "Esqueceu a senha?",
-                lembrar: "Manter a sessão iniciada",
+                esqueceu: "Esqueceu?",
+                lembrar: "Manter sessão",
                 entrar: "Entrar no Portal",
                 ajudaVideo: "Primeira vez? Assista ao guia",
-                problemas: "Problemas com o acesso? Contacte o Help Desk"
+                problemas: "Precisa de ajuda?"
             },
             en: {
-                voltar: "Back to home",
                 boasvindas: "Welcome back!",
-                subtexto: "Enter your details to access the virtual classroom.",
-                estudante: "Student ID or Email",
+                subtexto: "Access your virtual classroom",
+                estudante: "Student Email",
                 senha: "Password",
-                esqueceu: "Forgot password?",
+                esqueceu: "Forgot?",
                 lembrar: "Keep me logged in",
                 entrar: "Sign In",
                 ajudaVideo: "First time? Watch the guide",
-                problemas: "Having trouble logging in? Contact Help Desk"
+                problemas: "Need help?"
             }
         };
 
         function mudarIdioma(lang) {
             document.getElementById('idioma-atual').innerText = lang.toUpperCase();
-            document.getElementById('btn-voltar').innerHTML = `<i class="fa-solid fa-arrow-left text-xs"></i> ${traducoes[lang].voltar}`;
             document.getElementById('login-boasvindas').innerText = traducoes[lang].boasvindas;
             document.getElementById('login-subtexto').innerText = traducoes[lang].subtexto;
             document.getElementById('label-estudante').innerText = traducoes[lang].estudante;
             document.getElementById('label-senha').innerText = traducoes[lang].senha;
             document.getElementById('link-esqueceu').innerText = traducoes[lang].esqueceu;
             document.getElementById('label-lembrar').innerText = traducoes[lang].lembrar;
-            document.getElementById('btn-entrar').innerText = traducoes[lang].entrar;
+            document.getElementById('btn-entrar').innerHTML = `<span>${traducoes[lang].entrar}</span> <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition"></i>`;
             document.getElementById('txt-ajuda-video').innerText = traducoes[lang].ajudaVideo;
             document.getElementById('txt-problemas').innerText = traducoes[lang].problemas;
+            
+            // Atualiza o placeholder do email
+            const emailInput = document.getElementById('student-code');
+            if (emailInput) {
+                emailInput.placeholder = lang === 'pt' ? 'siquisse@estudantes.unisced.edu.mz' : 'yourname@students.unisced.edu.mz';
+            }
+        }
+
+        document.addEventListener('click', function(event) {
+            if (!btnIdioma?.contains(event.target) && !menuIdioma?.contains(event.target)) {
+                menuIdioma?.classList.add('hidden');
+                setaIdioma?.classList.remove('rotate-180');
+            }
+        });
+        
+        // Define placeholder inicial
+        const emailInput = document.getElementById('student-code');
+        if (emailInput) {
+            emailInput.placeholder = 'siquisse@estudantes.unisced.edu.mz';
         }
     </script>
 </body>

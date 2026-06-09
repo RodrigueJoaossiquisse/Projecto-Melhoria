@@ -160,7 +160,6 @@
         .zoom-img { transition: transform 0.5s ease; }
         .zoom-img:hover { transform: scale(1.03); }
         
-        /* Modal para detalhes da notícia */
         .modal {
             display: none;
             position: fixed;
@@ -219,7 +218,7 @@
         <div class="toast-close" onclick="hideToast()"><i class="fa-solid fa-xmark"></i></div>
     </div>
 
-    <!-- MODAL PARA DETALHES DA NOTÍCIA -->
+    <!-- MODAL -->
     <div id="modal" class="modal">
         <div class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark text-xl"></i></div>
         <div class="modal-content">
@@ -278,7 +277,7 @@
         
         <!-- CABEÇALHO -->
         <div class="text-center mb-12 reveal">
-            <span class="inline-block bg-blue-100 text-blue-700 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3"><i class="fa-brands fa-facebook mr-1"></i> Destaques</span>
+            <span id="badge-destaques" class="inline-block bg-blue-100 text-blue-700 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3"><i class="fa-brands fa-facebook mr-1"></i> Destaques</span>
             <h1 id="page-title" class="text-4xl md:text-5xl font-black text-gray-800">Notícias da UnISCED</h1>
             <p id="page-subtitle" class="text-gray-500 mt-2 max-w-2xl mx-auto">Acompanhe as últimas novidades da Universidade Aberta ISCED</p>
         </div>
@@ -287,11 +286,11 @@
         <div class="mb-12 reveal">
             <div class="flex items-center gap-3 mb-6">
                 <div class="w-1 h-8 bg-red-600 rounded-full"></div>
-                <h2 class="text-2xl font-black text-gray-800"><i class="fa-regular fa-star text-red-600 mr-2"></i> Notícias em Destaque</h2>
+                <h2 id="featured-title" class="text-2xl font-black text-gray-800"><i class="fa-regular fa-star text-red-600 mr-2"></i> Notícias em Destaque</h2>
             </div>
             <div class="grid md:grid-cols-2 gap-6">
                 
-                <!-- CARD 1 - PARCERIA UnISCED + UMUM (COM TEXTO COMPLETO) -->
+                <!-- CARD 1 - PARCERIA -->
                 <div class="card-glass rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col h-full">
                     <div class="relative h-56 overflow-hidden">
                         <img src="https://raw.githubusercontent.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/main/IMG_9488-Enhanced-NR.jpg" 
@@ -300,24 +299,24 @@
                              onerror="this.src='https://placehold.co/800x500/1e3a8a/white?text=UnISCED'">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                         <div class="absolute bottom-3 left-3">
-                            <span class="bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md"><i class="fa-regular fa-star mr-1"></i> Em Destaque</span>
+                            <span id="badge-destaque-card1" class="bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md"><i class="fa-regular fa-star mr-1"></i> Em Destaque</span>
                         </div>
                     </div>
                     <div class="p-5 flex flex-col flex-grow">
                         <div class="flex items-center gap-2 text-xs text-gray-500 mb-2">
-                            <span><i class="fa-regular fa-calendar mr-1"></i> 29 de Janeiro de 2025</span>
-                            <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-[10px]"><i class="fa-regular fa-handshake mr-1"></i> Parceria</span>
+                            <span><i class="fa-regular fa-calendar mr-1"></i> <span id="card1-data">29 de Janeiro de 2025</span></span>
+                            <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-[10px]"><i class="fa-regular fa-handshake mr-1"></i> <span id="card1-tag">Parceria</span></span>
                         </div>
-                        <h3 class="font-black text-gray-800 group-hover:text-blue-600 transition text-xl">UnISCED e UMUM discutem parceria para desenvolvimento do ensino</h3>
-                        <p class="text-sm text-gray-600 mt-2 flex-grow">A Universidade Aberta ISCED recebeu comitiva da Universidade Metodista Unida de Moçambique para discutir cooperação académica.</p>
+                        <h3 id="card1-title" class="font-black text-gray-800 group-hover:text-blue-600 transition text-xl">UnISCED e UMUM discutem parceria para desenvolvimento do ensino</h3>
+                        <p id="card1-desc" class="text-sm text-gray-600 mt-2 flex-grow">A Universidade Aberta ISCED recebeu comitiva da Universidade Metodista Unida de Moçambique para discutir cooperação académica.</p>
                         <div class="mt-4 flex flex-wrap gap-2">
-                            <button onclick="openModal('parceria')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm font-semibold transition flex items-center gap-2">Ver detalhes <i class="fa-solid fa-arrow-right"></i></button>
-                            <a href="https://web.facebook.com/UnISCEDmz" target="_blank" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-sm font-semibold transition flex items-center gap-2"><i class="fa-brands fa-facebook"></i> Ver no Facebook</a>
+                            <button id="card1-btn-detalhes" onclick='openModal("parceria")' class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm font-semibold transition flex items-center gap-2">Ver detalhes <i class="fa-solid fa-arrow-right"></i></button>
+                            <a href="https://web.facebook.com/UnISCEDmz" target="_blank" id="card1-btn-facebook" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-sm font-semibold transition flex items-center gap-2"><i class="fa-brands fa-facebook"></i> Ver no Facebook</a>
                         </div>
                     </div>
                 </div>
                 
-                <!-- CARD 2 - UnISCED fortalece relações institucionais -->
+                <!-- CARD 2 - RELAÇÕES INSTITUCIONAIS -->
                 <div class="card-glass rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col h-full">
                     <div class="relative h-56 overflow-hidden">
                         <img src="https://raw.githubusercontent.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/main/IMG_9424-1024x682.jpg" 
@@ -326,67 +325,67 @@
                              onerror="this.src='https://placehold.co/800x500/0f172a/white?text=UnISCED'">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                         <div class="absolute bottom-3 left-3">
-                            <span class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md"><i class="fa-regular fa-building mr-1"></i> Institucional</span>
+                            <span id="badge-destaque-card2" class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md"><i class="fa-regular fa-building mr-1"></i> Institucional</span>
                         </div>
                     </div>
                     <div class="p-5 flex flex-col flex-grow">
                         <div class="flex items-center gap-2 text-xs text-gray-500 mb-2">
-                            <span><i class="fa-regular fa-calendar mr-1"></i> Janeiro 2025</span>
-                            <span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full text-[10px]"><i class="fa-regular fa-handshake mr-1"></i> Cooperação</span>
+                            <span><i class="fa-regular fa-calendar mr-1"></i> <span id="card2-data">Janeiro 2025</span></span>
+                            <span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full text-[10px]"><i class="fa-regular fa-handshake mr-1"></i> <span id="card2-tag">Cooperação</span></span>
                         </div>
-                        <h3 class="font-black text-gray-800 group-hover:text-blue-600 transition text-xl">UnISCED fortalece relações institucionais</h3>
-                        <p class="text-sm text-gray-600 mt-2 flex-grow">Encontro marcou um passo importante para o desenvolvimento do ensino superior em Moçambique.</p>
+                        <h3 id="card2-title" class="font-black text-gray-800 group-hover:text-blue-600 transition text-xl">UnISCED fortalece relações institucionais</h3>
+                        <p id="card2-desc" class="text-sm text-gray-600 mt-2 flex-grow">Encontro marcou um passo importante para o desenvolvimento do ensino superior em Moçambique.</p>
                         <div class="mt-4 flex flex-wrap gap-2">
-                            <button onclick="openModal('relacoes')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm font-semibold transition flex items-center gap-2">Ver detalhes <i class="fa-solid fa-arrow-right"></i></button>
-                            <a href="https://web.facebook.com/UnISCEDmz" target="_blank" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-sm font-semibold transition flex items-center gap-2"><i class="fa-brands fa-facebook"></i> Ver no Facebook</a>
+                            <button id="card2-btn-detalhes" onclick='openModal("relacoes")' class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm font-semibold transition flex items-center gap-2">Ver detalhes <i class="fa-solid fa-arrow-right"></i></button>
+                            <a href="https://web.facebook.com/UnISCEDmz" target="_blank" id="card2-btn-facebook" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-sm font-semibold transition flex items-center gap-2"><i class="fa-brands fa-facebook"></i> Ver no Facebook</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- OUTRAS NOTÍCIAS -->
+        <!-- ÚLTIMAS NOTÍCIAS -->
         <div class="reveal">
             <div class="flex items-center gap-3 mb-6">
                 <div class="w-1 h-8 bg-blue-600 rounded-full"></div>
-                <h2 class="text-2xl font-black text-gray-800"><i class="fa-regular fa-clock text-blue-600 mr-2"></i> Últimas Notícias</h2>
+                <h2 id="ultimas-title" class="text-2xl font-black text-gray-800"><i class="fa-regular fa-clock text-blue-600 mr-2"></i> Últimas Notícias</h2>
             </div>
             
             <div class="space-y-4" id="noticias-container">
                 <!-- Notícia 1 -->
                 <div class="card-glass rounded-xl p-4 hover:shadow-md transition flex flex-col md:flex-row gap-4 items-start group">
                     <div class="w-full md:w-20 h-20 bg-amber-100 rounded-xl flex items-center justify-center text-amber-700 text-2xl shadow-sm flex-shrink-0"><i class="fa-solid fa-bullhorn"></i></div>
-                    <div class="flex-1"><div class="flex items-center gap-2 text-xs text-gray-500 mb-1"><span class="bg-gray-100 px-2 py-0.5 rounded-full">Comunicado</span><span><i class="fa-regular fa-calendar mr-1"></i> 08/06/2026</span></div>
-                    <h4 class="font-black text-gray-800 group-hover:text-blue-600 transition">Comunicado Oficial UnISCED</h4>
-                    <p class="text-sm text-gray-600">Informações importantes sobre o calendário académico 2026.</p></div>
-                    <a href="https://web.facebook.com/UnISCEDmz" target="_blank" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-semibold hover:bg-blue-600 hover:text-white transition flex-shrink-0">Ver <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                    <div class="flex-1"><div class="flex items-center gap-2 text-xs text-gray-500 mb-1"><span id="news1-tag" class="bg-gray-100 px-2 py-0.5 rounded-full">Comunicado</span><span><i class="fa-regular fa-calendar mr-1"></i> <span id="news1-data">08/06/2026</span></span></div>
+                    <h4 id="news1-title" class="font-black text-gray-800 group-hover:text-blue-600 transition">Comunicado Oficial UnISCED</h4>
+                    <p id="news1-desc" class="text-sm text-gray-600">Informações importantes sobre o calendário académico 2026.</p></div>
+                    <a href="https://web.facebook.com/UnISCEDmz" target="_blank" id="news1-btn" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-semibold hover:bg-blue-600 hover:text-white transition flex-shrink-0">Ver <i class="fa-solid fa-arrow-right ml-1"></i></a>
                 </div>
                 
                 <!-- Notícia 2 -->
                 <div class="card-glass rounded-xl p-4 hover:shadow-md transition flex flex-col md:flex-row gap-4 items-start group">
                     <div class="w-full md:w-20 h-20 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-700 text-2xl shadow-sm flex-shrink-0"><i class="fa-solid fa-graduation-cap"></i></div>
-                    <div class="flex-1"><div class="flex items-center gap-2 text-xs text-gray-500 mb-1"><span class="bg-gray-100 px-2 py-0.5 rounded-full">Evento</span><span><i class="fa-regular fa-calendar mr-1"></i> 05/06/2026</span></div>
-                    <h4 class="font-black text-gray-800 group-hover:text-blue-600 transition">Cerimónia de Graduação 2026</h4>
-                    <p class="text-sm text-gray-600">Data e local da próxima cerimónia de graduação dos finalistas.</p></div>
-                    <a href="https://web.facebook.com/UnISCEDmz" target="_blank" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-semibold hover:bg-blue-600 hover:text-white transition flex-shrink-0">Ver <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                    <div class="flex-1"><div class="flex items-center gap-2 text-xs text-gray-500 mb-1"><span id="news2-tag" class="bg-gray-100 px-2 py-0.5 rounded-full">Evento</span><span><i class="fa-regular fa-calendar mr-1"></i> <span id="news2-data">05/06/2026</span></span></div>
+                    <h4 id="news2-title" class="font-black text-gray-800 group-hover:text-blue-600 transition">Cerimónia de Graduação 2026</h4>
+                    <p id="news2-desc" class="text-sm text-gray-600">Data e local da próxima cerimónia de graduação dos finalistas.</p></div>
+                    <a href="https://web.facebook.com/UnISCEDmz" target="_blank" id="news2-btn" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-semibold hover:bg-blue-600 hover:text-white transition flex-shrink-0">Ver <i class="fa-solid fa-arrow-right ml-1"></i></a>
                 </div>
                 
                 <!-- Notícia 3 -->
                 <div class="card-glass rounded-xl p-4 hover:shadow-md transition flex flex-col md:flex-row gap-4 items-start group">
                     <div class="w-full md:w-20 h-20 bg-cyan-100 rounded-xl flex items-center justify-center text-cyan-700 text-2xl shadow-sm flex-shrink-0"><i class="fa-solid fa-pen-to-square"></i></div>
-                    <div class="flex-1"><div class="flex items-center gap-2 text-xs text-gray-500 mb-1"><span class="bg-gray-100 px-2 py-0.5 rounded-full">Inscrições</span><span><i class="fa-regular fa-calendar mr-1"></i> 01/06/2026</span></div>
-                    <h4 class="font-black text-gray-800 group-hover:text-blue-600 transition">Abertura de Inscrições 2026</h4>
-                    <p class="text-sm text-gray-600">Estão abertas as inscrições para os novos candidatos.</p></div>
-                    <a href="https://web.facebook.com/UnISCEDmz" target="_blank" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-semibold hover:bg-blue-600 hover:text-white transition flex-shrink-0">Ver <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                    <div class="flex-1"><div class="flex items-center gap-2 text-xs text-gray-500 mb-1"><span id="news3-tag" class="bg-gray-100 px-2 py-0.5 rounded-full">Inscrições</span><span><i class="fa-regular fa-calendar mr-1"></i> <span id="news3-data">01/06/2026</span></span></div>
+                    <h4 id="news3-title" class="font-black text-gray-800 group-hover:text-blue-600 transition">Abertura de Inscrições 2026</h4>
+                    <p id="news3-desc" class="text-sm text-gray-600">Estão abertas as inscrições para os novos candidatos.</p></div>
+                    <a href="https://web.facebook.com/UnISCEDmz" target="_blank" id="news3-btn" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-semibold hover:bg-blue-600 hover:text-white transition flex-shrink-0">Ver <i class="fa-solid fa-arrow-right ml-1"></i></a>
                 </div>
                 
                 <!-- Notícia 4 -->
                 <div class="card-glass rounded-xl p-4 hover:shadow-md transition flex flex-col md:flex-row gap-4 items-start group">
                     <div class="w-full md:w-20 h-20 bg-purple-100 rounded-xl flex items-center justify-center text-purple-700 text-2xl shadow-sm flex-shrink-0"><i class="fa-solid fa-laptop-code"></i></div>
-                    <div class="flex-1"><div class="flex items-center gap-2 text-xs text-gray-500 mb-1"><span class="bg-gray-100 px-2 py-0.5 rounded-full">Tecnologia</span><span><i class="fa-regular fa-calendar mr-1"></i> 20/05/2026</span></div>
-                    <h4 class="font-black text-gray-800 group-hover:text-blue-600 transition">Plataforma Inovadora com IA</h4>
-                    <p class="text-sm text-gray-600">Nova plataforma de ensino com inteligência artificial foi lançada.</p></div>
-                    <a href="https://web.facebook.com/UnISCEDmz" target="_blank" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-semibold hover:bg-blue-600 hover:text-white transition flex-shrink-0">Ver <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                    <div class="flex-1"><div class="flex items-center gap-2 text-xs text-gray-500 mb-1"><span id="news4-tag" class="bg-gray-100 px-2 py-0.5 rounded-full">Tecnologia</span><span><i class="fa-regular fa-calendar mr-1"></i> <span id="news4-data">20/05/2026</span></span></div>
+                    <h4 id="news4-title" class="font-black text-gray-800 group-hover:text-blue-600 transition">Plataforma Inovadora com IA</h4>
+                    <p id="news4-desc" class="text-sm text-gray-600">Nova plataforma de ensino com inteligência artificial foi lançada.</p></div>
+                    <a href="https://web.facebook.com/UnISCEDmz" target="_blank" id="news4-btn" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-semibold hover:bg-blue-600 hover:text-white transition flex-shrink-0">Ver <i class="fa-solid fa-arrow-right ml-1"></i></a>
                 </div>
             </div>
         </div>
@@ -397,12 +396,12 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-6 pb-4 border-b border-white/30">
                 <i class="fa-solid fa-location-dot text-blue-600 mr-2"></i>
-                <span class="text-gray-700 text-sm"><strong>Reitoria:</strong> Rua Carlos Pereira, parcela nº 148/07, Estoril Expansão, Beira</span>
+                <span id="footer-endereco" class="text-gray-700 text-sm"><strong>Reitoria:</strong> Rua Carlos Pereira, parcela nº 148/07, Estoril Expansão, Beira</span>
             </div>
             <div class="text-center">
-                <p class="text-gray-600 text-sm mb-3">2026 © <span class="text-blue-700 font-semibold">Universidade Aberta ISCED</span>. Todos os direitos reservados.</p>
+                <p class="text-gray-600 text-sm mb-3">2026 © <span class="text-blue-700 font-semibold">Universidade Aberta ISCED</span>. <span id="footer-direitos">Todos os direitos reservados.</span></p>
                 <a href="#" id="btn-app-movel" class="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold text-xs px-4 py-2 rounded-full shadow-md transition hover:scale-105 mb-4">
-                    <i class="fa-solid fa-mobile-screen-button"></i> <span>App móvel</span>
+                    <i class="fa-solid fa-mobile-screen-button"></i> <span id="app-movel-text">App móvel</span>
                 </a>
                 <div class="flex flex-wrap justify-center items-center gap-2 text-sm">
                     <a href="#" id="foot-privacidade" class="text-gray-500 hover:text-blue-600 transition">Privacidade</a>
@@ -419,7 +418,7 @@
     <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" id="btn-top" class="fixed bottom-24 right-5 bg-blue-700 text-white p-3 rounded-full shadow-lg hidden hover:scale-105 transition z-40"><i class="fa-solid fa-arrow-up"></i></button>
     <a href="https://wa.me/258840000000?text=Olá!%20Gostaria%20de%20receber%20notícias%20da%20UnISCED" target="_blank" class="whatsapp-btn fixed bottom-5 left-5 bg-green-500 text-white p-4 rounded-full shadow-lg z-50 flex items-center gap-2">
         <i class="fa-brands fa-whatsapp text-2xl"></i>
-        <span class="hidden md:inline text-sm font-semibold">Fale connosco</span>
+        <span id="whatsapp-text" class="hidden md:inline text-sm font-semibold">Fale connosco</span>
     </a>
 
     <script>
@@ -435,29 +434,24 @@
         }
         function hideToast() { document.getElementById('toastNotification').classList.remove('show'); if (toastTimeout) clearTimeout(toastTimeout); }
         
-        // ================== MODAL ==================
+        // ================== MODAL COM TEXTOS TRADUZÍVEIS ==================
         const modal = document.getElementById('modal');
         
-        const textosModal = {
+        // Objeto que será atualizado dinamicamente pela tradução
+        let textosModal = {
             parceria: {
-                title: "UnISCED e UMUM discutem parceria para desenvolvimento do ensino",
-                body: `<p>A Universidade Aberta ISCED (UnISCED) recebeu no dia 27 de Janeiro uma comitiva da Universidade Metodista Unida de Moçambique (UMUM), nas suas instalações na Cidade da Beira. O encontro teve como principal objectivo discutir a criação de parcerias para o aprimoramento do processo de ensino, pesquisa, extensão e inovação.</p>
-                        <p>A comitiva foi recebida pelo Vice-Reitor da UnISCED para a Área Académica, <strong>Prof. Doutor Simone Mura</strong>, acompanhado pelo Director de Recursos Virtuais e Multimédia, <strong>António Chimuzo</strong>. Durante o encontro, a Directora Pedagógica da UMUM, <strong>Nomissa Chadreca Faduco</strong>, explicou que a visita visava colher experiências para melhorar as práticas pedagógicas da sua instituição, principalmente na área do ensino à distância, em que a UnISCED já possui uma experiência consolidada.</p>
-                        <p>Faduco destacou que a parceria com a UnISCED poderá fornecer novas perspectivas para a expansão para outras regiões do país da sua instituição, pois até ao momento opera apenas na Província de Inhambane. Além disso, destacou que esta parceria irá permitir a implementação de processos mais organizados, com a meta de oferecer uma educação de qualidade à população, além de contribuir para o desenvolvimento do país.</p>
-                        <p>Outro ponto importante abordado durante a visita foi a possibilidade de se estabelecer uma <strong>mobilidade de estudantes e docentes</strong> entre as duas universidades, o que permitirá o intercâmbio de conhecimentos, a criação de incubadoras e o desenvolvimento de projectos conjuntos. Faduco também mencionou o interesse da sua instituição em aprender com a UnISCED sobre a gestão do ensino 100% à distância, modalidade que deverá ser implementada na UMUM a partir de 2025.</p>
-                        <p class="bg-blue-50 p-4 rounded-xl italic">Este encontro reforçou o compromisso de ambas as instituições na busca pela melhoria contínua dos seus modelos educacionais e a troca de experiências, com vista a uma educação superior mais acessível e de qualidade para todos os moçambicanos.</p>`
+                title: "",
+                body: ""
             },
             relacoes: {
-                title: "UnISCED fortalece relações institucionais",
-                body: `<p>Faduco destacou que a parceria com a UnISCED poderá fornecer novas perspectivas para a expansão para outras regiões do país da sua instituição, pois até ao momento opera apenas na Província de Inhambane. Além disso, destacou que esta parceria irá permitir a implementação de processos mais organizados, com a meta de oferecer uma educação de qualidade à população, além de contribuir para o desenvolvimento do país.</p>
-                        <p>Outro ponto importante abordado durante a visita foi a possibilidade de se estabelecer uma <strong>mobilidade de estudantes e docentes</strong> entre as duas universidades, o que permitirá o intercâmbio de conhecimentos, a criação de incubadoras e o desenvolvimento de projectos conjuntos. Faduco também mencionou o interesse da sua instituição em aprender com a UnISCED sobre a gestão do ensino 100% à distância, modalidade que deverá ser implementada na UMUM a partir de 2025.</p>
-                        <p class="bg-blue-50 p-4 rounded-xl italic">Este encontro reforçou o compromisso de ambas as instituições na busca pela melhoria contínua dos seus modelos educacionais e a troca de experiências, com vista a uma educação superior mais acessível e de qualidade para todos os moçambicanos.</p>`
+                title: "",
+                body: ""
             }
         };
         
         function openModal(tipo) {
             const data = textosModal[tipo];
-            if (data) {
+            if (data && data.title) {
                 document.getElementById('modal-title').innerHTML = data.title;
                 document.getElementById('modal-body').innerHTML = data.body;
                 modal.classList.add('active');
@@ -521,23 +515,99 @@
         window.addEventListener('load', checkReveal);
         window.addEventListener('scroll', checkReveal);
 
-        // ================== TRADUÇÃO ==================
+        // ================== TRADUÇÃO COMPLETA (COM MODAL) ==================
         const dict = {
             pt: {
                 link_inicio: "Início", link_cursos: "Cursos", link_recursos: "Centro de Recursos", link_sobre: "Sobre",
-                page_title: "Notícias da UnISCED", page_subtitle: "Acompanhe as últimas novidades da Universidade Aberta ISCED",
-                foot_priv: "Privacidade", foot_termos: "Termos", foot_suporte: "Suporte", app_movel: "App móvel"
+                badge_destaques: "Destaques",
+                page_title: "Notícias da UnISCED",
+                page_subtitle: "Acompanhe as últimas novidades da Universidade Aberta ISCED",
+                featured_title: "Notícias em Destaque",
+                badge_destaque_card1: "Em Destaque",
+                card1_data: "29 de Janeiro de 2025",
+                card1_tag: "Parceria",
+                card1_title: "UnISCED e UMUM discutem parceria para desenvolvimento do ensino",
+                card1_desc: "A Universidade Aberta ISCED recebeu comitiva da Universidade Metodista Unida de Moçambique para discutir cooperação académica.",
+                card1_btn_detalhes: "Ver detalhes",
+                card1_btn_facebook: "Ver no Facebook",
+                badge_destaque_card2: "Institucional",
+                card2_data: "Janeiro 2025",
+                card2_tag: "Cooperação",
+                card2_title: "UnISCED fortalece relações institucionais",
+                card2_desc: "Encontro marcou um passo importante para o desenvolvimento do ensino superior em Moçambique.",
+                card2_btn_detalhes: "Ver detalhes",
+                card2_btn_facebook: "Ver no Facebook",
+                ultimas_title: "Últimas Notícias",
+                news1_tag: "Comunicado", news1_data: "08/06/2026", news1_title: "Comunicado Oficial UnISCED", news1_desc: "Informações importantes sobre o calendário académico 2026.", news1_btn: "Ver",
+                news2_tag: "Evento", news2_data: "05/06/2026", news2_title: "Cerimónia de Graduação 2026", news2_desc: "Data e local da próxima cerimónia de graduação dos finalistas.", news2_btn: "Ver",
+                news3_tag: "Inscrições", news3_data: "01/06/2026", news3_title: "Abertura de Inscrições 2026", news3_desc: "Estão abertas as inscrições para os novos candidatos.", news3_btn: "Ver",
+                news4_tag: "Tecnologia", news4_data: "20/05/2026", news4_title: "Plataforma Inovadora com IA", news4_desc: "Nova plataforma de ensino com inteligência artificial foi lançada.", news4_btn: "Ver",
+                footer_endereco: "<strong>Reitoria:</strong> Rua Carlos Pereira, parcela nº 148/07, Estoril Expansão, Beira",
+                footer_direitos: "Todos os direitos reservados.",
+                app_movel: "App móvel",
+                foot_priv: "Privacidade", foot_termos: "Termos", foot_suporte: "Suporte",
+                whatsapp_text: "Fale connosco",
+                // Textos do MODAL
+                modal_parceria_title: "UnISCED e UMUM discutem parceria para desenvolvimento do ensino",
+                modal_parceria_body: `<p>A Universidade Aberta ISCED (UnISCED) recebeu no dia 27 de Janeiro uma comitiva da Universidade Metodista Unida de Moçambique (UMUM), nas suas instalações na Cidade da Beira. O encontro teve como principal objectivo discutir a criação de parcerias para o aprimoramento do processo de ensino, pesquisa, extensão e inovação.</p>
+                        <p>A comitiva foi recebida pelo Vice-Reitor da UnISCED para a Área Académica, <strong>Prof. Doutor Simone Mura</strong>, acompanhado pelo Director de Recursos Virtuais e Multimédia, <strong>António Chimuzo</strong>. Durante o encontro, a Directora Pedagógica da UMUM, <strong>Nomissa Chadreca Faduco</strong>, explicou que a visita visava colher experiências para melhorar as práticas pedagógicas da sua instituição, principalmente na área do ensino à distância, em que a UnISCED já possui uma experiência consolidada.</p>
+                        <p>Faduco destacou que a parceria com a UnISCED poderá fornecer novas perspectivas para a expansão para outras regiões do país da sua instituição, pois até ao momento opera apenas na Província de Inhambane. Além disso, destacou que esta parceria irá permitir a implementação de processos mais organizados, com a meta de oferecer uma educação de qualidade à população, além de contribuir para o desenvolvimento do país.</p>
+                        <p>Outro ponto importante abordado durante a visita foi a possibilidade de se estabelecer uma <strong>mobilidade de estudantes e docentes</strong> entre as duas universidades, o que permitirá o intercâmbio de conhecimentos, a criação de incubadoras e o desenvolvimento de projectos conjuntos. Faduco também mencionou o interesse da sua instituição em aprender com a UnISCED sobre a gestão do ensino 100% à distância, modalidade que deverá ser implementada na UMUM a partir de 2025.</p>
+                        <p class="bg-blue-50 p-4 rounded-xl italic">Este encontro reforçou o compromisso de ambas as instituições na busca pela melhoria contínua dos seus modelos educacionais e a troca de experiências, com vista a uma educação superior mais acessível e de qualidade para todos os moçambicanos.</p>`,
+                modal_relacoes_title: "UnISCED fortalece relações institucionais",
+                modal_relacoes_body: `<p>Faduco destacou que a parceria com a UnISCED poderá fornecer novas perspectivas para a expansão para outras regiões do país da sua instituição, pois até ao momento opera apenas na Província de Inhambane. Além disso, destacou que esta parceria irá permitir a implementação de processos mais organizados, com a meta de oferecer uma educação de qualidade à população, além de contribuir para o desenvolvimento do país.</p>
+                        <p>Outro ponto importante abordado durante a visita foi a possibilidade de se estabelecer uma <strong>mobilidade de estudantes e docentes</strong> entre as duas universidades, o que permitirá o intercâmbio de conhecimentos, a criação de incubadoras e o desenvolvimento de projectos conjuntos. Faduco também mencionou o interesse da sua instituição em aprender com a UnISCED sobre a gestão do ensino 100% à distância, modalidade que deverá ser implementada na UMUM a partir de 2025.</p>
+                        <p class="bg-blue-50 p-4 rounded-xl italic">Este encontro reforçou o compromisso de ambas as instituições na busca pela melhoria contínua dos seus modelos educacionais e a troca de experiências, com vista a uma educação superior mais acessível e de qualidade para todos os moçambicanos.</p>`
             },
             en: {
                 link_inicio: "Home", link_cursos: "Courses", link_recursos: "Resource Center", link_sobre: "About",
-                page_title: "UnISCED News", page_subtitle: "Stay updated with the latest news from the Open University ISCED",
-                foot_priv: "Privacy", foot_termos: "Terms", foot_suporte: "Support", app_movel: "Mobile App"
+                badge_destaques: "Highlights",
+                page_title: "UnISCED News",
+                page_subtitle: "Stay updated with the latest news from the Open University ISCED",
+                featured_title: "Featured News",
+                badge_destaque_card1: "Featured",
+                card1_data: "January 29, 2025",
+                card1_tag: "Partnership",
+                card1_title: "UnISCED and UMUM discuss partnership for teaching development",
+                card1_desc: "The Open University ISCED received a delegation from the United Methodist University of Mozambique to discuss academic cooperation.",
+                card1_btn_detalhes: "View details",
+                card1_btn_facebook: "View on Facebook",
+                badge_destaque_card2: "Institutional",
+                card2_data: "January 2025",
+                card2_tag: "Cooperation",
+                card2_title: "UnISCED strengthens institutional relations",
+                card2_desc: "Meeting marked an important step for the development of higher education in Mozambique.",
+                card2_btn_detalhes: "View details",
+                card2_btn_facebook: "View on Facebook",
+                ultimas_title: "Latest News",
+                news1_tag: "Announcement", news1_data: "06/08/2026", news1_title: "Official UnISCED Announcement", news1_desc: "Important information about the 2026 academic calendar.", news1_btn: "View",
+                news2_tag: "Event", news2_data: "06/05/2026", news2_title: "2026 Graduation Ceremony", news2_desc: "Date and location of the next graduation ceremony for finalists.", news2_btn: "View",
+                news3_tag: "Enrollment", news3_data: "06/01/2026", news3_title: "2026 Enrollment Opening", news3_desc: "Enrollment is open for new candidates.", news3_btn: "View",
+                news4_tag: "Technology", news4_data: "05/20/2026", news4_title: "Innovative AI Platform", news4_desc: "New AI-powered teaching platform has been launched.", news4_btn: "View",
+                footer_endereco: "<strong>Rector's Office:</strong> Rua Carlos Pereira, plot nº 148/07, Estoril Expansão, Beira",
+                footer_direitos: "All rights reserved.",
+                app_movel: "Mobile App",
+                foot_priv: "Privacy", foot_termos: "Terms", foot_suporte: "Support",
+                whatsapp_text: "Contact us",
+                // Modal texts in English
+                modal_parceria_title: "UnISCED and UMUM discuss partnership for teaching development",
+                modal_parceria_body: `<p>The Open University ISCED (UnISCED) received on January 27 a delegation from the United Methodist University of Mozambique (UMUM), at its premises in the city of Beira. The meeting's main objective was to discuss the creation of partnerships to improve the teaching, research, extension and innovation process.</p>
+                        <p>The delegation was received by the Vice-Rector of UnISCED for Academic Affairs, <strong>Prof. Dr. Simone Mura</strong>, accompanied by the Director of Virtual and Multimedia Resources, <strong>António Chimuzo</strong>. During the meeting, UMUM's Pedagogical Director, <strong>Nomissa Chadreca Faduco</strong>, explained that the visit aimed to gather experiences to improve the pedagogical practices of their institution, especially in the area of distance learning, in which UnISCED already has consolidated experience.</p>
+                        <p>Faduco highlighted that the partnership with UnISCED could provide new perspectives for the expansion of their institution to other regions of the country, as it currently operates only in Inhambane Province. She also emphasized that this partnership will enable the implementation of more organized processes, with the goal of offering quality education to the population, in addition to contributing to the country's development.</p>
+                        <p>Another important point addressed during the visit was the possibility of establishing <strong>student and faculty mobility</strong> between the two universities, which would allow knowledge exchange, the creation of incubators and the development of joint projects. Faduco also mentioned her institution's interest in learning from UnISCED about managing 100% distance learning, a modality that should be implemented at UMUM starting in 2025.</p>
+                        <p class="bg-blue-50 p-4 rounded-xl italic">This meeting reinforced both institutions' commitment to continuously improving their educational models and exchanging experiences, aiming for more accessible and quality higher education for all Mozambicans.</p>`,
+                modal_relacoes_title: "UnISCED strengthens institutional relations",
+                modal_relacoes_body: `<p>Faduco highlighted that the partnership with UnISCED could provide new perspectives for the expansion of their institution to other regions of the country, as it currently operates only in Inhambane Province. She also emphasized that this partnership will enable the implementation of more organized processes, with the goal of offering quality education to the population, in addition to contributing to the country's development.</p>
+                        <p>Another important point addressed during the visit was the possibility of establishing <strong>student and faculty mobility</strong> between the two universities, which would allow knowledge exchange, the creation of incubators and the development of joint projects. Faduco also mentioned her institution's interest in learning from UnISCED about managing 100% distance learning, a modality that should be implemented at UMUM starting in 2025.</p>
+                        <p class="bg-blue-50 p-4 rounded-xl italic">This meeting reinforced both institutions' commitment to continuously improving their educational models and exchanging experiences, aiming for more accessible and quality higher education for all Mozambicans.</p>`
             }
         };
 
         let lang = 'pt';
         function updateLanguage() {
             const t = dict[lang];
+            
+            // Navbar
             document.getElementById('link-inicio').innerText = t.link_inicio;
             document.getElementById('link-cursos').innerText = t.link_cursos;
             document.getElementById('link-recursos').innerText = t.link_recursos;
@@ -546,12 +616,74 @@
             document.getElementById('mobile-link-cursos').innerText = t.link_cursos;
             document.getElementById('mobile-link-recursos').innerText = t.link_recursos;
             document.getElementById('mobile-link-sobre').innerText = t.link_sobre;
+            
+            // Cabeçalho
+            document.getElementById('badge-destaques').innerHTML = `<i class="fa-brands fa-facebook mr-1"></i> ${t.badge_destaques}`;
             document.getElementById('page-title').innerText = t.page_title;
             document.getElementById('page-subtitle').innerText = t.page_subtitle;
+            document.getElementById('featured-title').innerHTML = `<i class="fa-regular fa-star text-red-600 mr-2"></i> ${t.featured_title}`;
+            
+            // Card 1
+            document.getElementById('badge-destaque-card1').innerHTML = `<i class="fa-regular fa-star mr-1"></i> ${t.badge_destaque_card1}`;
+            document.getElementById('card1-data').innerText = t.card1_data;
+            document.getElementById('card1-tag').innerText = t.card1_tag;
+            document.getElementById('card1-title').innerText = t.card1_title;
+            document.getElementById('card1-desc').innerText = t.card1_desc;
+            document.getElementById('card1-btn-detalhes').innerHTML = `${t.card1_btn_detalhes} <i class="fa-solid fa-arrow-right"></i>`;
+            document.getElementById('card1-btn-facebook').innerHTML = `<i class="fa-brands fa-facebook"></i> ${t.card1_btn_facebook}`;
+            
+            // Card 2
+            document.getElementById('badge-destaque-card2').innerHTML = `<i class="fa-regular fa-building mr-1"></i> ${t.badge_destaque_card2}`;
+            document.getElementById('card2-data').innerText = t.card2_data;
+            document.getElementById('card2-tag').innerText = t.card2_tag;
+            document.getElementById('card2-title').innerText = t.card2_title;
+            document.getElementById('card2-desc').innerText = t.card2_desc;
+            document.getElementById('card2-btn-detalhes').innerHTML = `${t.card2_btn_detalhes} <i class="fa-solid fa-arrow-right"></i>`;
+            document.getElementById('card2-btn-facebook').innerHTML = `<i class="fa-brands fa-facebook"></i> ${t.card2_btn_facebook}`;
+            
+            // Últimas Notícias
+            document.getElementById('ultimas-title').innerHTML = `<i class="fa-regular fa-clock text-blue-600 mr-2"></i> ${t.ultimas_title}`;
+            
+            document.getElementById('news1-tag').innerText = t.news1_tag;
+            document.getElementById('news1-data').innerText = t.news1_data;
+            document.getElementById('news1-title').innerText = t.news1_title;
+            document.getElementById('news1-desc').innerText = t.news1_desc;
+            document.getElementById('news1-btn').innerHTML = `${t.news1_btn} <i class="fa-solid fa-arrow-right ml-1"></i>`;
+            
+            document.getElementById('news2-tag').innerText = t.news2_tag;
+            document.getElementById('news2-data').innerText = t.news2_data;
+            document.getElementById('news2-title').innerText = t.news2_title;
+            document.getElementById('news2-desc').innerText = t.news2_desc;
+            document.getElementById('news2-btn').innerHTML = `${t.news2_btn} <i class="fa-solid fa-arrow-right ml-1"></i>`;
+            
+            document.getElementById('news3-tag').innerText = t.news3_tag;
+            document.getElementById('news3-data').innerText = t.news3_data;
+            document.getElementById('news3-title').innerText = t.news3_title;
+            document.getElementById('news3-desc').innerText = t.news3_desc;
+            document.getElementById('news3-btn').innerHTML = `${t.news3_btn} <i class="fa-solid fa-arrow-right ml-1"></i>`;
+            
+            document.getElementById('news4-tag').innerText = t.news4_tag;
+            document.getElementById('news4-data').innerText = t.news4_data;
+            document.getElementById('news4-title').innerText = t.news4_title;
+            document.getElementById('news4-desc').innerText = t.news4_desc;
+            document.getElementById('news4-btn').innerHTML = `${t.news4_btn} <i class="fa-solid fa-arrow-right ml-1"></i>`;
+            
+            // Footer
+            document.getElementById('footer-endereco').innerHTML = t.footer_endereco;
+            document.getElementById('footer-direitos').innerText = t.footer_direitos;
+            document.getElementById('app-movel-text').innerText = t.app_movel;
             document.getElementById('foot-privacidade').innerText = t.foot_priv;
             document.getElementById('foot-termos').innerText = t.foot_termos;
             document.getElementById('foot-suporte').innerText = t.foot_suporte;
-            document.getElementById('btn-app-movel').querySelector('span').innerText = t.app_movel;
+            document.getElementById('whatsapp-text').innerText = t.whatsapp_text;
+            
+            // ATUALIZA OS TEXTOS DO MODAL
+            textosModal.parceria.title = t.modal_parceria_title;
+            textosModal.parceria.body = t.modal_parceria_body;
+            textosModal.relacoes.title = t.modal_relacoes_title;
+            textosModal.relacoes.body = t.modal_relacoes_body;
+            
+            // Botão idioma
             document.getElementById('btn-idioma').innerText = lang.toUpperCase();
             if(document.getElementById('btn-idioma-mobile')) document.getElementById('btn-idioma-mobile').innerText = lang.toUpperCase();
         }
@@ -560,6 +692,8 @@
         
         document.getElementById('btn-idioma')?.addEventListener('click', toggleLang);
         document.getElementById('btn-idioma-mobile')?.addEventListener('click', toggleLang);
+        
+        // Inicializar com textos em português
         updateLanguage();
     </script>
 </body>
