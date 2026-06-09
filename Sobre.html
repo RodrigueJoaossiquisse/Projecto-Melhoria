@@ -50,9 +50,10 @@
       </div>
     </nav>
 
+    <!-- Imagem de centro -->
     <div class="flex justify-center my-10 px-6">
       <img
-        src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/04b97ed719288c25153bd2e37e557b9f46570389/1779280570496%20(1).png?raw=true"
+        src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/1781014363916.png?raw=true"
         alt="Reitor"
         class="w-full max-w-3xl rounded-3xl shadow-2xl border-4 border-white object-cover"
       />
@@ -163,31 +164,50 @@
           </ul>
         </div>
 
+        <!-- Bloco do Reitor - ESTRUTURA CORRIGIDA -->
         <div class="bg-blue-950 text-white p-8 rounded-2xl shadow-xl">
-          <h4 id="i-h-msg" class="font-bold text-blue-300 mb-2">
-            Mensagem do Reitor
-          </h4>
-          <p id="i-p-msg" class="italic mb-4">
-            "Sejam bem-vindos à Universidade Aberta ISCED (UnISCED). A primeira
-            universidade aberta de Moçambique, que oferece educação na
-            modalidade online de qualidade e acessível para todos."
-          </p>
-          <p class="font-bold border-t border-blue-800 pt-3">
-            Prof. Doutor Martins Dos Santos Laita
-          </p>
-          <p id="i-cargo" class="text-blue-300 text-sm">Reitor da UnISCED</p>
+          <div class="grid md:grid-cols-3 gap-6 items-center">
+            <!-- Foto do Reitor -->
+            <div class="flex justify-center">
+              <div class="p-2 bg-blue-800 rounded-full shadow-xl">
+                <img
+                  src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Martins-Dos-Santos-Vilanculos-Laita.jpg?raw=true"
+                  alt="Prof. Doutor Martins Dos Santos Laita"
+                  class="w-48 h-48 object-cover rounded-full border-4 border-blue-300"
+                />
+              </div>
+            </div>
+
+            <!-- Mensagem -->
+            <div class="md:col-span-2">
+              <h4 id="i-h-msg" class="font-bold text-blue-300 mb-2 text-lg">
+                Mensagem do Reitor
+              </h4>
+              <p id="i-p-msg" class="italic mb-4">
+                "Sejam bem-vindos à Universidade Aberta ISCED (UnISCED). A primeira
+                universidade aberta de Moçambique, que oferece educação na modalidade
+                online de qualidade e acessível para todos."
+              </p>
+              <p id="i-nome-reitor" class="font-bold border-t border-blue-800 pt-3">
+                Prof. Doutor Martins Dos Santos Laita
+              </p>
+              <p id="i-cargo" class="text-blue-300 text-sm">
+                Reitor da UnISCED
+              </p>
+            </div>
+          </div>
         </div>
       </article>
     </main>
 
     <footer
+      id="footer"
       class="bg-white border-t border-gray-200 py-10 text-center text-gray-500"
     >
-      <p class="text-sm">
-        Rua Carlos Pereira, parcela nº 148/07, Estoril Expansão, na cidade da
-        Beira.
+      <p id="i-endereco" class="text-sm">
+        Rua Carlos Pereira, parcela nº 148/07, Estoril Expansão, na cidade da Beira.
       </p>
-      <p class="text-xs mt-2">
+      <p id="i-copyright" class="text-xs mt-2">
         &copy; 2026 Universidade Aberta ISCED. Todos os direitos reservados.
       </p>
     </footer>
@@ -201,7 +221,6 @@
     </button>
 
     <script>
-      
       // 1. DADOS DE TRADUÇÃO
       const trad = {
         pt: {
@@ -211,19 +230,18 @@
           p1: "A Universidade Aberta ISCED (UnISCED) resulta da transformação do Instituto de Ciências e Educação à Distância (ISCED), fundada em 2014. É uma instituição de ensino superior privada, vocacionada na educação aberta, modalidade online com sede na cidade da Beira, Província de Sofala. A UnISCED foi criada pelo Decreto nº 27/2021, de 6 de Maio, do Conselho de Ministros.",
           p2: "A UnISCED é propriedade do Instituto Africano de Promoção da Educação à Distância (IAPED), criado em 2012 por um grupo de moçambicanos com larga experiência na educação, em especial na educação à distância.",
           h_missao: "Missão",
-          p_missao:
-            "Levar o saber, saber fazer e demais valores de cidadania às comunidades, usando tecnologias de informação e comunicação.",
+          p_missao: "Levar o saber, saber fazer e demais valores de cidadania às comunidades, usando tecnologias de informação e comunicação.",
           h_visao: "Visão",
-          p_visao:
-            "Ser agente dinamizador e proactivo ao nível nacional e internacional na formação de quadros através da educação aberta e online.",
+          p_visao: "Ser agente dinamizador e proactivo ao nível nacional e internacional na formação de quadros através da educação aberta e online.",
           h_reitoria: "A Reitoria",
-          p_reitoria:
-            "A reitoria da UnISCED é o órgão máximo de gestão e administração da universidade. Composta pelo reitor, Administradora e vice-reitores, tem como missão liderar a universidade com transparência e eficiência.",
+          p_reitoria: "A reitoria da UnISCED é o órgão máximo de gestão e administração da universidade. Composta pelo reitor, Administradora e vice-reitores, tem como missão liderar a universidade com transparência e eficiência.",
           h_msg: "Mensagem do Reitor",
-          p_msg:
-            "Sejam bem-vindos à Universidade Aberta ISCED (UnISCED). A primeira universidade aberta de Moçambique, que oferece educação na modalidade online de qualidade e acessível para todos.",
+          p_msg: "Sejam bem-vindos à Universidade Aberta ISCED (UnISCED). A primeira universidade aberta de Moçambique, que oferece educação na modalidade online de qualidade e acessível para todos.",
+          nome_reitor: "Prof. Doutor Martins Dos Santos Laita",
           cargo: "Reitor da UnISCED",
           h_valores: "Valores",
+          endereco: "Rua Carlos Pereira, parcela nº 148/07, Estoril Expansão, na cidade da Beira.",
+          copyright: "&copy; 2026 Universidade Aberta ISCED. Todos os direitos reservados.",
           val: [
             "✔ Democracia e respeito pela dignidade humana",
             "✔ Não discriminação social, étnica ou confessional",
@@ -238,24 +256,22 @@
         en: {
           nav: "Home",
           titulo: "About UnISCED",
-          quote:
-            "Even a journey of a thousand miles begins with a single step.",
+          quote: "Even a journey of a thousand miles begins with a single step.",
           p1: "The Open University ISCED (UnISCED) results from the transformation of the Institute for Distance Education Sciences (ISCED), founded in 2014. It is a private higher education institution, dedicated to open education and online mode, based in the city of Beira, Sofala Province. UnISCED was created by Decree No. 27/2021, of May 6th, of the Council of Ministers.",
           p2: "UnISCED is owned by the African Institute for the Promotion of Distance Education (IAPED), created in 2012 by a group of Mozambicans with extensive experience in education, especially in distance education.",
           h_missao: "Mission",
-          p_missao:
-            "Bringing knowledge, know-how and citizenship values to communities using information and communication technologies.",
+          p_missao: "Bringing knowledge, know-how and citizenship values to communities using information and communication technologies.",
           h_visao: "Vision",
-          p_visao:
-            "To be a proactive dynamic agent at national and international levels in training staff through open and online education.",
+          p_visao: "To be a proactive dynamic agent at national and international levels in training staff through open and online education.",
           h_reitoria: "The Rectory",
-          p_reitoria:
-            "The UnISCED rectory is the highest management and administration body of the university. Composed of the rector, administrator and vice-rectors, its mission is to lead the university with transparency and efficiency.",
+          p_reitoria: "The UnISCED rectory is the highest management and administration body of the university. Composed of the rector, administrator and vice-rectors, its mission is to lead the university with transparency and efficiency.",
           h_msg: "Rector's Message",
-          p_msg:
-            "Welcome to the Open University ISCED (UnISCED). The first open university in Mozambique, offering quality and accessible online education for all.",
+          p_msg: "Welcome to the Open University ISCED (UnISCED). The first open university in Mozambique, offering quality and accessible online education for all.",
+          nome_reitor: "Prof. Dr. Martins Dos Santos Laita",
           cargo: "UnISCED Rector",
           h_valores: "Values",
+          endereco: "Rua Carlos Pereira, plot nº 148/07, Estoril Expansão, in the city of Beira.",
+          copyright: "&copy; 2026 Open University ISCED. All rights reserved.",
           val: [
             "✔ Democracy and respect for human dignity",
             "✔ Non-discrimination on social, ethnic or religious grounds",
@@ -270,12 +286,11 @@
       };
 
       // 2. LÓGICA DE TRADUÇÃO
-      // 2. LÓGICA DE TRADUÇÃO
       let lang = "pt";
       document.getElementById("btn-idioma").onclick = () => {
         lang = lang === "pt" ? "en" : "pt";
         
-        // Tradução simples
+        // Tradução dos elementos
         document.getElementById("nav-inicio").innerText = trad[lang].nav;
         document.getElementById("i-titulo").innerText = trad[lang].titulo;
         document.getElementById("i-quote").innerText = trad[lang].quote;
@@ -289,13 +304,16 @@
         document.getElementById("i-p-reitoria").innerText = trad[lang].p_reitoria;
         document.getElementById("i-h-msg").innerText = trad[lang].h_msg;
         document.getElementById("i-p-msg").innerText = '"' + trad[lang].p_msg + '"';
+        document.getElementById("i-nome-reitor").innerText = trad[lang].nome_reitor;
         document.getElementById("i-cargo").innerText = trad[lang].cargo;
         document.getElementById("i-h-valores").innerText = trad[lang].h_valores;
+        document.getElementById("i-endereco").innerHTML = trad[lang].endereco;
+        document.getElementById("i-copyright").innerHTML = trad[lang].copyright;
 
-        // Tradução da Lista de Valores (Garante que busca todos os li dentro da ul)
+        // Tradução da Lista de Valores
         const lista = document.getElementById("i-lista-valores").getElementsByTagName("li");
         for (let i = 0; i < lista.length; i++) {
-            lista[i].innerText = trad[lang].val[i];
+            lista[i].innerHTML = trad[lang].val[i];
         }
       };
 
@@ -306,12 +324,17 @@
         f = (f + 1) % fundos.length;
         document.body.className = `${fundos[f]} transition-colors duration-700 min-h-screen flex flex-col pt-24`;
         const card = document.querySelector("article");
+        const footer = document.getElementById("footer");
         if (f === 2) {
           card.classList.add("bg-gray-800", "text-white");
           card.classList.remove("bg-white", "text-gray-800");
+          footer.classList.add("bg-gray-800", "border-gray-700", "text-gray-400");
+          footer.classList.remove("bg-white", "border-gray-200", "text-gray-500");
         } else {
           card.classList.add("bg-white", "text-gray-800");
           card.classList.remove("bg-gray-800", "text-white");
+          footer.classList.add("bg-white", "border-gray-200", "text-gray-500");
+          footer.classList.remove("bg-gray-800", "border-gray-700", "text-gray-400");
         }
       }
 
