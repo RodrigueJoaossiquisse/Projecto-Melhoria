@@ -2,7 +2,7 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height">
     <title>Portal do Aluno | UnISCED</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -10,11 +10,12 @@
     <style>
         * { font-family: 'Inter', system-ui, sans-serif; }
         
-        /* FUNDO LÍQUIDO SUAVE */
         body {
             background: linear-gradient(-45deg, #e0f2fe, #fae8ff, #fef3c7, #d1fae5);
             background-size: 400% 400%;
             animation: liquidMove 18s ease infinite;
+            height: 100vh;
+            overflow: hidden;
         }
         
         body.dark {
@@ -29,7 +30,6 @@
             100% { background-position: 0% 50%; }
         }
         
-        /* Camada de vidro sobre o fundo */
         body::before {
             content: '';
             position: fixed;
@@ -42,7 +42,6 @@
             z-index: 0;
         }
         
-        /* Glassmorphism premium */
         .glass-card {
             background: rgba(255, 255, 255, 0.85) !important;
             backdrop-filter: blur(2px);
@@ -79,7 +78,6 @@
             border-color: #3b82f6;
         }
         
-        /* Botão Entrar */
         .btn-primary {
             background: linear-gradient(135deg, #2563eb, #1d4ed8);
             transition: all 0.3s ease;
@@ -91,7 +89,6 @@
             box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.3);
         }
         
-        /* Botão secundário */
         .btn-secondary {
             background: rgba(255, 255, 255, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.8);
@@ -112,7 +109,6 @@
             background: rgba(30, 41, 59, 0.8);
         }
         
-        /* Botões de contacto */
         .contact-btn {
             background: rgba(255, 255, 255, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.6);
@@ -133,7 +129,6 @@
             background: rgba(30, 41, 59, 0.7);
         }
         
-        /* Botão voltar */
         .back-btn {
             background: rgba(255, 255, 255, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.6);
@@ -154,7 +149,6 @@
             background: rgba(30, 41, 59, 0.7);
         }
         
-        /* Checkbox personalizado */
         .custom-checkbox {
             appearance: none;
             width: 18px;
@@ -191,7 +185,6 @@
             border-color: #3b82f6;
         }
         
-        /* Toast notification */
         .toast-notification {
             position: fixed;
             bottom: 20px;
@@ -218,7 +211,6 @@
         
         .toast-notification.show { transform: translateX(0); }
         
-        /* Bolhas decorativas */
         .bubble {
             position: absolute;
             border-radius: 50%;
@@ -236,9 +228,121 @@
         .float-animation {
             animation: float 6s ease-in-out infinite;
         }
+        
+        .modal-help {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-help.active { display: flex; }
+        .modal-help-content {
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        body.dark .modal-help-content {
+            background: rgba(30, 41, 59, 0.95);
+            color: #e2e8f0;
+        }
+        .modal-help-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            background: rgba(0,0,0,0.5);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.2s;
+        }
+        .modal-help-close:hover { background: rgba(0,0,0,0.8); transform: scale(1.1); }
+        
+        .team-card {
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 1rem;
+            padding: 1rem;
+        }
+        body.dark .team-card {
+            background: rgba(30, 41, 59, 0.6);
+        }
+        .team-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 <body>
+
+    <!-- MODAL HELP DESK -->
+    <div id="modalHelp" class="modal-help">
+        <div class="modal-help-close" onclick="closeModalHelp()"><i class="fa-solid fa-xmark text-xl"></i></div>
+        <div class="modal-help-content">
+            <div class="text-center mb-4">
+                <div class="w-12 h-12 mx-auto bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl flex items-center justify-center shadow-lg mb-2">
+                    <i class="fa-solid fa-headset text-xl text-white"></i>
+                </div>
+                <h2 id="help-title" class="text-xl font-black text-gray-800 dark:text-white">Help Desk</h2>
+                <p id="help-subtitle" class="text-gray-500 dark:text-gray-400 text-xs mt-1">Secção de Apoio e Atendimento ao Estudante</p>
+            </div>
+            
+            <div id="help-body" class="text-gray-700 dark:text-gray-300 space-y-3 text-xs leading-relaxed"></div>
+            
+            <div class="mt-5">
+                <h3 id="help-team-title" class="text-base font-black text-gray-800 dark:text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-users text-blue-500 text-sm"></i> Conheça a Equipa</h3>
+                <div class="grid gap-3">
+                    <!-- Membro 1 - Isac Wilson (sem foto) -->
+                    <div class="team-card">
+                        <div>
+                            <h4 id="member1-name" class="font-black text-gray-800 dark:text-white text-sm">Isac Wilson Salomão Chaile</h4>
+                            <p id="member1-role" class="text-[11px] text-blue-600 dark:text-blue-400 font-semibold">Chefe de Secção de Atendimento Apoio ao Estudante</p>
+                            <a href="mailto:ichaile@unisced.edu.mz" class="text-xs text-gray-500 dark:text-gray-400 hover:text-blue-600 transition flex items-center gap-1 mt-1"><i class="fa-regular fa-envelope text-[10px]"></i> ichaile@unisced.edu.mz</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Membro 2 - Felisberto António (sem foto) -->
+                    <div class="team-card">
+                        <div>
+                            <h4 id="member2-name" class="font-black text-gray-800 dark:text-white text-sm">Felisberto António Samuel</h4>
+                            <p id="member2-role" class="text-[11px] text-blue-600 dark:text-blue-400 font-semibold">Técnico de Atendimento Apoio ao Estudante</p>
+                            <a href="mailto:fsamuel1@unisced.edu.mz" class="text-xs text-gray-500 dark:text-gray-400 hover:text-blue-600 transition flex items-center gap-1 mt-1"><i class="fa-regular fa-envelope text-[10px]"></i> fsamuel1@unisced.edu.mz</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="help-contacts" class="mt-4 pt-3 border-t border-gray-200 dark:border-slate-700">
+                <div class="flex flex-wrap justify-center gap-2">
+                    <a href="tel:+258840943449" class="contact-btn text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-1.5 rounded-lg text-[11px] font-medium flex items-center gap-1">
+                        <i class="fa-solid fa-phone text-blue-500 text-[10px]"></i> 84 094 3449
+                    </a>
+                    <a href="tel:+258847322199" class="contact-btn text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-1.5 rounded-lg text-[11px] font-medium flex items-center gap-1">
+                        <i class="fa-solid fa-phone text-blue-500 text-[10px]"></i> 84 732 2199
+                    </a>
+                    <a href="mailto:suporte@unisced.edu.mz" target="_blank" class="contact-btn text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 px-3 py-1.5 rounded-lg text-[11px] font-medium flex items-center gap-1">
+                        <i class="fa-solid fa-envelope text-[10px]"></i> suporte
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Bolhas decorativas -->
     <div class="bubble w-64 h-64 top-20 -left-20 float-animation"></div>
@@ -246,128 +350,182 @@
     <div class="bubble w-48 h-48 top-1/3 right-20 float-animation" style="animation-delay: 4s;"></div>
     <div class="bubble w-32 h-32 bottom-1/4 left-1/4 float-animation" style="animation-delay: 1s;"></div>
 
-    <!-- Botão Voltar ao Início (canto superior esquerdo) -->
+    <!-- Botão Voltar ao Início -->
     <div class="fixed top-6 left-6 z-50">
-        <a href="index.html" class="back-btn flex items-center gap-2 text-gray-700 dark:text-gray-300 font-medium px-4 py-2 rounded-full text-sm transition">
-            <i class="fa-solid fa-arrow-left text-xs"></i>
-            <span>Voltar ao Início</span>
+        <a href="index.html" class="back-btn flex items-center gap-2 text-gray-700 dark:text-gray-300 font-medium px-3 py-1.5 rounded-full text-xs transition">
+            <i class="fa-solid fa-arrow-left text-[10px]"></i>
+            <span id="back-text">Voltar</span>
         </a>
     </div>
 
-    <!-- Botão de Tema e Idioma (canto superior direito) -->
-    <div class="fixed top-6 right-6 z-50 flex items-center gap-3">
-        <button id="theme-toggle" class="p-2 bg-white/40 dark:bg-slate-800/50 rounded-full text-gray-700 dark:text-gray-300 w-9 h-9 flex items-center justify-center transition hover:scale-105 backdrop-blur-sm">
-            <i id="theme-icon" class="fa-solid fa-moon text-sm"></i>
+    <!-- Botão de Tema e Idioma -->
+    <div class="fixed top-6 right-6 z-50 flex items-center gap-2">
+        <button id="theme-toggle" class="p-1.5 bg-white/40 dark:bg-slate-800/50 rounded-full text-gray-700 dark:text-gray-300 w-7 h-7 flex items-center justify-center transition hover:scale-105 backdrop-blur-sm">
+            <i id="theme-icon" class="fa-solid fa-moon text-xs"></i>
         </button>
         <div class="relative">
-            <button id="btn-idioma" class="flex items-center gap-2 text-gray-700 dark:text-gray-300 font-semibold text-sm bg-white/40 dark:bg-slate-800/50 hover:bg-white/60 dark:hover:bg-slate-700/70 px-4 py-2 rounded-full transition backdrop-blur-sm">
+            <button id="btn-idioma" class="flex items-center gap-2 text-gray-700 dark:text-gray-300 font-semibold text-xs bg-white/40 dark:bg-slate-800/50 hover:bg-white/60 dark:hover:bg-slate-700/70 px-3 py-1.5 rounded-full transition backdrop-blur-sm">
                 <span id="idioma-atual">PT</span>
-                <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200" id="seta-idioma"></i>
+                <i class="fa-solid fa-chevron-down text-[8px] transition-transform duration-200" id="seta-idioma"></i>
             </button>
-            <div id="menu-idioma" class="hidden absolute right-0 mt-2 w-32 bg-white/90 dark:bg-slate-800/95 border border-white/40 dark:border-slate-700/50 rounded-xl shadow-2xl py-1 z-50 backdrop-blur-xl">
-                <button onclick="mudarIdioma('pt')" class="w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-slate-700 flex items-center gap-2 font-medium">🇲🇿 Português</button>
-                <button onclick="mudarIdioma('en')" class="w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-slate-700 flex items-center gap-2 font-medium">🇬🇧 English</button>
+            <div id="menu-idioma" class="hidden absolute right-0 mt-2 w-28 bg-white/90 dark:bg-slate-800/95 border border-white/40 dark:border-slate-700/50 rounded-xl shadow-2xl py-1 z-50 backdrop-blur-xl">
+                <button onclick="mudarIdioma('pt')" class="w-full text-left px-3 py-2 text-xs text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-slate-700 flex items-center gap-2 font-medium">🇲🇿 Português</button>
+                <button onclick="mudarIdioma('en')" class="w-full text-left px-3 py-2 text-xs text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-slate-700 flex items-center gap-2 font-medium">🇬🇧 English</button>
             </div>
         </div>
     </div>
 
-    <!-- CARD PRINCIPAL -->
-    <div class="min-h-screen flex items-center justify-center p-4 sm:p-6 relative z-10">
-        <div class="max-w-md w-full glass-card rounded-3xl p-8">
+    <!-- CARD PRINCIPAL - MENOR -->
+    <div class="h-screen flex items-center justify-center p-4 relative z-10">
+        <div class="max-w-sm w-full glass-card rounded-2xl p-6">
             
             <!-- Logo e saudação -->
-            <div class="text-center mb-8">
-                <div class="w-20 h-20 mx-auto bg-gradient-to-br from-blue-500 to-cyan-600 rounded-2xl flex items-center justify-center shadow-lg mb-4">
-                    <i class="fa-solid fa-graduation-cap text-3xl text-white"></i>
+            <div class="text-center mb-5">
+                <div class="w-14 h-14 mx-auto bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl flex items-center justify-center shadow-lg mb-3">
+                    <i class="fa-solid fa-graduation-cap text-2xl text-white"></i>
                 </div>
-                <h2 id="login-boasvindas" class="text-2xl font-black text-gray-800 dark:text-white">Bem-vindo de volta!</h2>
-                <p id="login-subtexto" class="text-gray-500 dark:text-gray-400 text-sm mt-1">Aceda à sua sala virtual</p>
+                <h2 id="login-boasvindas" class="text-xl font-black text-gray-800 dark:text-white">Bem-vindo de volta!</h2>
+                <p id="login-subtexto" class="text-gray-500 dark:text-gray-400 text-xs mt-0.5">Aceda à sua sala virtual</p>
             </div>
 
             <!-- Formulário de Login -->
-            <form action="#" class="space-y-5" id="login-form">
-                <!-- Campo Estudante -->
+            <form action="#" class="space-y-4" id="login-form">
                 <div>
-                    <label id="label-estudante" class="block text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">Código de Estudante</label>
+                    <label id="label-estudante" class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">Estudante</label>
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 dark:text-gray-500">
-                            <i class="fa-solid fa-user text-sm"></i>
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400 dark:text-gray-500">
+                            <i class="fa-solid fa-user text-xs"></i>
                         </span>
                         <input type="email" id="student-code" placeholder="siquisse@estudantes.unisced.edu.mz" 
-                            class="w-full pl-11 pr-4 py-3.5 glass-input rounded-xl outline-none text-gray-800 dark:text-white text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 font-medium">
+                            class="w-full pl-9 pr-3 py-2.5 glass-input rounded-xl outline-none text-gray-800 dark:text-white text-xs placeholder:text-gray-400 dark:placeholder:text-gray-500 font-medium">
                     </div>
                 </div>
 
-                <!-- Campo Senha -->
                 <div>
-                    <div class="flex justify-between items-center mb-2">
-                        <label id="label-senha" class="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Palavra-passe</label>
-                        <a href="#" id="link-esqueceu" class="text-xs font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition">Esqueceu?</a>
+                    <div class="flex justify-between items-center mb-1">
+                        <label id="label-senha" class="text-[10px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Senha</label>
+                        <a href="#" id="link-esqueceu" class="text-[10px] font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition">Esqueceu?</a>
                     </div>
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 dark:text-gray-500">
-                            <i class="fa-solid fa-lock text-sm"></i>
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400 dark:text-gray-500">
+                            <i class="fa-solid fa-lock text-xs"></i>
                         </span>
                         <input type="password" id="student-password" placeholder="••••••••" 
-                            class="w-full pl-11 pr-12 py-3.5 glass-input rounded-xl outline-none text-gray-800 dark:text-white text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500">
-                        <button type="button" id="toggle-password" class="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300">
-                            <i class="fa-regular fa-eye text-sm"></i>
+                            class="w-full pl-9 pr-10 py-2.5 glass-input rounded-xl outline-none text-gray-800 dark:text-white text-xs placeholder:text-gray-400 dark:placeholder:text-gray-500">
+                        <button type="button" id="toggle-password" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300">
+                            <i class="fa-regular fa-eye text-xs"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- Checkbox Lembrar + mensagem erro -->
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2">
                         <input type="checkbox" id="lembrar" class="custom-checkbox">
-                        <label for="lembrar" id="label-lembrar" class="text-sm text-gray-600 dark:text-gray-400 cursor-pointer select-none">Manter sessão</label>
+                        <label for="lembrar" id="label-lembrar" class="text-[11px] text-gray-600 dark:text-gray-400 cursor-pointer select-none">Manter sessão</label>
                     </div>
-                    <div id="error-message" class="text-xs text-red-500 dark:text-red-400 hidden"></div>
+                    <div id="error-message" class="text-[10px] text-red-500 dark:text-red-400 hidden"></div>
                 </div>
 
-                <!-- Botão Entrar -->
-                <button type="submit" id="btn-entrar" class="btn-primary w-full text-white font-bold py-3.5 rounded-xl text-sm tracking-wide shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 group">
-                    <span>Entrar no Portal</span>
-                    <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition"></i>
+                <button type="submit" id="btn-entrar" class="btn-primary w-full text-white font-bold py-2.5 rounded-xl text-xs tracking-wide shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 group">
+                    <span>Entrar</span>
+                    <i class="fa-solid fa-arrow-right text-[10px] group-hover:translate-x-1 transition"></i>
                 </button>
 
-                <!-- Botão Vídeo Guia -->
-                <a href="https://www.youtube.com/watch?v=2rpV-YhYkFc" target="_blank" id="btn-ajuda-video" class="btn-secondary w-full flex items-center justify-center gap-2 text-gray-700 dark:text-gray-300 font-medium py-3.5 rounded-xl text-sm transition">
-                    <i class="fa-solid fa-circle-play text-red-500 text-sm"></i>
-                    <span id="txt-ajuda-video">Primeira vez? Assista ao guia</span>
+                <a href="https://www.youtube.com/watch?v=2rpV-YhYkFc" target="_blank" id="btn-ajuda-video" class="btn-secondary w-full flex items-center justify-center gap-2 text-gray-700 dark:text-gray-300 font-medium py-2.5 rounded-xl text-xs transition">
+                    <i class="fa-solid fa-circle-play text-red-500 text-xs"></i>
+                    <span id="txt-ajuda-video">Primeira vez? Guia</span>
                 </a>
             </form>
 
             <!-- Help Desk -->
-            <div class="mt-8 pt-6 border-t border-gray-200 dark:border-white/10">
-                <p id="txt-problemas" class="text-center text-[11px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-4">Precisa de ajuda?</p>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                    <a href="tel:+258840943449" class="contact-btn text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-xl text-xs font-medium flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-phone text-blue-500 dark:text-blue-400 text-[11px]"></i> 84 094 3449
+            <div class="mt-5 pt-4 border-t border-gray-200 dark:border-white/10">
+                <p id="txt-problemas" class="text-center text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-2">Precisa de ajuda?</p>
+                <div class="grid grid-cols-3 gap-1.5">
+                    <a href="tel:+258840943449" class="contact-btn text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-2 py-1.5 rounded-lg text-[10px] font-medium flex items-center justify-center gap-1">
+                        <i class="fa-solid fa-phone text-blue-500 text-[9px]"></i> 84 094
                     </a>
-                    <a href="tel:+258847322199" class="contact-btn text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-xl text-xs font-medium flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-phone text-blue-500 dark:text-blue-400 text-[11px]"></i> 84 732 2199
+                    <a href="tel:+258847322199" class="contact-btn text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-2 py-1.5 rounded-lg text-[10px] font-medium flex items-center justify-center gap-1">
+                        <i class="fa-solid fa-phone text-blue-500 text-[9px]"></i> 84 732
                     </a>
-                    <a href="mailto:suporte@unisced.edu.mz" target="_blank" class="contact-btn text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 px-3 py-2 rounded-xl text-xs font-medium flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-envelope"></i> suporte
-                    </a>
+                    <button onclick="openModalHelp()" class="contact-btn text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 px-2 py-1.5 rounded-lg text-[10px] font-medium flex items-center justify-center gap-1">
+                        <i class="fa-solid fa-headset text-[9px]"></i> Suporte
+                    </button>
                 </div>
             </div>
 
-            <!-- Rodapé do card -->
-            <p class="text-center text-[10px] text-gray-400 dark:text-gray-500 mt-6">
-                <i class="fa-regular fa-shield-alt mr-1"></i> Ambiente seguro · SSL ativo
+            <p class="text-center text-[9px] text-gray-400 dark:text-gray-500 mt-4">
+                <i class="fa-regular fa-shield-alt mr-1"></i> SSL ativo
             </p>
         </div>
     </div>
 
-    <!-- Toast de erro/sucesso elegante -->
+    <!-- Toast -->
     <div id="toast" class="toast-notification">
         <i id="toast-icon" class="fa-solid fa-circle-exclamation text-red-500"></i>
-        <span id="toast-message" class="text-gray-800 dark:text-gray-200 text-sm">Erro ao entrar</span>
+        <span id="toast-message" class="text-gray-800 dark:text-gray-200 text-xs">Erro ao entrar</span>
     </div>
 
     <script>
+        // ================== TEXTOS DO HELP DESK ==================
+        let helpTexts = {
+            pt: {
+                title: "Help Desk",
+                subtitle: "Secção de Apoio e Atendimento ao Estudante",
+                body: `<p>A <strong>Secção de Apoio e Atendimento ao Estudante (Help-desk)</strong> da Universidade Aberta ISCED (UnISCED) é uma equipe dedicada a fornecer suporte técnico e assistência aos estudantes, docentes e funcionários da instituição. O Help-desk desempenha um papel fundamental ao oferecer soluções para problemas e dificuldades dos nossos estudantes.</p>
+                        <p>A equipe do Help-desk é composta por profissionais especializados em suporte técnico, que estão prontos para responder a consultas, solucionar problemas e fornecer orientação aos usuários. Eles são responsáveis por receber e registar solicitações de suporte, diagnosticar e resolver problemas técnicos por telefone, e-mail ou por meio de um sistema de tickets. Além disso, eles fornecem treinamento básico sobre o uso de software e sistemas institucionais, ajudando os usuários a aproveitar ao máximo as ferramentas tecnológicas disponíveis na UnISCED.</p>
+                        <p>O Help-desk desempenha um papel vital na facilitação do uso eficiente da tecnologia, garantindo que estudantes, docentes e funcionários possam realizar suas actividades académicas e administrativas sem interrupções significativas.</p>`,
+                teamTitle: "Equipa",
+                member1Name: "Isac Wilson Salomão Chaile",
+                member1Role: "Chefe de Secção de Atendimento Apoio ao Estudante",
+                member2Name: "Felisberto António Samuel",
+                member2Role: "Técnico de Atendimento Apoio ao Estudante"
+            },
+            en: {
+                title: "Help Desk",
+                subtitle: "Student Support and Assistance Section",
+                body: `<p>The <strong>Student Support and Assistance Section (Help-desk)</strong> of the Open University ISCED (UnISCED) is a team dedicated to providing technical support and assistance to students, faculty and staff of the institution. The Help-desk plays a fundamental role in offering solutions to problems and difficulties faced by our students.</p>
+                        <p>The Help-desk team consists of professionals specialized in technical support, who are ready to answer queries, solve problems and provide guidance to users. They are responsible for receiving and recording support requests, diagnosing and solving technical problems by phone, email or through a ticket system. Additionally, they provide basic training on the use of software and institutional systems, helping users make the most of the technological tools available at UnISCED.</p>
+                        <p>The Help-desk plays a vital role in facilitating the efficient use of technology, ensuring that students, faculty and staff can carry out their academic and administrative activities without significant interruptions.</p>`,
+                teamTitle: "Team",
+                member1Name: "Isac Wilson Salomão Chaile",
+                member1Role: "Head of Student Support and Assistance Section",
+                member2Name: "Felisberto António Samuel",
+                member2Role: "Student Support and Assistance Technician"
+            }
+        };
+        
+        let currentLang = 'pt';
+        
+        function updateHelpDeskLanguage() {
+            const texts = helpTexts[currentLang];
+            document.getElementById('help-title').innerText = texts.title;
+            document.getElementById('help-subtitle').innerText = texts.subtitle;
+            document.getElementById('help-body').innerHTML = texts.body;
+            document.getElementById('help-team-title').innerHTML = `<i class="fa-solid fa-users text-blue-500 text-sm"></i> ${texts.teamTitle}`;
+            document.getElementById('member1-name').innerText = texts.member1Name;
+            document.getElementById('member1-role').innerText = texts.member1Role;
+            document.getElementById('member2-name').innerText = texts.member2Name;
+            document.getElementById('member2-role').innerText = texts.member2Role;
+        }
+        
+        // ================== MODAL HELP DESK ==================
+        const modalHelp = document.getElementById('modalHelp');
+        
+        function openModalHelp() {
+            updateHelpDeskLanguage();
+            modalHelp.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModalHelp() {
+            modalHelp.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        modalHelp.addEventListener('click', (e) => {
+            if (e.target === modalHelp) closeModalHelp();
+        });
+        
         // ================== TOAST ==================
         let toastTimeout;
         function showToast(message, isError = true) {
@@ -418,7 +576,7 @@
             });
         }
 
-        // ================== LOGIN SIMULADO (REDIRECIONA PARA LINK OFICIAL) ==================
+        // ================== LOGIN ==================
         const loginForm = document.getElementById('login-form');
         const studentCodeInput = document.getElementById('student-code');
         const errorMessageDiv = document.getElementById('error-message');
@@ -429,9 +587,9 @@
             const password = passwordInput.value.trim();
             
             if (!email || !password) {
-                errorMessageDiv.textContent = 'Preencha todos os campos';
+                errorMessageDiv.textContent = 'Preencha os campos';
                 errorMessageDiv.classList.remove('hidden');
-                showToast('Preencha o seu email e palavra-passe', true);
+                showToast('Preencha o seu email e senha', true);
                 setTimeout(() => errorMessageDiv.classList.add('hidden'), 3000);
                 return;
             }
@@ -439,23 +597,21 @@
             if (!email.includes('@') || !email.includes('.') || email.length < 10) {
                 errorMessageDiv.textContent = 'Email inválido';
                 errorMessageDiv.classList.remove('hidden');
-                showToast('Insira um email válido (ex: nome@estudantes.unisced.edu.mz)', true);
+                showToast('Email inválido', true);
                 setTimeout(() => errorMessageDiv.classList.add('hidden'), 3000);
                 return;
             }
             
-            // Validação básica de senha (mínimo 4 caracteres)
             if (password.length < 4) {
                 errorMessageDiv.textContent = 'Senha inválida';
                 errorMessageDiv.classList.remove('hidden');
-                showToast('A palavra-passe deve ter pelo menos 4 caracteres', true);
+                showToast('Senha deve ter pelo menos 4 caracteres', true);
                 setTimeout(() => errorMessageDiv.classList.add('hidden'), 3000);
                 return;
             }
             
             showToast('A autenticar...', false);
             
-            // Redireciona para o link oficial da sala virtual após 1 segundo
             setTimeout(() => {
                 window.location.href = 'https://salavirtual.unisced.edu.mz/login/index.php';
             }, 1000);
@@ -482,42 +638,47 @@
         // ================== TRADUÇÕES ==================
         const traducoes = {
             pt: {
+                back: "Voltar",
                 boasvindas: "Bem-vindo de volta!",
                 subtexto: "Aceda à sua sala virtual",
-                estudante: "Código de Estudante",
-                senha: "Palavra-passe",
+                estudante: "Estudante",
+                senha: "Senha",
                 esqueceu: "Esqueceu?",
                 lembrar: "Manter sessão",
-                entrar: "Entrar no Portal",
-                ajudaVideo: "Primeira vez? Assista ao guia",
+                entrar: "Entrar",
+                ajudaVideo: "Primeira vez? Guia",
                 problemas: "Precisa de ajuda?"
             },
             en: {
+                back: "Back",
                 boasvindas: "Welcome back!",
                 subtexto: "Access your virtual classroom",
-                estudante: "Student Email",
+                estudante: "Student",
                 senha: "Password",
                 esqueceu: "Forgot?",
                 lembrar: "Keep me logged in",
                 entrar: "Sign In",
-                ajudaVideo: "First time? Watch the guide",
+                ajudaVideo: "First time? Guide",
                 problemas: "Need help?"
             }
         };
 
         function mudarIdioma(lang) {
+            currentLang = lang;
             document.getElementById('idioma-atual').innerText = lang.toUpperCase();
+            document.getElementById('back-text').innerText = traducoes[lang].back;
             document.getElementById('login-boasvindas').innerText = traducoes[lang].boasvindas;
             document.getElementById('login-subtexto').innerText = traducoes[lang].subtexto;
             document.getElementById('label-estudante').innerText = traducoes[lang].estudante;
             document.getElementById('label-senha').innerText = traducoes[lang].senha;
             document.getElementById('link-esqueceu').innerText = traducoes[lang].esqueceu;
             document.getElementById('label-lembrar').innerText = traducoes[lang].lembrar;
-            document.getElementById('btn-entrar').innerHTML = `<span>${traducoes[lang].entrar}</span> <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition"></i>`;
+            document.getElementById('btn-entrar').innerHTML = `<span>${traducoes[lang].entrar}</span> <i class="fa-solid fa-arrow-right text-[10px] group-hover:translate-x-1 transition"></i>`;
             document.getElementById('txt-ajuda-video').innerText = traducoes[lang].ajudaVideo;
             document.getElementById('txt-problemas').innerText = traducoes[lang].problemas;
             
-            // Atualiza o placeholder do email
+            updateHelpDeskLanguage();
+            
             const emailInput = document.getElementById('student-code');
             if (emailInput) {
                 emailInput.placeholder = lang === 'pt' ? 'siquisse@estudantes.unisced.edu.mz' : 'yourname@students.unisced.edu.mz';
@@ -531,11 +692,12 @@
             }
         });
         
-        // Define placeholder inicial
         const emailInput = document.getElementById('student-code');
         if (emailInput) {
             emailInput.placeholder = 'siquisse@estudantes.unisced.edu.mz';
         }
+        
+        updateHelpDeskLanguage();
     </script>
 </body>
 </html>
