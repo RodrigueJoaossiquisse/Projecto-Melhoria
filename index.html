@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>UnISCED</title>
+    <title>UnISCED - Leitura de Conteúdo Acessível</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -75,6 +75,57 @@
         opacity: 0;
         pointer-events: none;
       }
+
+      /* Botão leitor acessível */
+      .accessibility-reader {
+        position: fixed;
+        bottom: 120px;
+        right: 20px;
+        background: #1e3a8a;
+        color: white;
+        border-radius: 50px;
+        padding: 12px 18px;
+        font-weight: bold;
+        font-size: 0.9rem;
+        box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2);
+        z-index: 1000;
+        transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        backdrop-filter: blur(4px);
+        background-color: rgba(30, 58, 138, 0.9);
+      }
+      .accessibility-reader:hover {
+        transform: scale(1.05);
+        background-color: #0f2b6d;
+        box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
+      }
+      .accessibility-reader:active {
+        transform: scale(0.98);
+      }
+      .accessibility-reader.speaking {
+        background-color: #0e7e6e;
+        animation: pulse-glow 1.2s infinite;
+      }
+      @keyframes pulse-glow {
+        0% { box-shadow: 0 0 0 0 rgba(14, 126, 110, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(14, 126, 110, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(14, 126, 110, 0); }
+      }
+      
+      /* Destaque temporário do conteúdo lido */
+      .highlight-reading {
+        background-color: #fef9c3;
+        transition: background-color 0.3s ease;
+        border-radius: 4px;
+      }
+      
+      @media (max-width: 640px) {
+        .accessibility-reader { bottom: 100px; right: 16px; padding: 10px 14px; font-size: 0.8rem; }
+      }
     </style>
   </head>
   <body class="bg-gray-50 flex flex-col min-h-screen">
@@ -143,7 +194,7 @@
       </div>
     </div>
 
-    <main class="flex-grow pt-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <main class="flex-grow pt-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" id="main-content">
       <!-- BANNER HERO -->
       <div class="liquid-banner rounded-3xl p-8 md:p-12 text-white shadow-xl mb-12 relative overflow-hidden reveal">
         <div class="absolute -right-10 -top-10 w-40 h-40 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
@@ -251,7 +302,7 @@
       </div>
 
       <!-- CURSOS EM DESTAQUE -->
-      <div class="mb-12">
+      <div class="mb-12" id="courses-section">
         <div class="border-b border-gray-200 pb-5 mb-8 reveal reveal-delay-2">
           <h2 id="txt-cursos-destaque" class="text-2xl font-black text-gray-900 tracking-tight">Cursos em Destaque</h2>
           <p id="txt-cursos-sub" class="text-sm text-gray-500 mt-0.5">Conheça os nossos programas académicos de referência global com inscrições abertas.</p>
@@ -455,15 +506,14 @@
       </div>
     </main>
 
-    <!-- RODAPÉ CENTRALIZADO -->
-    <footer class="bg-white border-t border-gray-200 mt-auto">
+    <!-- RODAPÉ CENTRALIZADO (não será lido pelo leitor) -->
+    <footer class="bg-white border-t border-gray-200 mt-auto" id="footer-rodape">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="text-center mb-8 text-sm text-gray-600 font-medium border-b border-gray-100 pb-6">
           <i class="fa-solid fa-location-dot text-blue-800 mr-2"></i>
           <span><strong>Reitoria:</strong> Rua Carlos Pereira, parcela nº 148/07, Estoril Expansão, Beira</span>
         </div>
         
-        <!-- Tudo centralizado -->
         <div class="text-center">
           <div class="mb-3">
             <span>2026 © <span class="text-blue-800 font-semibold">Universidade Aberta ISCED</span>. <span id="footer-direitos">Todos os direitos reservados.</span></span>
@@ -484,16 +534,20 @@
     <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" id="btn-top" class="fixed bottom-10 right-10 bg-blue-700 text-white p-4 rounded-full shadow-lg hidden hover:scale-110 transition z-50"><i class="fa-solid fa-arrow-up"></i></button>
     <a href="https://wa.me/258840000000?text=Olá!%20Gostaria%20de%20informações%20sobre%20os%20cursos" target="_blank" class="fixed bottom-10 left-10 bg-green-500 text-white p-4 rounded-full shadow-lg hover:scale-110 transition z-50 flex items-center gap-2"><i class="fa-brands fa-whatsapp text-xl"></i><span class="hidden md:inline text-sm font-semibold">Fale connosco</span></a>
 
+    <!-- BOTÃO DE ACESSIBILIDADE LEITOR -->
+    <button id="accessibility-reader-btn" class="accessibility-reader" aria-label="Ler conteúdo da página">
+      <i class="fa-solid fa-ear-listen"></i>
+      <span>Ouvir Página</span>
+    </button>
+
     <script>
       // ===== SISTEMA DE TEMA CLARO/ESCURO =====
       let temaEscuro = false;
-      
       function alternarTema() {
         temaEscuro = !temaEscuro;
         const body = document.body;
         const themeIcon = document.getElementById('theme-icon');
         const themeIconMobile = document.getElementById('theme-icon-mobile');
-        
         if (temaEscuro) {
           body.classList.remove('bg-gray-50');
           body.classList.add('bg-slate-900');
@@ -506,7 +560,6 @@
           if (themeIconMobile) themeIconMobile.className = 'fa-solid fa-moon moon-animation';
         }
       }
-      
       document.getElementById('theme-toggle')?.addEventListener('click', alternarTema);
       document.getElementById('theme-toggle-mobile')?.addEventListener('click', alternarTema);
 
@@ -567,7 +620,145 @@
       window.addEventListener('load', checkReveal);
       window.addEventListener('scroll', checkReveal);
 
-      // TRADUÇÕES COMPLETAS
+      // ===== BOTÃO LEITOR DE TELA (APENAS CONTEÚDO PRINCIPAL, EXCLUINDO NAV e FOOTER) =====
+      let speechSynthesisUtterance = null;
+      let isSpeaking = false;
+      const readButton = document.getElementById('accessibility-reader-btn');
+      const mainContent = document.getElementById('main-content');
+      
+      // Função para extrair texto limpo de uma área ignorando elementos indesejados
+      function getTextFromElement(element) {
+        if (!element) return '';
+        // Clone para não modificar o DOM original
+        const clone = element.cloneNode(true);
+        // Remover elementos que contenham botões de interação que não queremos ler (ex: botões de detalhes, links de telefone, etc)
+        const unwantedSelectors = [
+          'button', 
+          '.detalhes-content',  // conteúdo detalhado que pode ser extenso e ativado pelo usuário
+          '.contact-icon',
+          'a[href^="tel:"]',
+          '.theme-toggle',
+          '#btn-idioma',
+          '#menu-idioma'
+        ];
+        unwantedSelectors.forEach(selector => {
+          const elementsToRemove = clone.querySelectorAll(selector);
+          elementsToRemove.forEach(el => el.remove());
+        });
+        
+        // Obter texto de cabeçalhos, parágrafos, spans, divs principais sem navegação
+        let textContent = clone.innerText || clone.textContent || '';
+        // Limpar excesso de espaços e quebras
+        textContent = textContent.replace(/\s+/g, ' ').trim();
+        return textContent;
+      }
+      
+      // Parar qualquer leitura em andamento
+      function stopReading() {
+        if (window.speechSynthesis) {
+          window.speechSynthesis.cancel();
+        }
+        if (speechSynthesisUtterance) {
+          speechSynthesisUtterance = null;
+        }
+        isSpeaking = false;
+        if (readButton) {
+          readButton.classList.remove('speaking');
+          readButton.innerHTML = '<i class="fa-solid fa-ear-listen"></i><span>Ouvir Página</span>';
+        }
+        // Remover qualquer destaque visual
+        document.querySelectorAll('.highlight-reading').forEach(el => {
+          el.classList.remove('highlight-reading');
+        });
+      }
+      
+      // Iniciar leitura do conteúdo principal (exclui navbar e rodapé)
+      function readMainContent() {
+        if (isSpeaking) {
+          stopReading();
+          return;
+        }
+        
+        // Obter todo o texto do main (conteúdo central)
+        const fullText = getTextFromElement(mainContent);
+        
+        if (!fullText || fullText.length === 0) {
+          alert("Nenhum conteúdo textual disponível para leitura.");
+          return;
+        }
+        
+        // Cancelar qualquer síntese anterior
+        if (window.speechSynthesis) {
+          window.speechSynthesis.cancel();
+        }
+        
+        // Criar utterance
+        const utterance = new SpeechSynthesisUtterance(fullText);
+        utterance.lang = document.getElementById('idioma-atual')?.innerText === 'EN' ? 'en-US' : 'pt-PT';
+        utterance.rate = 0.9;
+        utterance.pitch = 1;
+        utterance.volume = 1;
+        
+        utterance.onstart = () => {
+          isSpeaking = true;
+          if (readButton) {
+            readButton.classList.add('speaking');
+            readButton.innerHTML = '<i class="fa-solid fa-stop"></i><span>Parar Leitura</span>';
+          }
+        };
+        
+        utterance.onend = () => {
+          isSpeaking = false;
+          if (readButton) {
+            readButton.classList.remove('speaking');
+            readButton.innerHTML = '<i class="fa-solid fa-ear-listen"></i><span>Ouvir Página</span>';
+          }
+          // Remover destaques
+          document.querySelectorAll('.highlight-reading').forEach(el => {
+            el.classList.remove('highlight-reading');
+          });
+        };
+        
+        utterance.onerror = () => {
+          isSpeaking = false;
+          if (readButton) {
+            readButton.classList.remove('speaking');
+            readButton.innerHTML = '<i class="fa-solid fa-ear-listen"></i><span>Ouvir Página</span>';
+          }
+        };
+        
+        speechSynthesisUtterance = utterance;
+        window.speechSynthesis.speak(utterance);
+        
+        // Efeito visual: destacar levemente o main enquanto lê
+        if (mainContent) {
+          mainContent.style.transition = 'background-color 0.2s';
+          mainContent.style.backgroundColor = 'rgba(255, 245, 200, 0.2)';
+          setTimeout(() => {
+            if (mainContent) mainContent.style.backgroundColor = '';
+          }, 500);
+        }
+      }
+      
+      // Evento do botão de leitura
+      if (readButton) {
+        readButton.addEventListener('click', readMainContent);
+      }
+      
+      // Parar leitura se o usuário clicar em algum lugar que possa interromper (opcional)
+      // Interromper também ao trocar de página/idioma
+      window.addEventListener('beforeunload', () => {
+        if (window.speechSynthesis) window.speechSynthesis.cancel();
+      });
+      
+      // Se o idioma mudar e estiver lendo, pará a leitura (evita conflito)
+      const originalMudarIdioma = window.mudarIdioma;
+      window.mudarIdioma = function(lang) {
+        if (isSpeaking) stopReading();
+        if (originalMudarIdioma) originalMudarIdioma(lang);
+      };
+      
+      // TRADUÇÕES COMPLETAS (mantidas exatamente como no original)
       const traducoes = {
         pt: {
           inicio: "Início", cursos: "Cursos", recursos: "Centro de Recursos", noticias: "Notícias", sobre: "Sobre Nós", portal: "Portal do Aluno",
@@ -623,45 +814,39 @@
         }
       };
 
-      function mudarIdioma(lang) {
+      function aplicarTraducoes(lang) {
         const t = traducoes[lang];
         document.getElementById("idioma-atual").innerText = lang.toUpperCase();
-        
         document.getElementById("link-inicio").innerText = t.inicio;
         document.getElementById("link-cursos").innerText = t.cursos;
         document.getElementById("link-recursos").innerText = t.recursos;
         document.getElementById("link-noticias").innerText = t.noticias;
         document.getElementById("link-sobre").innerText = t.sobre;
-        document.getElementById("btn-portal").querySelector("span").innerText = t.portal;
+        if(document.getElementById("btn-portal")?.querySelector("span")) document.getElementById("btn-portal").querySelector("span").innerText = t.portal;
         document.getElementById("mobile-link-inicio").innerText = t.inicio;
         document.getElementById("mobile-link-cursos").innerText = t.cursos;
         document.getElementById("mobile-link-recursos").innerText = t.recursos;
         document.getElementById("mobile-link-noticias").innerText = t.noticias;
         document.getElementById("mobile-link-sobre").innerText = t.sobre;
-        document.getElementById("mobile-btn-portal").querySelector("span").innerText = t.portal;
-        
+        if(document.getElementById("mobile-btn-portal")?.querySelector("span")) document.getElementById("mobile-btn-portal").querySelector("span").innerText = t.portal;
         document.getElementById("hero-tagline").innerText = t.heroTag;
         document.getElementById("hero-titulo").innerText = t.heroTit;
         document.getElementById("hero-subtitulo").innerText = t.heroSub;
         document.getElementById("hero-btn").innerText = t.heroBtn;
-        
         document.getElementById("parceiros-titulo").innerText = t.parceirosTit;
         document.getElementById("parceiros-sub").innerText = t.parceirosSub;
         document.getElementById("parceiros-mais").innerText = t.parceirosMais;
-        
         document.getElementById("card1-titulo").innerText = t.card1Tit;
         document.getElementById("card1-texto").innerText = t.card1Txt;
         document.getElementById("card2-titulo").innerText = t.card2Tit;
         document.getElementById("card2-texto").innerText = t.card2Txt;
         document.getElementById("card3-titulo").innerText = t.card3Tit;
         document.getElementById("card3-texto").innerText = t.card3Txt;
-        
         document.getElementById("footer-direitos").innerText = t.footDir;
         document.getElementById("foot-privacidade").innerText = t.footPriv;
         document.getElementById("foot-termos").innerText = t.footTermos;
         document.getElementById("foot-suporte").innerText = t.footSuporte;
-        document.getElementById("btn-app-movel").querySelector("span").innerText = t.appMovel;
-        
+        if(document.getElementById("btn-app-movel")?.querySelector("span")) document.getElementById("btn-app-movel").querySelector("span").innerText = t.appMovel;
         document.getElementById("txt-tagline").innerText = t.tagline;
         document.getElementById("txt-pense").innerHTML = t.pense;
         document.getElementById("txt-potencial").innerText = t.potencial;
@@ -671,10 +856,8 @@
         document.getElementById("stat-cursos").innerText = t.stCursos;
         document.getElementById("stat-graduados").innerText = t.stGraduados;
         document.getElementById("txt-redes-titulo").innerText = t.redesTit;
-        
         document.getElementById("txt-cursos-destaque").innerText = t.curDestaque;
         document.getElementById("txt-cursos-sub").innerText = t.curSub;
-        
         document.getElementById("c1-popular").innerText = t.c1Popular;
         document.getElementById("c1-title").innerText = t.c1Tit;
         document.getElementById("c1-desc").innerText = t.c1Desc;
@@ -687,7 +870,6 @@
         document.getElementById("c1-visao-texto").innerText = t.c1VisaoTexto;
         document.getElementById("c1-boas-tit").innerText = t.c1BoasTit;
         document.getElementById("c1-boas-texto").innerText = t.c1BoasTexto;
-        
         document.getElementById("c2-novo").innerText = t.c2Novo;
         document.getElementById("c2-title").innerText = t.c2Tit;
         document.getElementById("c2-desc").innerText = t.c2Desc;
@@ -699,7 +881,6 @@
         document.getElementById("c2-assistido").innerText = t.c2Assistido;
         document.getElementById("c2-coordenadora").innerText = t.c2Coordenadora;
         document.getElementById("c2-horario").innerText = t.c2Horario;
-        
         document.getElementById("c3-alta").innerText = t.c3Alta;
         document.getElementById("c3-title").innerText = t.c3Tit;
         document.getElementById("c3-desc").innerText = t.c3Desc;
@@ -712,9 +893,16 @@
         document.getElementById("c3-coordenador").innerText = t.c3Coordenador;
         document.getElementById("c3-gestor").innerText = t.c3Gestor;
         document.getElementById("c3-horario").innerText = t.c3Horario;
-        
         if (mobileMenu) mobileMenu.classList.add('hidden');
       }
+      
+      window.mudarIdioma = function(lang) {
+        if (isSpeaking) stopReading();
+        aplicarTraducoes(lang);
+      };
+      
+      aplicarTraducoes('pt');
     </script>
   </body>
 </html>
+```

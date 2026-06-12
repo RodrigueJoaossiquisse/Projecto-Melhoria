@@ -46,6 +46,50 @@
         opacity: 1;
         transform: translateY(0);
       }
+
+      /* Botão leitor acessível */
+      .accessibility-reader {
+        position: fixed;
+        bottom: 120px;
+        right: 20px;
+        background: #1e3a8a;
+        color: white;
+        border-radius: 50px;
+        padding: 12px 18px;
+        font-weight: bold;
+        font-size: 0.9rem;
+        box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2);
+        z-index: 1000;
+        transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        backdrop-filter: blur(4px);
+        background-color: rgba(30, 58, 138, 0.9);
+      }
+      .accessibility-reader:hover {
+        transform: scale(1.05);
+        background-color: #0f2b6d;
+        box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
+      }
+      .accessibility-reader:active {
+        transform: scale(0.98);
+      }
+      .accessibility-reader.speaking {
+        background-color: #0e7e6e;
+        animation: pulse-glow 1.2s infinite;
+      }
+      @keyframes pulse-glow {
+        0% { box-shadow: 0 0 0 0 rgba(14, 126, 110, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(14, 126, 110, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(14, 126, 110, 0); }
+      }
+      
+      @media (max-width: 640px) {
+        .accessibility-reader { bottom: 100px; right: 16px; padding: 10px 14px; font-size: 0.8rem; }
+      }
     </style>
   </head>
   <body
@@ -89,7 +133,7 @@
       />
     </div>
 
-    <main class="flex-grow max-w-5xl mx-auto px-6 pb-20">
+    <main class="flex-grow max-w-5xl mx-auto px-6 pb-20" id="main-content">
       <article
         class="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-gray-100 space-y-10"
       >
@@ -252,7 +296,143 @@
       <i class="fa-solid fa-arrow-up"></i>
     </button>
 
+    <!-- BOTÃO DE ACESSIBILIDADE LEITOR -->
+    <button id="accessibility-reader-btn" class="accessibility-reader" aria-label="Ler conteúdo da página">
+      <i class="fa-solid fa-ear-listen"></i>
+      <span>Ouvir Página</span>
+    </button>
+
     <script>
+      // ================== BOTÃO LEITOR DE TELA ==================
+      let speechSynthesisUtterance = null;
+      let isSpeaking = false;
+      const readButton = document.getElementById('accessibility-reader-btn');
+      const mainContent = document.getElementById('main-content');
+      
+      function getTextFromMainContent() {
+        if (!mainContent) return '';
+        // Clona o conteúdo principal para não afetar a interface
+        const clone = mainContent.cloneNode(true);
+        
+        // Remove elementos que não devem ser lidos (botões, links de interação, etc)
+        const unwantedSelectors = [
+          'button',                           // qualquer botão
+          '.bg-gray-200',                     // botão de fundo
+          '#btn-idioma',                      // botão de idioma
+          'a[href="#"]',                      // links vazios
+          '.theme-btn',                       // botões de tema
+          '.pdf-link',                        // links de PDF
+          '.whatsapp-btn',                    // botão flutuante WhatsApp
+          '#btn-top'                          // botão de voltar ao topo
+        ];
+        
+        unwantedSelectors.forEach(selector => {
+          const elementsToRemove = clone.querySelectorAll(selector);
+          elementsToRemove.forEach(el => el.remove());
+        });
+        
+        // Remove também os links de navegação internos
+        const navLinks = clone.querySelectorAll('a[href="index.html"]');
+        navLinks.forEach(el => el.remove());
+        
+        // Obtém todo o texto restante
+        let text = clone.innerText || clone.textContent || '';
+        // Limpa espaços excessivos e quebras
+        text = text.replace(/\s+/g, ' ').trim();
+        return text;
+      }
+      
+      function stopReading() {
+        if (window.speechSynthesis) {
+          window.speechSynthesis.cancel();
+        }
+        if (speechSynthesisUtterance) {
+          speechSynthesisUtterance = null;
+        }
+        isSpeaking = false;
+        if (readButton) {
+          readButton.classList.remove('speaking');
+          readButton.innerHTML = '<i class="fa-solid fa-ear-listen"></i><span>Ouvir Página</span>';
+        }
+      }
+      
+      function readMainContent() {
+        if (isSpeaking) {
+          stopReading();
+          return;
+        }
+        
+        const fullText = getTextFromMainContent();
+        if (!fullText || fullText.length === 0) {
+          alert("Nenhum conteúdo textual disponível para leitura.");
+          return;
+        }
+        
+        if (window.speechSynthesis) {
+          window.speechSynthesis.cancel();
+        }
+        
+        // Detecta idioma baseado no texto atual (simplificado)
+        let langCode = 'pt-PT';
+        if (document.getElementById('nav-inicio')?.innerText === 'Home') {
+          langCode = 'en-US';
+        }
+        
+        const utterance = new SpeechSynthesisUtterance(fullText);
+        utterance.lang = langCode;
+        utterance.rate = 0.9;
+        utterance.pitch = 1;
+        utterance.volume = 1;
+        
+        utterance.onstart = () => {
+          isSpeaking = true;
+          if (readButton) {
+            readButton.classList.add('speaking');
+            readButton.innerHTML = '<i class="fa-solid fa-stop"></i><span>Parar Leitura</span>';
+          }
+        };
+        
+        utterance.onend = () => {
+          isSpeaking = false;
+          if (readButton) {
+            readButton.classList.remove('speaking');
+            readButton.innerHTML = '<i class="fa-solid fa-ear-listen"></i><span>Ouvir Página</span>';
+          }
+        };
+        
+        utterance.onerror = () => {
+          isSpeaking = false;
+          if (readButton) {
+            readButton.classList.remove('speaking');
+            readButton.innerHTML = '<i class="fa-solid fa-ear-listen"></i><span>Ouvir Página</span>';
+          }
+        };
+        
+        speechSynthesisUtterance = utterance;
+        window.speechSynthesis.speak(utterance);
+        
+        // Efeito visual sutil
+        const article = document.querySelector('article');
+        if (article) {
+          article.style.transition = 'background-color 0.2s';
+          article.style.backgroundColor = 'rgba(255, 245, 200, 0.3)';
+          setTimeout(() => {
+            if (article) article.style.backgroundColor = '';
+          }, 500);
+        }
+      }
+      
+      if (readButton) {
+        readButton.addEventListener('click', readMainContent);
+      }
+      
+      window.addEventListener('beforeunload', () => {
+        if (window.speechSynthesis) window.speechSynthesis.cancel();
+      });
+      
+      // Interceptar mudança de idioma para parar leitura
+      const originalBtnIdiomaHandler = document.getElementById("btn-idioma").onclick;
+      
       // 1. DADOS DE TRADUÇÃO
       const trad = {
         pt: {
@@ -319,9 +499,8 @@
 
       // 2. LÓGICA DE TRADUÇÃO
       let lang = "pt";
-      document.getElementById("btn-idioma").onclick = () => {
-        lang = lang === "pt" ? "en" : "pt";
-        
+      
+      function aplicarTraducao() {
         document.getElementById("nav-inicio").innerText = trad[lang].nav;
         document.getElementById("i-titulo").innerText = trad[lang].titulo;
         document.getElementById("i-quote").innerText = trad[lang].quote;
@@ -345,12 +524,28 @@
         for (let i = 0; i < lista.length; i++) {
             lista[i].innerHTML = trad[lang].val[i];
         }
-      };
+      }
+      
+      // Função de toggle de idioma com parada da leitura
+      function toggleIdioma() {
+        if (isSpeaking) stopReading();
+        lang = lang === "pt" ? "en" : "pt";
+        aplicarTraducao();
+        // Atualizar o texto do botão (opcional)
+        const btnIdioma = document.getElementById("btn-idioma");
+        if (btnIdioma) btnIdioma.innerText = lang === "pt" ? "PT / EN" : "EN / PT";
+      }
+      
+      document.getElementById("btn-idioma").onclick = toggleIdioma;
+      
+      // Inicializar tradução padrão
+      aplicarTraducao();
 
       // 3. MUDAR FUNDO
       let f = 0;
       const fundos = ["bg-gray-100", "bg-gray-400", "bg-gray-700"];
       function mudarFundo() {
+        if (isSpeaking) stopReading();
         f = (f + 1) % fundos.length;
         document.body.className = `${fundos[f]} transition-colors duration-700 min-h-screen flex flex-col pt-24`;
         const card = document.querySelector("article");
