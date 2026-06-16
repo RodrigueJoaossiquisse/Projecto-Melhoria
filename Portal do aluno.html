@@ -17,7 +17,6 @@
             min-height: 100vh;
         }
         
-        /* MODO ESCURO MELHORADO PARA TELAS IPS */
         body.dark {
             background: linear-gradient(-45deg, #0f172a, #1e293b, #0f172a, #1e1b4b);
             background-size: 400% 400%;
@@ -53,7 +52,6 @@
             box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.15);
         }
         
-        /* Modo escuro - card mais suave e legível */
         body.dark .glass-card {
             background: rgba(15, 25, 45, 0.92) !important;
             backdrop-filter: blur(2px);
@@ -255,7 +253,7 @@
             animation: float 6s ease-in-out infinite;
         }
         
-        /* MODAL HELP DESK - Modo escuro melhorado */
+        /* ===== MODAL HELP DESK - MAIS ESTREITO ===== */
         .modal-help {
             display: none;
             position: fixed;
@@ -270,19 +268,23 @@
             justify-content: center;
         }
         .modal-help.active { display: flex; }
+        
         .modal-help-content {
-            max-width: 550px;
+            max-width: 480px;
             max-height: 85vh;
             overflow-y: auto;
             background: #ffffff !important;
             border-radius: 1.5rem;
-            padding: 2rem;
+            padding: 1.5rem;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            width: 92%;
         }
+        
         body.dark .modal-help-content {
             background: #0f1925 !important;
             border: 1px solid rgba(59, 130, 246, 0.2);
         }
+        
         .modal-help-close {
             position: absolute;
             top: 20px;
@@ -304,6 +306,7 @@
             color: #1e293b !important;
             line-height: 1.5;
             font-size: 0.875rem;
+            margin-bottom: 0.75rem;
         }
         body.dark .modal-help-content p {
             color: #cbd5e6 !important;
@@ -315,12 +318,16 @@
             color: #60a5fa;
         }
         
+        /* ===== CARDS DA EQUIPA COM FOTOS ===== */
         .team-card {
             transition: all 0.3s ease;
             background: #f8fafc !important;
             border-radius: 1rem;
-            padding: 1rem;
+            padding: 0.75rem 1rem;
             border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
         body.dark .team-card {
             background: #1a2a3a !important;
@@ -332,6 +339,38 @@
         }
         body.dark .team-card:hover {
             box-shadow: 0 5px 15px -5px rgba(59, 130, 246, 0.2);
+        }
+        
+        .team-foto {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #3b82f6;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+            background: #e2e8f0;
+        }
+        
+        .team-card:hover .team-foto {
+            transform: scale(1.05);
+            border-color: #2563eb;
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+        
+        body.dark .team-foto {
+            border-color: #60a5fa;
+            box-shadow: 0 4px 12px rgba(96, 165, 250, 0.2);
+        }
+        
+        body.dark .team-card:hover .team-foto {
+            border-color: #93c5fd;
+            box-shadow: 0 6px 20px rgba(96, 165, 250, 0.3);
+        }
+        
+        .team-info {
+            flex: 1;
         }
         
         .contact-link-modal {
@@ -359,7 +398,6 @@
             background: #2a3a4a;
         }
         
-        /* Menu mobile - modo escuro melhorado */
         .mobile-menu {
             transition: all 0.3s ease;
         }
@@ -372,7 +410,6 @@
             border: 1px solid rgba(59, 130, 246, 0.2);
         }
         
-        /* Container principal com scroll */
         .main-container {
             min-height: 100vh;
             display: flex;
@@ -381,7 +418,6 @@
             padding: 80px 1rem 2rem;
         }
         
-        /* Top bar */
         .top-bar {
             position: fixed;
             top: 20px;
@@ -408,7 +444,6 @@
             gap: 8px;
         }
         
-        /* Textos no modo escuro */
         body.dark .text-gray-800 {
             color: #f1f5f9 !important;
         }
@@ -433,47 +468,74 @@
                 padding: 6px 10px;
                 font-size: 11px;
             }
+            .modal-help-content {
+                padding: 1.2rem;
+                max-width: 95%;
+            }
+            .modal-help-content p {
+                font-size: 0.8rem;
+            }
+            .team-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 1rem;
+            }
+            .team-foto {
+                width: 80px;
+                height: 80px;
+            }
+            .team-info {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- MODAL HELP DESK -->
+    <!-- ===== MODAL HELP DESK COM FOTOS ===== -->
     <div id="modalHelp" class="modal-help">
         <div class="modal-help-close" onclick="closeModalHelp()"><i class="fa-solid fa-xmark text-xl"></i></div>
         <div class="modal-help-content">
-            <div class="text-center mb-5">
-                <div class="w-14 h-14 mx-auto bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl flex items-center justify-center shadow-lg mb-3">
-                    <i class="fa-solid fa-headset text-xl text-white"></i>
+            <div class="text-center mb-4">
+                <div class="w-12 h-12 mx-auto bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl flex items-center justify-center shadow-lg mb-2">
+                    <i class="fa-solid fa-headset text-lg text-white"></i>
                 </div>
-                <h2 id="help-title" class="text-2xl font-black text-gray-800 dark:text-white">Help Desk</h2>
-                <p id="help-subtitle" class="text-gray-500 dark:text-gray-400 text-sm mt-1">Secção de Apoio e Atendimento ao Estudante</p>
+                <h2 id="help-title" class="text-xl font-black text-gray-800 dark:text-white">Help Desk</h2>
+                <p id="help-subtitle" class="text-gray-500 dark:text-gray-400 text-xs mt-0.5">Secção de Apoio e Atendimento ao Estudante</p>
             </div>
             
-            <div id="help-body" class="text-gray-700 dark:text-gray-300 space-y-4 text-sm leading-relaxed"></div>
+            <div id="help-body" class="text-gray-700 dark:text-gray-300 space-y-2 text-sm leading-relaxed"></div>
             
-            <div class="mt-6">
-                <h3 id="help-team-title" class="text-lg font-black text-gray-800 dark:text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-users text-blue-500"></i> Conheça a Equipa</h3>
-                <div class="grid gap-3">
+            <div class="mt-4">
+                <h3 id="help-team-title" class="text-base font-black text-gray-800 dark:text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-users text-blue-500"></i> Conheça a Equipa</h3>
+                <div class="space-y-2">
+                    <!-- Isac Chaile -->
                     <div class="team-card">
-                        <div>
-                            <h4 id="member1-name" class="font-black text-gray-800 dark:text-white">Isac Wilson Salomão Chaile</h4>
-                            <p id="member1-role" class="text-xs text-blue-600 dark:text-blue-400 font-semibold mt-1">Chefe de Secção de Atendimento Apoio ao Estudante</p>
-                            <a href="mailto:ichaile@unisced.edu.mz" class="text-xs text-gray-500 dark:text-gray-400 hover:text-blue-600 transition flex items-center gap-1 mt-2"><i class="fa-regular fa-envelope"></i> ichaile@unisced.edu.mz</a>
+                        <img src="https://raw.githubusercontent.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/main/suporte%202.png" 
+                             alt="Isac Chaile" 
+                             class="team-foto">
+                        <div class="team-info">
+                            <h4 id="member1-name" class="font-black text-gray-800 dark:text-white text-sm">Isac Wilson Salomão Chaile</h4>
+                            <p id="member1-role" class="text-xs text-blue-600 dark:text-blue-400 font-semibold mt-0.5">Chefe de Secção de Atendimento Apoio ao Estudante</p>
+                            <a href="mailto:ichaile@unisced.edu.mz" class="text-xs text-gray-500 dark:text-gray-400 hover:text-blue-600 transition flex items-center gap-1 mt-1"><i class="fa-regular fa-envelope"></i> ichaile@unisced.edu.mz</a>
                         </div>
                     </div>
                     
+                    <!-- Felisberto Samuel -->
                     <div class="team-card">
-                        <div>
-                            <h4 id="member2-name" class="font-black text-gray-800 dark:text-white">Felisberto António Samuel</h4>
-                            <p id="member2-role" class="text-xs text-blue-600 dark:text-blue-400 font-semibold mt-1">Técnico de Atendimento Apoio ao Estudante</p>
-                            <a href="mailto:fsamuel1@unisced.edu.mz" class="text-xs text-gray-500 dark:text-gray-400 hover:text-blue-600 transition flex items-center gap-1 mt-2"><i class="fa-regular fa-envelope"></i> fsamuel1@unisced.edu.mz</a>
+                        <img src="https://raw.githubusercontent.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/main/suporte%201.png" 
+                             alt="Felisberto Samuel" 
+                             class="team-foto">
+                        <div class="team-info">
+                            <h4 id="member2-name" class="font-black text-gray-800 dark:text-white text-sm">Felisberto António Samuel</h4>
+                            <p id="member2-role" class="text-xs text-blue-600 dark:text-blue-400 font-semibold mt-0.5">Técnico de Atendimento Apoio ao Estudante</p>
+                            <a href="mailto:fsamuel1@unisced.edu.mz" class="text-xs text-gray-500 dark:text-gray-400 hover:text-blue-600 transition flex items-center gap-1 mt-1"><i class="fa-regular fa-envelope"></i> fsamuel1@unisced.edu.mz</a>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="mt-6 pt-4 border-t border-gray-200 dark:border-slate-700">
+            <div class="mt-4 pt-3 border-t border-gray-200 dark:border-slate-700">
                 <div class="flex flex-wrap justify-center gap-2">
                     <a href="tel:+258840943449" class="contact-link-modal"><i class="fa-solid fa-phone text-blue-500"></i> 84 094 3449</a>
                     <a href="tel:+258847322199" class="contact-link-modal"><i class="fa-solid fa-phone text-blue-500"></i> 84 732 2199</a>
@@ -483,13 +545,13 @@
         </div>
     </div>
 
-    <!-- Bolhas decorativas -->
+    <!-- ===== BOLHAS DECORATIVAS ===== -->
     <div class="bubble w-64 h-64 top-20 -left-20 float-animation"></div>
     <div class="bubble w-96 h-96 bottom-20 -right-32 float-animation" style="animation-delay: 2s;"></div>
     <div class="bubble w-48 h-48 top-1/3 right-20 float-animation" style="animation-delay: 4s;"></div>
     <div class="bubble w-32 h-32 bottom-1/4 left-1/4 float-animation" style="animation-delay: 1s;"></div>
 
-    <!-- TOP BAR -->
+    <!-- ===== TOP BAR ===== -->
     <div class="top-bar">
         <div class="left-group">
             <a href="index.html" class="back-btn top-btn flex items-center gap-2 font-medium px-3 py-1.5 rounded-full text-xs transition">
@@ -519,18 +581,18 @@
         </div>
     </div>
 
-    <!-- MENU MOBILE (HAMBÚRGUER) -->
+    <!-- ===== MENU MOBILE ===== -->
     <div id="mobile-menu" class="hidden fixed top-16 left-20 z-50 bg-white/95 dark:bg-slate-800/95 backdrop-blur-md rounded-2xl shadow-lg border border-white/30 dark:border-slate-700/50 w-48">
         <div class="px-4 py-3 space-y-2">
-            <a href="index.html" id="mobile-link-inicio" class="flex items-center gap-3 text-gray-700 dark:text-gray-300 font-semibold py-2 px-3 rounded-xl hover:bg-blue-50 dark:hover:bg-slate-700 transition text-sm">Início</a>
-            <a href="cursos.html" id="mobile-link-cursos" class="flex items-center gap-3 text-gray-700 dark:text-gray-300 font-semibold py-2 px-3 rounded-xl hover:bg-blue-50 dark:hover:bg-slate-700 transition text-sm">Cursos</a>
-            <a href="Centro-Recursos.html" id="mobile-link-recursos" class="flex items-center gap-3 text-gray-700 dark:text-gray-300 font-semibold py-2 px-3 rounded-xl hover:bg-blue-50 dark:hover:bg-slate-700 transition text-sm">Centro de Recursos</a>
-            <a href="noticias.html" id="mobile-link-noticias" class="flex items-center gap-3 text-gray-700 dark:text-gray-300 font-semibold py-2 px-3 rounded-xl hover:bg-blue-50 dark:hover:bg-slate-700 transition text-sm">Notícias</a>
-            <a href="Sobre.html" id="mobile-link-sobre" class="flex items-center gap-3 text-gray-700 dark:text-gray-300 font-semibold py-2 px-3 rounded-xl hover:bg-blue-50 dark:hover:bg-slate-700 transition text-sm">Sobre</a>
+            <a href="index.html" id="mobile-link-inicio" class="flex items-center gap-3 text-gray-700 dark:text-gray-300 font-semibold py-2 px-3 rounded-xl hover:bg-blue-50 dark:hover:bg-slate-700 transition text-sm"><i class="fa-solid fa-house text-xs"></i> Início</a>
+            <a href="cursos.html" id="mobile-link-cursos" class="flex items-center gap-3 text-gray-700 dark:text-gray-300 font-semibold py-2 px-3 rounded-xl hover:bg-blue-50 dark:hover:bg-slate-700 transition text-sm"><i class="fa-solid fa-book text-xs"></i> Cursos</a>
+            <a href="Centro-Recursos.html" id="mobile-link-recursos" class="flex items-center gap-3 text-gray-700 dark:text-gray-300 font-semibold py-2 px-3 rounded-xl hover:bg-blue-50 dark:hover:bg-slate-700 transition text-sm"><i class="fa-solid fa-folder-open text-xs"></i> Centro de Recursos</a>
+            <a href="noticias.html" id="mobile-link-noticias" class="flex items-center gap-3 text-gray-700 dark:text-gray-300 font-semibold py-2 px-3 rounded-xl hover:bg-blue-50 dark:hover:bg-slate-700 transition text-sm"><i class="fa-regular fa-newspaper text-xs"></i> Notícias</a>
+            <a href="Sobre.html" id="mobile-link-sobre" class="flex items-center gap-3 text-gray-700 dark:text-gray-300 font-semibold py-2 px-3 rounded-xl hover:bg-blue-50 dark:hover:bg-slate-700 transition text-sm"><i class="fa-solid fa-info-circle text-xs"></i> Sobre</a>
         </div>
     </div>
 
-    <!-- CARD PRINCIPAL -->
+    <!-- ===== CARD PRINCIPAL ===== -->
     <div class="main-container">
         <div class="max-w-sm w-full glass-card rounded-2xl p-6">
             
@@ -611,6 +673,7 @@
         </div>
     </div>
 
+    <!-- ===== TOAST ===== -->
     <div id="toast" class="toast-notification">
         <i id="toast-icon" class="fa-solid fa-circle-exclamation text-red-500"></i>
         <span id="toast-message" class="text-gray-800 dark:text-gray-200 text-xs">Erro ao entrar</span>
@@ -634,14 +697,14 @@
             });
         }
 
-        // ================== TEXTOS DO HELP DESK ==================
+        // ================== HELP DESK TEXTO RESUMIDO ==================
         let helpTexts = {
             pt: {
                 title: "Help Desk",
                 subtitle: "Secção de Apoio e Atendimento ao Estudante",
-                body: `<p>A <strong>Secção de Apoio e Atendimento ao Estudante (Help-desk)</strong> da Universidade Aberta ISCED (UnISCED) é uma equipe dedicada a fornecer suporte técnico e assistência aos estudantes, docentes e funcionários da instituição. O Help-desk desempenha um papel fundamental ao oferecer soluções para problemas e dificuldades dos nossos estudantes.</p>
-                        <p>A equipe do Help-desk é composta por profissionais especializados em suporte técnico, que estão prontos para responder a consultas, solucionar problemas e fornecer orientação aos usuários. Eles são responsáveis por receber e registar solicitações de suporte, diagnosticar e resolver problemas técnicos por telefone, e-mail ou por meio de um sistema de tickets. Além disso, eles fornecem treinamento básico sobre o uso de software e sistemas institucionais, ajudando os usuários a aproveitar ao máximo as ferramentas tecnológicas disponíveis na UnISCED.</p>
-                        <p>O Help-desk desempenha um papel vital na facilitação do uso eficiente da tecnologia, garantindo que estudantes, docentes e funcionários possam realizar suas actividades académicas e administrativas sem interrupções significativas.</p>`,
+                body: `<p>A <strong>Secção de Apoio e Atendimento ao Estudante (Help-desk)</strong> da UnISCED é uma equipe dedicada a fornecer suporte técnico e assistência aos estudantes, docentes e funcionários da instituição. O Help-desk desempenha um papel fundamental ao oferecer soluções para problemas e dificuldades dos nossos estudantes.</p>
+                        <p>A equipe do Help-desk é composta por profissionais especializados em suporte técnico, que estão prontos para responder a consultas, solucionar problemas e fornecer orientação aos usuários. Eles são responsáveis por receber e registar solicitações de suporte, diagnosticar e resolver problemas técnicos por telefone, e-mail ou por meio de um sistema de tickets.</p>
+                        <p>Além disso, fornecem treinamento básico sobre o uso de software e sistemas institucionais, ajudando os usuários a aproveitar ao máximo as ferramentas tecnológicas disponíveis na UnISCED.</p>`,
                 teamTitle: "Conheça a Equipa",
                 member1Name: "Isac Wilson Salomão Chaile",
                 member1Role: "Chefe de Secção de Atendimento Apoio ao Estudante",
@@ -651,9 +714,9 @@
             en: {
                 title: "Help Desk",
                 subtitle: "Student Support and Assistance Section",
-                body: `<p>The <strong>Student Support and Assistance Section (Help-desk)</strong> of the Open University ISCED (UnISCED) is a team dedicated to providing technical support and assistance to students, faculty and staff of the institution. The Help-desk plays a fundamental role in offering solutions to problems and difficulties faced by our students.</p>
-                        <p>The Help-desk team consists of professionals specialized in technical support, who are ready to answer queries, solve problems and provide guidance to users. They are responsible for receiving and recording support requests, diagnosing and solving technical problems by phone, email or through a ticket system. Additionally, they provide basic training on the use of software and institutional systems, helping users make the most of the technological tools available at UnISCED.</p>
-                        <p>The Help-desk plays a vital role in facilitating the efficient use of technology, ensuring that students, faculty and staff can carry out their academic and administrative activities without significant interruptions.</p>`,
+                body: `<p>The <strong>Student Support and Assistance Section (Help-desk)</strong> of UnISCED is a team dedicated to providing technical support and assistance to students, faculty and staff of the institution. The Help-desk plays a fundamental role in offering solutions to problems and difficulties faced by our students.</p>
+                        <p>The Help-desk team consists of professionals specialized in technical support, who are ready to answer queries, solve problems and provide guidance to users. They are responsible for receiving and recording support requests, diagnosing and solving technical problems by phone, email or through a ticket system.</p>
+                        <p>Additionally, they provide basic training on the use of software and institutional systems, helping users make the most of the technological tools available at UnISCED.</p>`,
                 teamTitle: "Meet the Team",
                 member1Name: "Isac Wilson Salomão Chaile",
                 member1Role: "Head of Student Support and Assistance Section",
