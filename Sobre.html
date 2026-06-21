@@ -17,12 +17,10 @@
         transform: translateY(-100%);
       }
 
-      /* ===== EFEITO DE SCROLL SUAVE (DESCER LENTAMENTE) ===== */
       html {
         scroll-behavior: smooth;
       }
 
-      /* Efeito de fade-in ao descer (opcional - deixa mais bonito) */
       .fade-up {
         opacity: 0;
         transform: translateY(30px);
@@ -34,11 +32,10 @@
         transform: translateY(0);
       }
 
-      /* Efeito de aparecimento gradual para os elementos */
       .reveal {
         opacity: 0;
         transform: translateY(20px);
-        transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
+        transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
                     transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
@@ -47,7 +44,218 @@
         transform: translateY(0);
       }
 
-      /* Botão leitor acessível */
+      /* ===== GALERIA ===== */
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+      }
+      .gallery-item {
+        overflow: hidden;
+        border-radius: 1rem;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        position: relative;
+        aspect-ratio: 4/3;
+        background: #f1f5f9;
+      }
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .gallery-item:hover img {
+        transform: scale(1.08);
+      }
+      .gallery-item .caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 12px 16px;
+        background: linear-gradient(transparent, rgba(0,0,0,0.7));
+        color: white;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transform: translateY(100%);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(4px);
+      }
+      .gallery-item:hover .caption {
+        transform: translateY(0);
+      }
+      .gallery-item .caption i {
+        margin-right: 6px;
+        color: #22d3ee;
+      }
+
+      /* ===== VÍDEO EM TELA CHEIA ===== */
+      .video-full-section {
+        position: relative;
+        width: 100%;
+        height: 80vh;
+        min-height: 500px;
+        max-height: 800px;
+        overflow: hidden;
+        border-radius: 1.5rem;
+        background: #0f172a;
+        margin: 2rem 0;
+      }
+      .video-full-section video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        background: #0a1628;
+      }
+      .video-full-section .video-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(4px);
+        transition: opacity 0.6s ease;
+        cursor: pointer;
+        z-index: 2;
+      }
+      .video-full-section .video-overlay.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .video-full-section .video-overlay i {
+        font-size: 5rem;
+        color: #22d3ee;
+        margin-bottom: 16px;
+        animation: pulse-play 2s ease-in-out infinite;
+        text-shadow: 0 0 40px rgba(34, 211, 238, 0.3);
+      }
+      .video-full-section .video-overlay .play-text {
+        font-weight: 700;
+        font-size: 1.2rem;
+        color: white;
+        letter-spacing: 2px;
+        text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+      }
+      .video-full-section .video-overlay .play-sub {
+        font-size: 0.9rem;
+        color: #94a3b8;
+        margin-top: 4px;
+      }
+      @keyframes pulse-play {
+        0%, 100% { transform: scale(1); opacity: 0.8; }
+        50% { transform: scale(1.1); opacity: 1; }
+      }
+
+      /* Controles personalizados */
+      .video-full-section .video-controls {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 20px 30px;
+        background: linear-gradient(transparent, rgba(0,0,0,0.8));
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .video-full-section:hover .video-controls {
+        opacity: 1;
+      }
+      .video-full-section .video-controls button {
+        background: rgba(255,255,255,0.15);
+        border: none;
+        color: white;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(255,255,255,0.1);
+        flex-shrink: 0;
+      }
+      .video-full-section .video-controls button:hover {
+        background: rgba(255,255,255,0.25);
+        transform: scale(1.05);
+      }
+      .video-full-section .video-controls .progress-bar {
+        flex: 1;
+        height: 4px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 4px;
+        cursor: pointer;
+        position: relative;
+        transition: height 0.2s ease;
+        min-width: 60px;
+      }
+      .video-full-section .video-controls .progress-bar:hover {
+        height: 6px;
+      }
+      .video-full-section .video-controls .progress-bar .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #1e3a8a, #22d3ee);
+        border-radius: 4px;
+        width: 0%;
+        transition: width 0.1s linear;
+      }
+      .video-full-section .video-controls .time-display {
+        color: white;
+        font-size: 0.8rem;
+        font-weight: 500;
+        min-width: 100px;
+        text-align: center;
+        letter-spacing: 0.5px;
+        flex-shrink: 0;
+      }
+      .video-full-section .video-controls .volume-control {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+      .video-full-section .video-controls .volume-control input[type="range"] {
+        width: 60px;
+        height: 4px;
+        -webkit-appearance: none;
+        appearance: none;
+        background: rgba(255,255,255,0.2);
+        border-radius: 4px;
+        outline: none;
+        transition: height 0.2s ease;
+      }
+      .video-full-section .video-controls .volume-control input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #22d3ee;
+        cursor: pointer;
+        box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
+      }
+      .video-full-section .video-controls .volume-control input[type="range"]::-moz-range-thumb {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #22d3ee;
+        cursor: pointer;
+        border: none;
+      }
+
+      /* ===== ACCESSIBILITY READER ===== */
       .accessibility-reader {
         position: fixed;
         bottom: 120px;
@@ -86,25 +294,38 @@
         70% { box-shadow: 0 0 0 10px rgba(14, 126, 110, 0); }
         100% { box-shadow: 0 0 0 0 rgba(14, 126, 110, 0); }
       }
-      
+
+      /* ===== BOTÃO TOPO ===== */
+      #btn-top {
+        z-index: 999;
+      }
+
       @media (max-width: 640px) {
         .accessibility-reader { bottom: 100px; right: 16px; padding: 10px 14px; font-size: 0.8rem; }
+        .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
+        .video-full-section { height: 60vh; min-height: 350px; border-radius: 1rem; }
+        .video-full-section .video-overlay i { font-size: 3.5rem; }
+        .video-full-section .video-controls { padding: 12px 16px; flex-wrap: wrap; gap: 10px; }
+        .video-full-section .video-controls .volume-control input[type="range"] { width: 40px; }
+        .video-full-section .video-controls .time-display { font-size: 0.7rem; min-width: 70px; }
+        .video-full-section .video-controls button { width: 36px; height: 36px; font-size: 0.9rem; }
       }
     </style>
   </head>
   <body
     class="bg-gray-100 transition-colors duration-700 min-h-screen flex flex-col pt-24"
   >
+    <!-- ===== NAVBAR ===== -->
     <nav
       id="navbar"
       class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 p-4 nav-base shadow-sm"
     >
       <div class="max-w-5xl mx-auto flex justify-between items-center">
         <div class="flex items-center gap-6">
-          <a href="index.html" class="text-blue-800 hover:text-blue-600 font-bold">
-           <i class="fa-solid fa-house mr-2"></i>
-           <span id="nav-inicio">Início</span>
-            </a>
+          <a href="index.html" class="text-blue-800 hover:text-blue-600 font-bold" id="nav-link-inicio">
+            <i class="fa-solid fa-house mr-2"></i>
+            <span id="nav-inicio">Início</span>
+          </a>
           <span class="text-2xl font-black text-blue-800">UnISCED</span>
         </div>
         <div class="flex items-center gap-3">
@@ -124,7 +345,7 @@
       </div>
     </nav>
 
-    <!-- Imagem de centro com efeito de zoom suave ao carregar -->
+    <!-- ===== IMAGEM DO REITOR ===== -->
     <div class="flex justify-center my-10 px-6 reveal">
       <img
         src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/1781014363916.png?raw=true"
@@ -133,10 +354,12 @@
       />
     </div>
 
+    <!-- ===== MAIN CONTENT ===== -->
     <main class="flex-grow max-w-5xl mx-auto px-6 pb-20" id="main-content">
       <article
         class="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-gray-100 space-y-10"
       >
+        <!-- Título -->
         <div class="reveal">
           <h1
             id="i-titulo"
@@ -152,6 +375,7 @@
           </p>
         </div>
 
+        <!-- Texto -->
         <div class="text-justify text-gray-700 leading-relaxed space-y-6 reveal">
           <p id="i-p1">
             A Universidade Aberta ISCED (UnISCED) resulta da transformação do
@@ -169,6 +393,7 @@
           </p>
         </div>
 
+        <!-- Missão e Visão -->
         <div class="grid md:grid-cols-2 gap-8">
           <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100 reveal">
             <h3 id="i-h-missao" class="font-bold text-xl text-blue-900 mb-2">
@@ -191,6 +416,7 @@
           </div>
         </div>
 
+        <!-- Reitoria -->
         <div class="reveal">
           <h3 id="i-h-reitoria" class="text-2xl font-black text-blue-900 mb-4">
             A Reitoria
@@ -203,6 +429,7 @@
           </p>
         </div>
 
+        <!-- Valores -->
         <div
           class="bg-white/30 backdrop-blur-md border border-white/20 p-8 rounded-3xl shadow-lg mt-8 reveal"
         >
@@ -240,10 +467,9 @@
           </ul>
         </div>
 
-        <!-- Bloco do Reitor -->
+        <!-- ===== BLOCO DO REITOR ===== -->
         <div class="bg-blue-950 text-white p-8 rounded-2xl shadow-xl reveal">
           <div class="grid md:grid-cols-3 gap-6 items-center">
-            <!-- Foto do Reitor -->
             <div class="flex justify-center">
               <div class="p-2 bg-blue-800 rounded-full shadow-xl transition-transform duration-500 hover:scale-105">
                 <img
@@ -253,8 +479,6 @@
                 />
               </div>
             </div>
-
-            <!-- Mensagem -->
             <div class="md:col-span-2">
               <h4 id="i-h-msg" class="font-bold text-blue-300 mb-2 text-lg">
                 Mensagem do Reitor
@@ -273,9 +497,102 @@
             </div>
           </div>
         </div>
+
+        <!-- ===== SEÇÃO DE VÍDEO EM TELA CHEIA ===== -->
+        <div class="reveal">
+          <h2 id="i-video-titulo" class="text-2xl font-black text-blue-900 mb-3">
+            🎬 Conheça a Nossa História
+          </h2>
+          <p id="i-video-desc" class="text-gray-600 mb-4">
+            Assista ao vídeo institucional e veja como a UnISCED transforma vidas através da educação.
+          </p>
+
+          <div class="video-full-section" id="video-section">
+            <!-- Overlay de Play -->
+            <div class="video-overlay" id="video-overlay" onclick="playVideo()">
+              <i class="fa-solid fa-play-circle"></i>
+              <span class="play-text" id="play-text">ASSISTIR VÍDEO</span>
+              <span class="play-sub" id="play-sub">Clique para reproduzir</span>
+            </div>
+
+            <!-- Vídeo -->
+            <video id="institutional-video" preload="metadata" playsinline>
+              <source src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/raw/main/video.mp4" type="video/mp4" />
+              Seu navegador não suporta a reprodução de vídeos.
+            </video>
+
+            <!-- Controles Personalizados -->
+            <div class="video-controls" id="video-controls">
+              <button id="play-pause-btn" onclick="togglePlayPause()" aria-label="Play/Pause">
+                <i class="fa-solid fa-play" id="play-icon"></i>
+              </button>
+
+              <div class="progress-bar" id="progress-bar" onclick="seekVideo(event)">
+                <div class="progress-fill" id="progress-fill"></div>
+              </div>
+
+              <span class="time-display" id="time-display">0:00 / 0:00</span>
+
+              <div class="volume-control">
+                <button onclick="toggleMute()" aria-label="Mute">
+                  <i class="fa-solid fa-volume-high" id="volume-icon"></i>
+                </button>
+                <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="1" oninput="updateVolume(this.value)" />
+              </div>
+
+              <button onclick="toggleFullscreen()" aria-label="Fullscreen">
+                <i class="fa-solid fa-expand"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== GALERIA DE FOTOS ===== -->
+        <div class="reveal">
+          <h2 id="i-galeria-titulo" class="text-2xl font-black text-blue-900 mb-3">
+            📸 Nossos Centros de Recursos
+          </h2>
+          <p id="i-galeria-desc" class="text-gray-600 mb-4">
+            Conheça as instalações da UnISCED espalhadas pelo país.
+          </p>
+          <div class="gallery-grid">
+            <!-- Centro de Recursos - Katembe -->
+            <div class="gallery-item">
+              <img src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/2750.jpeg?raw=true" alt="Centro de Recursos - Katembe" loading="lazy" />
+              <div class="caption"><i class="fa-solid fa-location-dot"></i> <span id="g-katembe">Centro de Recursos - Katembe</span></div>
+            </div>
+            <!-- Beira -->
+            <div class="gallery-item">
+              <img src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Beira.jpeg?raw=true" alt="Centro de Recursos - Beira" loading="lazy" />
+              <div class="caption"><i class="fa-solid fa-location-dot"></i> <span id="g-beira">Centro de Recursos - Beira</span></div>
+            </div>
+            <!-- Maputo - Recepção -->
+            <div class="gallery-item">
+              <img src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Area%20de%20atendiento.jpg?raw=true" alt="Recepção - Maputo" loading="lazy" />
+              <div class="caption"><i class="fa-solid fa-door-open"></i> <span id="g-maputo-recepcao">Recepção - Maputo</span></div>
+            </div>
+            <!-- Chimoio -->
+            <div class="gallery-item">
+              <img src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Chimoio.jpg?raw=true" alt="Centro de Recursos - Chimoio" loading="lazy" />
+              <div class="caption"><i class="fa-solid fa-location-dot"></i> <span id="g-chimoio">Centro de Recursos - Chimoio</span></div>
+            </div>
+            <!-- Nampula -->
+            <div class="gallery-item">
+              <img src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Nampula.jpg?raw=true" alt="Centro de Recursos - Nampula" loading="lazy" />
+              <div class="caption"><i class="fa-solid fa-location-dot"></i> <span id="g-nampula">Centro de Recursos - Nampula</span></div>
+            </div>
+            <!-- Pátio - Maputo -->
+            <div class="gallery-item">
+              <img src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Patio.jpg?raw=true" alt="Pátio - Maputo (Katembe)" loading="lazy" />
+              <div class="caption"><i class="fa-solid fa-tree"></i> <span id="g-patio">Pátio - Maputo (Katembe)</span></div>
+            </div>
+          </div>
+        </div>
+
       </article>
     </main>
 
+    <!-- ===== RODAPÉ ===== -->
     <footer
       id="footer"
       class="bg-white border-t border-gray-200 py-10 text-center text-gray-500 reveal"
@@ -288,6 +605,7 @@
       </p>
     </footer>
 
+    <!-- ===== BOTÕES ===== -->
     <button
       id="btn-top"
       onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
@@ -296,144 +614,13 @@
       <i class="fa-solid fa-arrow-up"></i>
     </button>
 
-    <!-- BOTÃO DE ACESSIBILIDADE LEITOR -->
     <button id="accessibility-reader-btn" class="accessibility-reader" aria-label="Ler conteúdo da página">
       <i class="fa-solid fa-ear-listen"></i>
       <span>Ouvir Página</span>
     </button>
 
     <script>
-      // ================== BOTÃO LEITOR DE TELA ==================
-      let speechSynthesisUtterance = null;
-      let isSpeaking = false;
-      const readButton = document.getElementById('accessibility-reader-btn');
-      const mainContent = document.getElementById('main-content');
-      
-      function getTextFromMainContent() {
-        if (!mainContent) return '';
-        // Clona o conteúdo principal para não afetar a interface
-        const clone = mainContent.cloneNode(true);
-        
-        // Remove elementos que não devem ser lidos (botões, links de interação, etc)
-        const unwantedSelectors = [
-          'button',                           // qualquer botão
-          '.bg-gray-200',                     // botão de fundo
-          '#btn-idioma',                      // botão de idioma
-          'a[href="#"]',                      // links vazios
-          '.theme-btn',                       // botões de tema
-          '.pdf-link',                        // links de PDF
-          '.whatsapp-btn',                    // botão flutuante WhatsApp
-          '#btn-top'                          // botão de voltar ao topo
-        ];
-        
-        unwantedSelectors.forEach(selector => {
-          const elementsToRemove = clone.querySelectorAll(selector);
-          elementsToRemove.forEach(el => el.remove());
-        });
-        
-        // Remove também os links de navegação internos
-        const navLinks = clone.querySelectorAll('a[href="index.html"]');
-        navLinks.forEach(el => el.remove());
-        
-        // Obtém todo o texto restante
-        let text = clone.innerText || clone.textContent || '';
-        // Limpa espaços excessivos e quebras
-        text = text.replace(/\s+/g, ' ').trim();
-        return text;
-      }
-      
-      function stopReading() {
-        if (window.speechSynthesis) {
-          window.speechSynthesis.cancel();
-        }
-        if (speechSynthesisUtterance) {
-          speechSynthesisUtterance = null;
-        }
-        isSpeaking = false;
-        if (readButton) {
-          readButton.classList.remove('speaking');
-          readButton.innerHTML = '<i class="fa-solid fa-ear-listen"></i><span>Ouvir Página</span>';
-        }
-      }
-      
-      function readMainContent() {
-        if (isSpeaking) {
-          stopReading();
-          return;
-        }
-        
-        const fullText = getTextFromMainContent();
-        if (!fullText || fullText.length === 0) {
-          alert("Nenhum conteúdo textual disponível para leitura.");
-          return;
-        }
-        
-        if (window.speechSynthesis) {
-          window.speechSynthesis.cancel();
-        }
-        
-        // Detecta idioma baseado no texto atual (simplificado)
-        let langCode = 'pt-PT';
-        if (document.getElementById('nav-inicio')?.innerText === 'Home') {
-          langCode = 'en-US';
-        }
-        
-        const utterance = new SpeechSynthesisUtterance(fullText);
-        utterance.lang = langCode;
-        utterance.rate = 0.9;
-        utterance.pitch = 1;
-        utterance.volume = 1;
-        
-        utterance.onstart = () => {
-          isSpeaking = true;
-          if (readButton) {
-            readButton.classList.add('speaking');
-            readButton.innerHTML = '<i class="fa-solid fa-stop"></i><span>Parar Leitura</span>';
-          }
-        };
-        
-        utterance.onend = () => {
-          isSpeaking = false;
-          if (readButton) {
-            readButton.classList.remove('speaking');
-            readButton.innerHTML = '<i class="fa-solid fa-ear-listen"></i><span>Ouvir Página</span>';
-          }
-        };
-        
-        utterance.onerror = () => {
-          isSpeaking = false;
-          if (readButton) {
-            readButton.classList.remove('speaking');
-            readButton.innerHTML = '<i class="fa-solid fa-ear-listen"></i><span>Ouvir Página</span>';
-          }
-        };
-        
-        speechSynthesisUtterance = utterance;
-        window.speechSynthesis.speak(utterance);
-        
-        // Efeito visual sutil
-        const article = document.querySelector('article');
-        if (article) {
-          article.style.transition = 'background-color 0.2s';
-          article.style.backgroundColor = 'rgba(255, 245, 200, 0.3)';
-          setTimeout(() => {
-            if (article) article.style.backgroundColor = '';
-          }, 500);
-        }
-      }
-      
-      if (readButton) {
-        readButton.addEventListener('click', readMainContent);
-      }
-      
-      window.addEventListener('beforeunload', () => {
-        if (window.speechSynthesis) window.speechSynthesis.cancel();
-      });
-      
-      // Interceptar mudança de idioma para parar leitura
-      const originalBtnIdiomaHandler = document.getElementById("btn-idioma").onclick;
-      
-      // 1. DADOS DE TRADUÇÃO
+      // ================== TRADUÇÕES ==================
       const trad = {
         pt: {
           nav: "Início",
@@ -464,6 +651,18 @@
             "✔ Liberdade académica; Inovação",
             "✔ Respeito pelo meio ambiente",
           ],
+          video_titulo: "🎬 Conheça a Nossa História",
+          video_desc: "Assista ao vídeo institucional e veja como a UnISCED transforma vidas através da educação.",
+          play_text: "ASSISTIR VÍDEO",
+          play_sub: "Clique para reproduzir",
+          galeria_titulo: "📸 Nossos Centros de Recursos",
+          galeria_desc: "Conheça as instalações da UnISCED espalhadas pelo país.",
+          g_katembe: "Centro de Recursos - Katembe",
+          g_beira: "Centro de Recursos - Beira",
+          g_maputo_recepcao: "Recepção - Maputo",
+          g_chimoio: "Centro de Recursos - Chimoio",
+          g_nampula: "Centro de Recursos - Nampula",
+          g_patio: "Pátio - Maputo (Katembe)"
         },
         en: {
           nav: "Home",
@@ -494,54 +693,75 @@
             "✔ Academic freedom; Innovation",
             "✔ Respect for the environment",
           ],
-        },
+          video_titulo: "🎬 Discover Our Story",
+          video_desc: "Watch the institutional video and see how UnISCED transforms lives through education.",
+          play_text: "WATCH VIDEO",
+          play_sub: "Click to play",
+          galeria_titulo: "📸 Our Resource Centers",
+          galeria_desc: "Explore UnISCED's facilities across the country.",
+          g_katembe: "Resource Center - Katembe",
+          g_beira: "Resource Center - Beira",
+          g_maputo_recepcao: "Reception - Maputo",
+          g_chimoio: "Resource Center - Chimoio",
+          g_nampula: "Resource Center - Nampula",
+          g_patio: "Courtyard - Maputo (Katembe)"
+        }
       };
 
-      // 2. LÓGICA DE TRADUÇÃO
+      // ================== LÓGICA DE TRADUÇÃO ==================
       let lang = "pt";
       
       function aplicarTraducao() {
-        document.getElementById("nav-inicio").innerText = trad[lang].nav;
-        document.getElementById("i-titulo").innerText = trad[lang].titulo;
-        document.getElementById("i-quote").innerText = trad[lang].quote;
-        document.getElementById("i-p1").innerText = trad[lang].p1;
-        document.getElementById("i-p2").innerText = trad[lang].p2;
-        document.getElementById("i-h-missao").innerText = trad[lang].h_missao;
-        document.getElementById("i-p-missao").innerText = trad[lang].p_missao;
-        document.getElementById("i-h-visao").innerText = trad[lang].h_visao;
-        document.getElementById("i-p-visao").innerText = trad[lang].p_visao;
-        document.getElementById("i-h-reitoria").innerText = trad[lang].h_reitoria;
-        document.getElementById("i-p-reitoria").innerText = trad[lang].p_reitoria;
-        document.getElementById("i-h-msg").innerText = trad[lang].h_msg;
-        document.getElementById("i-p-msg").innerText = '"' + trad[lang].p_msg + '"';
-        document.getElementById("i-nome-reitor").innerText = trad[lang].nome_reitor;
-        document.getElementById("i-cargo").innerText = trad[lang].cargo;
-        document.getElementById("i-h-valores").innerText = trad[lang].h_valores;
-        document.getElementById("i-endereco").innerHTML = trad[lang].endereco;
-        document.getElementById("i-copyright").innerHTML = trad[lang].copyright;
+        const t = trad[lang];
+        document.getElementById("nav-inicio").innerText = t.nav;
+        document.getElementById("i-titulo").innerText = t.titulo;
+        document.getElementById("i-quote").innerText = t.quote;
+        document.getElementById("i-p1").innerText = t.p1;
+        document.getElementById("i-p2").innerText = t.p2;
+        document.getElementById("i-h-missao").innerText = t.h_missao;
+        document.getElementById("i-p-missao").innerText = t.p_missao;
+        document.getElementById("i-h-visao").innerText = t.h_visao;
+        document.getElementById("i-p-visao").innerText = t.p_visao;
+        document.getElementById("i-h-reitoria").innerText = t.h_reitoria;
+        document.getElementById("i-p-reitoria").innerText = t.p_reitoria;
+        document.getElementById("i-h-msg").innerText = t.h_msg;
+        document.getElementById("i-p-msg").innerText = '"' + t.p_msg + '"';
+        document.getElementById("i-nome-reitor").innerText = t.nome_reitor;
+        document.getElementById("i-cargo").innerText = t.cargo;
+        document.getElementById("i-h-valores").innerText = t.h_valores;
+        document.getElementById("i-endereco").innerHTML = t.endereco;
+        document.getElementById("i-copyright").innerHTML = t.copyright;
+        document.getElementById("i-video-titulo").innerText = t.video_titulo;
+        document.getElementById("i-video-desc").innerText = t.video_desc;
+        document.getElementById("play-text").innerText = t.play_text;
+        document.getElementById("play-sub").innerText = t.play_sub;
+        document.getElementById("i-galeria-titulo").innerText = t.galeria_titulo;
+        document.getElementById("i-galeria-desc").innerText = t.galeria_desc;
+        document.getElementById("g-katembe").innerText = t.g_katembe;
+        document.getElementById("g-beira").innerText = t.g_beira;
+        document.getElementById("g-maputo-recepcao").innerText = t.g_maputo_recepcao;
+        document.getElementById("g-chimoio").innerText = t.g_chimoio;
+        document.getElementById("g-nampula").innerText = t.g_nampula;
+        document.getElementById("g-patio").innerText = t.g_patio;
 
         const lista = document.getElementById("i-lista-valores").getElementsByTagName("li");
         for (let i = 0; i < lista.length; i++) {
-            lista[i].innerHTML = trad[lang].val[i];
+          lista[i].innerHTML = t.val[i];
         }
       }
-      
-      // Função de toggle de idioma com parada da leitura
+
       function toggleIdioma() {
         if (isSpeaking) stopReading();
         lang = lang === "pt" ? "en" : "pt";
         aplicarTraducao();
-        // Atualizar o texto do botão (opcional)
         const btnIdioma = document.getElementById("btn-idioma");
         if (btnIdioma) btnIdioma.innerText = lang === "pt" ? "PT / EN" : "EN / PT";
       }
-      
+
       document.getElementById("btn-idioma").onclick = toggleIdioma;
-      
-      // Inicializar tradução padrão
       aplicarTraducao();
 
-      // 3. MUDAR FUNDO
+      // ================== MUDAR FUNDO ==================
       let f = 0;
       const fundos = ["bg-gray-100", "bg-gray-400", "bg-gray-700"];
       function mudarFundo() {
@@ -563,7 +783,7 @@
         }
       }
 
-      // 4. SCROLL PARA NAVBAR
+      // ================== SCROLL NAVBAR ==================
       let lastScroll = 0;
       window.addEventListener("scroll", () => {
         const currentScroll = window.pageYOffset;
@@ -578,27 +798,246 @@
         lastScroll = currentScroll;
       });
 
-      // 5. EFEITO DE REVELAÇÃO AO SCROLL (DESCER LENTAMENTE)
+      // ================== REVEAL AO SCROLL ==================
       const revealElements = document.querySelectorAll('.reveal');
-      
       function checkReveal() {
         for (let i = 0; i < revealElements.length; i++) {
           const element = revealElements[i];
           const windowHeight = window.innerHeight;
           const elementTop = element.getBoundingClientRect().top;
           const revealPoint = 100;
-          
           if (elementTop < windowHeight - revealPoint) {
             element.classList.add('visible');
           }
         }
       }
-      
-      // Executa ao carregar e ao scrollar
       window.addEventListener('load', checkReveal);
       window.addEventListener('scroll', checkReveal);
+
+      // ================== VÍDEO EM TELA CHEIA ==================
+      const video = document.getElementById('institutional-video');
+      const overlay = document.getElementById('video-overlay');
+      const playPauseBtn = document.getElementById('play-pause-btn');
+      const playIcon = document.getElementById('play-icon');
+      const progressFill = document.getElementById('progress-fill');
+      const progressBar = document.getElementById('progress-bar');
+      const timeDisplay = document.getElementById('time-display');
+      const volumeSlider = document.getElementById('volume-slider');
+      const volumeIcon = document.getElementById('volume-icon');
+
+      let isVideoPlaying = false;
+
+      // Função para dar play no vídeo
+      function playVideo() {
+        if (video) {
+          video.play().catch(err => {
+            console.log("Erro ao reproduzir vídeo:", err);
+          });
+          overlay.classList.add('hidden');
+          isVideoPlaying = true;
+          updatePlayIcon();
+        }
+      }
+
+      // Função para dar play/pause
+      function togglePlayPause() {
+        if (!video) return;
+        if (video.paused) {
+          video.play().catch(err => console.log("Erro ao reproduzir:", err));
+          overlay.classList.add('hidden');
+          isVideoPlaying = true;
+        } else {
+          video.pause();
+          isVideoPlaying = false;
+        }
+        updatePlayIcon();
+      }
+
+      function updatePlayIcon() {
+        if (!video) return;
+        if (video.paused) {
+          playIcon.className = 'fa-solid fa-play';
+        } else {
+          playIcon.className = 'fa-solid fa-pause';
+        }
+      }
+
+      // Atualizar progresso
+      if (video) {
+        video.addEventListener('timeupdate', () => {
+          if (video.duration) {
+            const progress = (video.currentTime / video.duration) * 100;
+            progressFill.style.width = progress + '%';
+            updateTimeDisplay();
+          }
+        });
+      }
+
+      function updateTimeDisplay() {
+        if (!video) return;
+        const current = formatTime(video.currentTime || 0);
+        const duration = formatTime(video.duration || 0);
+        timeDisplay.textContent = current + ' / ' + duration;
+      }
+
+      function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return mins + ':' + (secs < 10 ? '0' : '') + secs;
+      }
+
+      // Clique na barra de progresso
+      function seekVideo(e) {
+        if (!video || !video.duration) return;
+        const rect = progressBar.getBoundingClientRect();
+        const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        video.currentTime = x * video.duration;
+      }
+
+      // Volume
+      function updateVolume(value) {
+        if (!video) return;
+        video.volume = parseFloat(value);
+        updateVolumeIcon();
+      }
+
+      function toggleMute() {
+        if (!video) return;
+        video.muted = !video.muted;
+        volumeSlider.value = video.muted ? 0 : (video.volume || 1);
+        updateVolumeIcon();
+      }
+
+      function updateVolumeIcon() {
+        if (!video) return;
+        if (video.muted || video.volume === 0) {
+          volumeIcon.className = 'fa-solid fa-volume-xmark';
+        } else if (video.volume < 0.5) {
+          volumeIcon.className = 'fa-solid fa-volume-low';
+        } else {
+          volumeIcon.className = 'fa-solid fa-volume-high';
+        }
+      }
+
+      // Tela cheia
+      function toggleFullscreen() {
+        const section = document.getElementById('video-section');
+        if (!section) return;
+        if (!document.fullscreenElement) {
+          section.requestFullscreen().catch(err => {
+            if (video && video.requestFullscreen) {
+              video.requestFullscreen();
+            }
+          });
+        } else {
+          document.exitFullscreen();
+        }
+      }
+
+      // Quando o vídeo termina
+      if (video) {
+        video.addEventListener('ended', () => {
+          isVideoPlaying = false;
+          updatePlayIcon();
+          overlay.classList.remove('hidden');
+        });
+
+        // Atualizar ícone de volume inicial
+        video.addEventListener('loadedmetadata', () => {
+          updateTimeDisplay();
+          updateVolumeIcon();
+        });
+      }
+
+      // Tecla Espaço para play/pause
+      document.addEventListener('keydown', (e) => {
+        if (e.key === ' ' && !e.target.matches('input, textarea, button')) {
+          const videoSection = document.getElementById('video-section');
+          if (videoSection && (videoSection.contains(document.activeElement) || document.activeElement === document.body)) {
+            e.preventDefault();
+            togglePlayPause();
+          }
+        }
+      });
+
+      // ================== LEITOR DE TELA ==================
+      let speechSynthesisUtterance = null;
+      let isSpeaking = false;
+      const readButton = document.getElementById('accessibility-reader-btn');
+      const mainContent = document.getElementById('main-content');
       
-      // Efeito extra: parallax suave na imagem principal (opcional)
+      function getTextFromMainContent() {
+        if (!mainContent) return '';
+        const clone = mainContent.cloneNode(true);
+        const unwantedSelectors = ['button', '.bg-gray-200', '#btn-idioma', 'a[href="#"]', '.theme-btn', '.pdf-link', '.whatsapp-btn', '#btn-top', '.video-full-section'];
+        unwantedSelectors.forEach(selector => {
+          clone.querySelectorAll(selector).forEach(el => el.remove());
+        });
+        let text = clone.innerText || clone.textContent || '';
+        text = text.replace(/\s+/g, ' ').trim();
+        return text;
+      }
+      
+      function stopReading() {
+        if (window.speechSynthesis) window.speechSynthesis.cancel();
+        speechSynthesisUtterance = null;
+        isSpeaking = false;
+        if (readButton) {
+          readButton.classList.remove('speaking');
+          readButton.innerHTML = '<i class="fa-solid fa-ear-listen"></i><span>Ouvir Página</span>';
+        }
+      }
+      
+      function readMainContent() {
+        if (isSpeaking) { stopReading(); return; }
+        const fullText = getTextFromMainContent();
+        if (!fullText || fullText.length === 0) {
+          alert("Nenhum conteúdo textual disponível para leitura.");
+          return;
+        }
+        if (window.speechSynthesis) window.speechSynthesis.cancel();
+        let langCode = 'pt-PT';
+        if (document.getElementById('nav-inicio')?.innerText === 'Home') langCode = 'en-US';
+        const utterance = new SpeechSynthesisUtterance(fullText);
+        utterance.lang = langCode;
+        utterance.rate = 0.9;
+        utterance.pitch = 1;
+        utterance.volume = 1;
+        utterance.onstart = () => {
+          isSpeaking = true;
+          if (readButton) {
+            readButton.classList.add('speaking');
+            readButton.innerHTML = '<i class="fa-solid fa-stop"></i><span>Parar Leitura</span>';
+          }
+        };
+        utterance.onend = () => {
+          isSpeaking = false;
+          if (readButton) {
+            readButton.classList.remove('speaking');
+            readButton.innerHTML = '<i class="fa-solid fa-ear-listen"></i><span>Ouvir Página</span>';
+          }
+        };
+        utterance.onerror = () => {
+          isSpeaking = false;
+          if (readButton) {
+            readButton.classList.remove('speaking');
+            readButton.innerHTML = '<i class="fa-solid fa-ear-listen"></i><span>Ouvir Página</span>';
+          }
+        };
+        speechSynthesisUtterance = utterance;
+        window.speechSynthesis.speak(utterance);
+        const article = document.querySelector('article');
+        if (article) {
+          article.style.transition = 'background-color 0.2s';
+          article.style.backgroundColor = 'rgba(255, 245, 200, 0.3)';
+          setTimeout(() => { if (article) article.style.backgroundColor = ''; }, 500);
+        }
+      }
+      
+      if (readButton) readButton.addEventListener('click', readMainContent);
+      window.addEventListener('beforeunload', () => { if (window.speechSynthesis) window.speechSynthesis.cancel(); });
+
+      // ================== PARALLAX NA IMAGEM PRINCIPAL ==================
       window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
         const heroImage = document.querySelector('.flex.justify-center.my-10.px-6 img');
@@ -606,6 +1045,8 @@
           heroImage.style.transform = `translateY(${scrolled * 0.1}px)`;
         }
       });
+
+      console.log("Página Sobre carregada! Vídeo disponível em:", video ? video.src : "Vídeo não encontrado");
     </script>
   </body>
 </html>
