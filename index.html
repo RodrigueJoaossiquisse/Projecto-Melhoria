@@ -1034,6 +1034,27 @@
       /* ===== ESTILOS ADICIONAIS ===== */
       .hidden-content { display: none; }
       .cookie-alert-modal .cookie-alert-content { max-width: 420px; }
+      
+      /* ===== CONTADORES PRONTOS PARA ANIMAÇÃO ===== */
+      .stat-number .growth {
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: #10b981;
+        background: rgba(16, 185, 129, 0.15);
+        padding: 2px 8px;
+        border-radius: 20px;
+        display: inline-block;
+        margin-left: 6px;
+        animation: growthPulse 2s ease-in-out infinite;
+      }
+      .stat-number .growth i {
+        font-size: 0.6rem;
+        margin-right: 2px;
+      }
+      @keyframes growthPulse {
+        0%, 100% { transform: scale(1); opacity: 0.8; }
+        50% { transform: scale(1.05); opacity: 1; }
+      }
     </style>
   </head>
   <body>
@@ -1092,8 +1113,8 @@
           <div class="cookie-title" id="cookie-title">Nós usamos cookies</div>
           <div class="cookie-text" id="cookie-text">Utilizamos cookies para melhorar sua experiência, analisar tráfego e personalizar conteúdo. Ao continuar, você concorda com nossa política de privacidade.</div>
           <div class="cookie-actions">
-            <button class="cookie-btn-primary" onclick="mostrarCookieAlert()"><span id="cookie-accept-text">Aceitar todos</span></button>
-            <button class="cookie-btn-secondary" onclick="mostrarCookieAlert()"><span id="cookie-customize-text">Personalizar</span></button>
+            <button class="cookie-btn-primary" onclick="aceitarCookies()"><span id="cookie-accept-text">Aceitar todos</span></button>
+            <button class="cookie-btn-secondary" onclick="personalizarCookies()"><span id="cookie-customize-text">Personalizar</span></button>
             <button class="cookie-btn-ghost" onclick="recusarCookies()"><span id="cookie-decline-text">Recusar</span></button>
           </div>
         </div>
@@ -1132,7 +1153,7 @@
               </button>
             </div>
             <div class="hidden md:flex items-center space-x-6">
-              <a href="#" id="link-inicio" class="text-gray-700 hover:text-blue-900 font-semibold px-3 py-1.5 rounded-xl transition">Início</a>
+              <a href="index.html" id="link-inicio" class="text-gray-700 hover:text-blue-900 font-semibold px-3 py-1.5 rounded-xl transition">Início</a>
               <a href="cursos.html" id="link-cursos" class="text-gray-700 hover:text-blue-900 font-semibold px-3 py-1.5 rounded-xl transition">Cursos</a>
               <a href="Centro-Recursos.html" id="link-recursos" class="text-gray-700 hover:text-blue-900 font-semibold px-3 py-1.5 rounded-xl transition">Centro de Recursos</a>
               <a href="noticias.html" id="link-noticias" class="text-gray-700 hover:text-blue-900 font-semibold px-3 py-1.5 rounded-xl transition">Notícias</a>
@@ -1165,7 +1186,7 @@
       </nav>
       <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-lg mobile-menu">
         <div class="px-4 py-4 space-y-3">
-          <a href="#" id="mobile-link-inicio" class="flex items-center gap-3 text-gray-700 hover:text-blue-900 font-semibold py-2 px-3 rounded-xl hover:bg-blue-50 transition">Início</a>
+          <a href="index.html" id="mobile-link-inicio" class="flex items-center gap-3 text-gray-700 hover:text-blue-900 font-semibold py-2 px-3 rounded-xl hover:bg-blue-50 transition">Início</a>
           <a href="cursos.html" id="mobile-link-cursos" class="flex items-center gap-3 text-gray-700 hover:text-blue-900 font-semibold py-2 px-3 rounded-xl hover:bg-blue-50 transition">Cursos</a>
           <a href="Centro-Recursos.html" id="mobile-link-recursos" class="flex items-center gap-3 text-gray-700 hover:text-blue-900 font-semibold py-2 px-3 rounded-xl hover:bg-blue-50 transition">Centro de Recursos</a>
           <a href="noticias.html" id="mobile-link-noticias" class="flex items-center gap-3 text-gray-700 hover:text-blue-900 font-semibold py-2 px-3 rounded-xl hover:bg-blue-50 transition">Notícias</a>
@@ -1700,6 +1721,9 @@
       let loadingInterval;
       let cidadeSelecionada = null;
       let loadingFinalizado = false;
+      let cookieInteragiu = false;
+      let cookieEscolha = null;
+      let contadoresIniciados = false;
 
       function getLoadingMessages() { return currentLang === 'en' ? loadingMessagesEN : loadingMessagesPT; }
 
@@ -1803,12 +1827,27 @@
         document.getElementById('campaign-skeleton').style.display = 'none';
         document.getElementById('courses-skeleton').style.display = 'none';
         
-        setTimeout(iniciarContadores, 400);
+        // Salvar no sessionStorage que o loading já foi feito
+        sessionStorage.setItem('loadingDone', 'true');
+        sessionStorage.setItem('localizacaoFeita', 'true');
+        sessionStorage.setItem('cidadeSelecionada', cidadeSelecionada);
+        
+        // Iniciar typewriter e verificar cookies
         const heroTitle = document.getElementById('hero-titulo');
         const textoOriginal = heroTitle.textContent;
         typewriter(heroTitle, textoOriginal, 40);
         setTimeout(checkReveal, 300);
-        setTimeout(showCookieBanner, 2500);
+        
+        // Verificar se já interagiu com cookies antes
+        if (sessionStorage.getItem('cookieChoice')) {
+          cookieInteragiu = true;
+          cookieEscolha = sessionStorage.getItem('cookieChoice');
+          // Iniciar contadores imediatamente se já interagiu antes
+          setTimeout(iniciarContadores, 600);
+        } else {
+          // Mostrar cookie banner após 2.5s
+          setTimeout(showCookieBanner, 2500);
+        }
       }
 
       // ============================================================
@@ -1822,28 +1861,82 @@
       });
 
       // ============================================================
-      // 5. COOKIE ALERT
+      // 5. COOKIE - FUNÇÕES MODIFICADAS (CONTADORES SEMPRE INICIAM)
       // ============================================================
-      function mostrarCookieAlert() {
+      function aceitarCookies() {
+        cookieInteragiu = true;
+        cookieEscolha = 'accepted';
+        sessionStorage.setItem('cookieChoice', 'accepted');
+        document.getElementById('cookie-banner').classList.remove('show');
+        // Iniciar contadores com efeito lindo
+        iniciarContadores();
+        mostrarCookieAlert('aceitar');
+      }
+
+      function personalizarCookies() {
+        cookieInteragiu = true;
+        cookieEscolha = 'customized';
+        sessionStorage.setItem('cookieChoice', 'customized');
+        document.getElementById('cookie-banner').classList.remove('show');
+        // Iniciar contadores com efeito lindo
+        iniciarContadores();
+        mostrarCookieAlert('personalizar');
+      }
+
+      function recusarCookies() {
+        cookieInteragiu = true;
+        cookieEscolha = 'declined';
+        sessionStorage.setItem('cookieChoice', 'declined');
+        document.getElementById('cookie-banner').classList.remove('show');
+        // MESMO RECUSANDO, OS CONTADORES COMEÇAM!
+        iniciarContadores();
+        mostrarCookieAlert('recusar');
+      }
+
+      function mostrarCookieAlert(tipo) {
         const modal = document.getElementById('cookie-alert-modal');
         modal.classList.add('open');
         const lang = document.getElementById('idioma-atual').innerText.toLowerCase();
+        
+        let titulo, mensagem;
         if (lang === 'en') {
-          document.getElementById('cookie-alert-title').textContent = '🍪 Customize your preferences';
-          document.getElementById('cookie-alert-message').textContent = 'Here you can choose which cookies you want to enable. But wait... this is just a demo! 😄';
+          if (tipo === 'aceitar') {
+            titulo = '🍪 Cookies Accepted!';
+            mensagem = 'You have accepted all cookies. But wait... this is just a demo! 😄';
+          } else if (tipo === 'personalizar') {
+            titulo = '🍪 Cookies Customized!';
+            mensagem = 'You have customized your cookie preferences. But wait... this is just a demo! 😄';
+          } else {
+            titulo = '🍪 Cookies Declined';
+            mensagem = 'You have declined cookies. But wait... this is just a demo! And the counters still work! 😄🔥';
+          }
         } else {
-          document.getElementById('cookie-alert-title').textContent = '🍪 Personalize suas preferências';
-          document.getElementById('cookie-alert-message').textContent = 'Aqui você pode escolher quais cookies deseja ativar. Mas calma... isso é apenas um demo! 😄';
+          if (tipo === 'aceitar') {
+            titulo = '🍪 Cookies Aceitos!';
+            mensagem = 'Você aceitou todos os cookies. Mas calma... isso é apenas um demo! 😄';
+          } else if (tipo === 'personalizar') {
+            titulo = '🍪 Cookies Personalizados!';
+            mensagem = 'Você personalizou suas preferências de cookies. Mas calma... isso é apenas um demo! 😄';
+          } else {
+            titulo = '🍪 Cookies Recusados';
+            mensagem = 'Você recusou os cookies. Mas calma... isso é apenas um demo! E os contadores ainda funcionam! 😄🔥';
+          }
         }
-        document.getElementById('cookie-banner').classList.remove('show');
+        
+        document.getElementById('cookie-alert-title').textContent = titulo;
+        document.getElementById('cookie-alert-message').textContent = mensagem;
       }
 
       function fecharCookieAlert() {
         document.getElementById('cookie-alert-modal').classList.remove('open');
       }
 
-      function showCookieBanner() { document.getElementById('cookie-banner').classList.add('show'); }
-      function recusarCookies() { document.getElementById('cookie-banner').classList.remove('show'); }
+      function showCookieBanner() {
+        // Só mostra se ainda não interagiu com cookies
+        if (!cookieInteragiu && !sessionStorage.getItem('cookieChoice')) {
+          document.getElementById('cookie-banner').classList.add('show');
+        }
+      }
 
       // ============================================================
       // 6. TRADUÇÕES
@@ -1967,7 +2060,6 @@
       // 7. FUNÇÕES GLOBAIS
       // ============================================================
       let temaEscuro = false;
-      let contadoresIniciados = false;
       let isSpeaking = false;
       let chatbotOpen = false;
       let preferencias = { area: '', objetivo: '' };
@@ -1976,6 +2068,7 @@
         pt: ['Como faço minha inscrição?', 'Quais cursos estão disponíveis?', 'Qual o valor da mensalidade?', 'Como acesso o portal do aluno?', 'Onde fica a reitoria?', 'Qual o horário de atendimento?', 'Como entro em contato?'],
         en: ['How do I register?', 'What courses are available?', 'What is the tuition fee?', 'How do I access the student portal?', 'Where is the rectorate?', 'What are the opening hours?', 'How do I get in touch?']
       };
+      let statsObserver = null;
 
       // ============================================================
       // 8. TYPEWRITER
@@ -1989,7 +2082,7 @@
       }
 
       // ============================================================
-      // 9. CONTADOR
+      // 9. CONTADOR (REGRESSIVO)
       // ============================================================
       function iniciarContador() {
         const targetDate = new Date('2026-08-25T00:00:00').getTime();
@@ -2017,10 +2110,8 @@
       }
 
       // ============================================================
-      // 10. CONTADOR ANIMADO
+      // 10. CONTADOR ANIMADO (0 → NÚMERO FINAL) - SÓ COMEÇA DEPOIS DO COOKIE
       // ============================================================
-      let statsObserver = null;
-
       function animarContador(element, target, duration, suffix = '', growthText = '') {
         const el = document.getElementById(element);
         if (!el) return;
@@ -2050,6 +2141,7 @@
       function iniciarContadores() {
         if (contadoresIniciados) return;
         contadoresIniciados = true;
+        console.log('🚀 Contadores iniciados com efeito lindo!');
         setTimeout(() => animarContador('stat-estudantes-num', 18000, 1800, '+', '12%'), 300);
         setTimeout(() => animarContador('stat-cursos-num', 23, 3000, '', '8%'), 900);
         setTimeout(() => animarContador('stat-graduados-num', 5000, 2500, '+', '15%'), 1500);
@@ -2071,6 +2163,7 @@
         statsObserver = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
             if (entry.isIntersecting && !contadoresIniciados) {
+              // Se os contadores ainda não começaram, inicia
               iniciarContadores();
             }
           });
@@ -2185,7 +2278,6 @@
         const lang = document.getElementById('idioma-atual').innerText.toLowerCase();
         pergunta = pergunta.toLowerCase().trim();
         
-        // Se perguntar sobre localização, resposta explicativa
         if (pergunta.includes('centro') || pergunta.includes('recursos') || pergunta.includes('localizacao') || pergunta.includes('localização') || pergunta.includes('onde fica')) {
           return traducoes[lang].chatLocalizacao || "📍 To find the nearest resource center, please select your location in the alert that appeared when you entered the site!";
         }
@@ -2487,7 +2579,6 @@
         const t = traducoes[lang];
         document.getElementById("idioma-atual").innerText = lang.toUpperCase();
 
-        // Navbar
         document.getElementById("link-inicio").innerText = t.inicio;
         document.getElementById("link-cursos").innerText = t.cursos;
         document.getElementById("link-recursos").innerText = t.recursos;
@@ -2501,19 +2592,16 @@
         document.getElementById("mobile-link-sobre").innerText = t.sobre;
         if (document.getElementById("mobile-btn-portal")?.querySelector("span")) document.getElementById("mobile-btn-portal").querySelector("span").innerText = t.portal;
 
-        // Hero
         document.getElementById("hero-tagline").innerText = t.heroTag;
         document.getElementById("hero-titulo").innerText = t.heroTit;
         document.getElementById("hero-subtitulo").innerText = t.heroSub;
         document.getElementById("hero-btn").innerText = t.heroBtn;
 
-        // Parceiros
         document.getElementById("parceiros-tag").innerText = t.parceirosTag;
         document.getElementById("parceiros-titulo").innerText = t.parceirosTit;
         document.getElementById("parceiros-sub").innerText = t.parceirosSub;
         document.getElementById("parceiros-mais").innerText = t.parceirosMais;
 
-        // Cards
         document.getElementById("card1-titulo").innerText = t.card1Tit;
         document.getElementById("card1-texto").innerText = t.card1Txt;
         document.getElementById("card2-titulo").innerText = t.card2Tit;
@@ -2521,19 +2609,16 @@
         document.getElementById("card3-titulo").innerText = t.card3Tit;
         document.getElementById("card3-texto").innerText = t.card3Txt;
 
-        // Rodapé
         document.getElementById("footer-direitos").innerText = t.footDir;
         document.getElementById("foot-privacidade").innerText = t.footPriv;
         document.getElementById("foot-termos").innerText = t.footTermos;
         document.getElementById("foot-suporte").innerText = t.footSuporte;
         if (document.getElementById("btn-app-movel")?.querySelector("span")) document.getElementById("btn-app-movel").querySelector("span").innerText = t.appMovel;
 
-        // Campanha
         document.getElementById("txt-tagline").innerText = t.tagline;
         document.getElementById("txt-pense").innerHTML = t.pense;
         document.getElementById("txt-potencial").innerText = t.potencial;
 
-        // Contador
         document.getElementById("contador-titulo").innerText = t.contadorTit;
         document.getElementById("contador-dias").innerText = t.contadorDias;
         document.getElementById("contador-horas").innerText = t.contadorHoras;
@@ -2542,15 +2627,12 @@
         document.getElementById("contador-sub").innerText = t.contadorSub;
         document.getElementById("contador-periodo").innerText = t.contadorPeriodo;
 
-        // Estatísticas
         document.getElementById("stat-estudantes").innerText = t.stEstudantes;
         document.getElementById("stat-cursos").innerText = t.stCursos;
         document.getElementById("stat-graduados").innerText = t.stGraduados;
 
-        // Redes
         document.getElementById("txt-redes-titulo").innerText = t.redesTit;
 
-        // Cursos
         document.getElementById("txt-cursos-destaque").innerText = t.curDestaque;
         document.getElementById("txt-cursos-sub").innerText = t.curSub;
         document.getElementById("c1-popular").innerText = t.c1Popular;
@@ -2592,7 +2674,6 @@
         document.getElementById("c3-gestor").innerText = t.c3Gestor;
         document.getElementById("c3-horario").innerText = t.c3Horario;
 
-        // Recomendador
         document.getElementById("recomendador-titulo").innerText = t.recomendadorTitulo;
         document.getElementById("recomendador-sub").innerText = t.recomendadorSub;
         document.getElementById("recomendador-area-label").innerText = t.recomendadorArea;
@@ -2606,37 +2687,30 @@
         document.getElementById("recomendador-btn").innerText = t.recomendadorBtn;
         document.getElementById("recomendacao-titulo").innerText = t.recomendadorTituloResult;
 
-        // Botões flutuantes
         document.getElementById("leitor-texto").innerText = t.leitorTexto;
         document.getElementById("ia-texto").innerText = t.iaTexto;
 
-        // Chatbot
         document.getElementById("chatbot-titulo").innerText = t.chatbotTitulo;
         document.getElementById("chatbot-status").innerText = t.chatbotStatus;
         document.getElementById("chatbot-boas-vindas").innerText = t.chatbotBoasVindas;
 
-        // Focus
         document.getElementById("focus-titulo").innerText = t.focusTitulo;
 
-        // Alert
         document.getElementById("alert-title").innerText = t.alertTitulo;
         document.getElementById("alert-message").innerText = t.alertMensagem;
         document.getElementById("alert-btn").innerText = t.alertBtn;
 
-        // Cookie
         document.getElementById("cookie-title").innerText = t.cookieTitle;
         document.getElementById("cookie-text").innerText = t.cookieText;
         document.getElementById("cookie-accept-text").innerText = t.cookieAccept;
         document.getElementById("cookie-customize-text").innerText = t.cookieCustomize;
         document.getElementById("cookie-decline-text").innerText = t.cookieDecline;
 
-        // Security
         document.getElementById("seg-ssl").innerText = t.segSSL;
         document.getElementById("seg-dados").innerText = t.segDados;
         document.getElementById("seg-pagamento").innerText = t.segPagamento;
         document.getElementById("seg-verificado").innerText = t.segVerificado;
 
-        // Localização obrigatória
         document.getElementById('loc-obrigatorio-title').textContent = t.locTitle || 'Escolha sua localização';
         document.getElementById('loc-obrigatorio-sub').textContent = t.locSub || 'Para continuar, selecione a cidade mais próxima de você';
         document.getElementById('loc-obg-beira').textContent = t.locBeira || 'Beira';
@@ -2739,13 +2813,64 @@
       window.addEventListener('beforeunload', () => { if (window.speechSynthesis) window.speechSynthesis.cancel(); });
 
       // ============================================================
-      // 25. INICIALIZAÇÃO
+      // 25. INICIALIZAÇÃO - COM VERIFICAÇÃO DE SESSION STORAGE
       // ============================================================
       window.addEventListener('load', () => {
         aplicarTraducoes('pt');
         iniciarContador();
-        startLoadingMessages();
-        setTimeout(esconderLoading, 3200);
+        
+        // VERIFICA SE O LOADING JÁ FOI FEITO NESTA SESSÃO
+        const loadingDone = sessionStorage.getItem('loadingDone');
+        const localizacaoFeita = sessionStorage.getItem('localizacaoFeita');
+        const cookieChoice = sessionStorage.getItem('cookieChoice');
+        
+        if (loadingDone === 'true' && localizacaoFeita === 'true') {
+          // PULA O LOADING E A LOCALIZAÇÃO - VAI DIRETO PARA O CONTEÚDO
+          console.log('🔄 Sessão já carregada - pulando loading e localização');
+          
+          // Esconde o loading sem animação
+          const screen = document.getElementById('loading-screen');
+          if (screen) {
+            screen.classList.add('hidden');
+            screen.style.display = 'none';
+          }
+          
+          // Fecha a localização se estiver aberta
+          const modal = document.getElementById('localizacao-modal-obrigatoria');
+          if (modal) modal.classList.remove('open');
+          
+          // Mostra o conteúdo principal
+          document.querySelectorAll('.hidden-content').forEach(el => el.classList.remove('hidden-content'));
+          document.getElementById('hero-real').style.display = 'block';
+          document.getElementById('campaign-real').style.display = 'block';
+          document.getElementById('courses-real').style.display = 'block';
+          document.getElementById('hero-skeleton').style.display = 'none';
+          document.getElementById('campaign-skeleton').style.display = 'none';
+          document.getElementById('courses-skeleton').style.display = 'none';
+          
+          // Se já escolheu cookies antes, inicia contadores imediatamente
+          if (cookieChoice) {
+            console.log('🍪 Cookie já escolhido antes - iniciando contadores imediatamente!');
+            setTimeout(iniciarContadores, 600);
+          } else {
+            // Se não escolheu, mostra o cookie banner
+            setTimeout(showCookieBanner, 2500);
+          }
+          
+          // Inicia typewriter
+          const heroTitle = document.getElementById('hero-titulo');
+          const textoOriginal = heroTitle.textContent;
+          typewriter(heroTitle, textoOriginal, 40);
+          
+          setTimeout(checkReveal, 300);
+          
+        } else {
+          // PRIMEIRA VEZ - MOSTRA O LOADING NORMAL
+          console.log('🔄 Primeira visita - mostrando loading e localização');
+          startLoadingMessages();
+          setTimeout(esconderLoading, 3200);
+        }
+        
         setTimeout(checkReveal, 100);
         sugerirPergunta('');
         setupStatsObserver();
