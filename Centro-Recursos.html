@@ -16,17 +16,24 @@
     <style>
       * {
         font-family: "Inter", system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
 
-      /* FUNDO LÍQUIDO SUAVE */
+      /* ===== 120Hz FLUIDEZ ===== */
+      * {
+        scroll-behavior: smooth;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
       body {
         background: linear-gradient(-45deg, #e0f2fe, #fae8ff, #fef3c7, #d1fae5);
         background-size: 400% 400%;
         animation: liquidMove 15s ease infinite;
-        transition: background 0.5s ease;
+        transition: background 0.3s ease;
+        will-change: background-position;
       }
 
-      /* MODO DARK SUAVE */
       body.dark {
         background: linear-gradient(-45deg, #1e293b, #0f172a, #1e1b4b, #0c4a6e);
         background-size: 400% 400%;
@@ -45,7 +52,6 @@
         }
       }
 
-      /* Camada de vidro */
       body::before {
         content: "";
         position: fixed;
@@ -55,23 +61,41 @@
         bottom: 0;
         background: radial-gradient(
           circle at 20% 30%,
-          rgba(255, 255, 255, 0.2) 0%,
-          rgba(255, 255, 255, 0.05) 100%
+          rgba(255, 255, 255, 0.15) 0%,
+          rgba(255, 255, 255, 0.02) 100%
         );
         pointer-events: none;
         z-index: 0;
+        will-change: transform;
       }
 
-      /* Cards com fundo semi-transparente */
+      /* ===== GLASSMORPHISM 120HZ ===== */
       .card-glass {
-        background: rgba(255, 255, 255, 0.85) !important;
-        backdrop-filter: blur(2px);
-        border: 1px solid rgba(255, 255, 255, 0.5);
+        background: rgba(255, 255, 255, 0.72) !important;
+        backdrop-filter: blur(16px) saturate(180%);
+        -webkit-backdrop-filter: blur(16px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: transform, box-shadow;
+      }
+
+      .card-glass:hover {
+        transform: translateY(-6px) scale(1.01);
+        box-shadow: 0 20px 48px rgba(0, 0, 0, 0.1);
+        border-color: rgba(59, 130, 246, 0.3);
       }
 
       body.dark .card-glass {
-        background: rgba(30, 41, 59, 0.85) !important;
-        border-color: rgba(255, 255, 255, 0.1);
+        background: rgba(30, 41, 59, 0.72) !important;
+        backdrop-filter: blur(16px) saturate(180%);
+        -webkit-backdrop-filter: blur(16px) saturate(180%);
+        border-color: rgba(255, 255, 255, 0.08);
+      }
+
+      body.dark .card-glass:hover {
+        border-color: rgba(96, 165, 250, 0.3);
+        box-shadow: 0 20px 48px rgba(0, 0, 0, 0.3);
       }
 
       body.dark .card-glass .text-gray-700,
@@ -84,32 +108,175 @@
         color: #94a3b8 !important;
       }
 
-      /* Navbar */
+      /* ===== NAVBAR CORRIGIDA - CONTRASTE ===== */
+      #nav-container {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 50;
+        pointer-events: none;
+        will-change: transform;
+      }
+
+      #nav-container nav {
+        pointer-events: auto;
+      }
+
       #navbar {
-        background: rgba(255, 255, 255, 0.7) !important;
-        backdrop-filter: blur(12px);
+        background: rgba(0, 0, 0, 0.15) !important;
+        backdrop-filter: blur(16px) saturate(180%);
+        -webkit-backdrop-filter: blur(16px) saturate(180%);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: background, border-color;
+      }
+
+      /* TEXTO BRANCO COM SOMBRA (visível sobre vídeo) */
+      #navbar .text-gray-700,
+      #navbar .text-blue-700,
+      #navbar .text-blue-800,
+      #navbar .text-white {
+        color: #ffffff !important;
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+      }
+
+      #navbar .theme-btn {
+        background: rgba(255, 255, 255, 0.15) !important;
+        color: white !important;
+        text-shadow: none;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: transform, background;
+      }
+
+      #navbar .theme-btn:hover {
+        transform: scale(1.08) rotate(12deg);
+        background: rgba(255, 255, 255, 0.25) !important;
+      }
+
+      #navbar .border-blue-200 {
+        border-color: rgba(255, 255, 255, 0.25) !important;
+        color: #ffffff !important;
+        text-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
         transition: all 0.3s ease;
       }
 
+      /* ===== NAVBAR SCROLLADA (fundo claro) ===== */
+      #navbar.scrolled {
+        background: rgba(255, 255, 255, 0.85) !important;
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      }
+
+      /* TEXTO ESCURO (visível sobre fundo claro) */
+      #navbar.scrolled .text-gray-700,
+      #navbar.scrolled .text-blue-700,
+      #navbar.scrolled .text-blue-800,
+      #navbar.scrolled .text-white {
+        color: #1e293b !important;
+        text-shadow: none !important;
+      }
+
+      #navbar.scrolled .theme-btn {
+        background: rgba(255, 255, 255, 0.4) !important;
+        color: #1e293b !important;
+      }
+
+      #navbar.scrolled .border-blue-200 {
+        border-color: #bfdbfe !important;
+        color: #1e40af !important;
+        text-shadow: none !important;
+      }
+
+      /* ===== DARK MODE NAVBAR ===== */
       body.dark #navbar {
-        background: rgba(15, 23, 42, 0.8) !important;
+        background: rgba(0, 0, 0, 0.35) !important;
       }
 
       body.dark #navbar .text-gray-700,
-      body.dark #navbar .text-blue-700 {
+      body.dark #navbar .text-blue-700,
+      body.dark #navbar .text-blue-800,
+      body.dark #navbar .text-white {
+        color: #ffffff !important;
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+      }
+
+      body.dark #navbar.scrolled {
+        background: rgba(15, 23, 42, 0.88) !important;
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      body.dark #navbar.scrolled .text-gray-700,
+      body.dark #navbar.scrolled .text-blue-700,
+      body.dark #navbar.scrolled .text-blue-800,
+      body.dark #navbar.scrolled .text-white {
+        color: #e2e8f0 !important;
+        text-shadow: none !important;
+      }
+
+      body.dark #navbar.scrolled .theme-btn {
+        background: rgba(255, 255, 255, 0.08) !important;
         color: #cbd5e1 !important;
       }
 
-      /* Rodapé */
+      body.dark #navbar.scrolled .border-blue-200 {
+        border-color: rgba(255, 255, 255, 0.15) !important;
+        color: #60a5fa !important;
+        text-shadow: none !important;
+      }
+
+      /* ===== MOBILE MENU ===== */
+      #mobile-menu {
+        background: rgba(0, 0, 0, 0.75) !important;
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      #mobile-menu a {
+        color: #ffffff !important;
+        text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+        transition: all 0.2s ease;
+      }
+
+      #mobile-menu a:hover {
+        color: #67e8f9 !important;
+        transform: translateX(4px);
+      }
+
+      #navbar.scrolled + #mobile-menu {
+        background: rgba(255, 255, 255, 0.94) !important;
+      }
+
+      #navbar.scrolled + #mobile-menu a {
+        color: #1e293b !important;
+        text-shadow: none !important;
+      }
+
+      body.dark #navbar.scrolled + #mobile-menu {
+        background: rgba(15, 23, 42, 0.94) !important;
+      }
+
+      body.dark #navbar.scrolled + #mobile-menu a {
+        color: #e2e8f0 !important;
+      }
+
+      /* ===== RODAPÉ 120HZ ===== */
       .footer-glass {
-        background: rgba(255, 255, 255, 0.75) !important;
-        backdrop-filter: blur(10px);
-        border-top: 1px solid rgba(255, 255, 255, 0.4);
+        background: rgba(255, 255, 255, 0.7) !important;
+        backdrop-filter: blur(16px) saturate(180%);
+        -webkit-backdrop-filter: blur(16px) saturate(180%);
+        border-top: 1px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.3s ease;
       }
 
       body.dark .footer-glass {
-        background: rgba(15, 23, 42, 0.8) !important;
-        border-top-color: rgba(255, 255, 255, 0.1);
+        background: rgba(15, 23, 42, 0.75) !important;
+        border-top-color: rgba(255, 255, 255, 0.05);
       }
 
       body.dark .footer-glass .text-gray-700,
@@ -122,86 +289,114 @@
         color: #60a5fa !important;
       }
 
-      .navbar-hide {
-        transform: translateY(-100%);
-        transition: transform 0.3s ease;
+      .footer-glass a {
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
       }
+
+      .footer-glass a::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #3b82f6, #06b6d4);
+        transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .footer-glass a:hover::after {
+        width: 100%;
+      }
+
+      /* ===== REVEAL 120HZ ===== */
       .reveal {
         opacity: 0;
-        transform: translateY(20px);
-        transition:
-          opacity 0.6s ease,
-          transform 0.6s ease;
+        transform: translateY(30px) scale(0.98);
+        transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: transform, opacity;
       }
+
       .reveal.visible {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
       }
-      .theme-btn {
-        transition: all 0.2s ease;
-      }
-      .theme-btn:hover {
-        transform: scale(1.05) rotate(8deg);
-      }
+
+      /* ===== INFO CARDS 120HZ ===== */
       .info-card {
-        transition: all 0.25s ease;
+        transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: transform, box-shadow;
       }
+
       .info-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 30px -12px rgba(0, 0, 0, 0.15);
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.15);
       }
 
+      .info-card .icon-wrapper {
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        will-change: transform;
+      }
+
+      .info-card:hover .icon-wrapper {
+        transform: scale(1.12) rotate(4deg);
+      }
+
+      /* ===== WHATSAPP 120HZ ===== */
       .whatsapp-btn {
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      .whatsapp-btn:hover {
-        transform: scale(1.1);
-        box-shadow: 0 10px 25px -5px rgba(34, 197, 94, 0.4);
+        transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        will-change: transform, box-shadow;
       }
 
-      /* Botão leitor acessível */
+      .whatsapp-btn:hover {
+        transform: scale(1.12) rotate(-2deg);
+        box-shadow: 0 16px 40px -8px rgba(34, 197, 94, 0.5);
+      }
+
+      /* ===== ACCESSIBILITY 120HZ ===== */
       .accessibility-reader {
         position: fixed;
         bottom: 120px;
         right: 20px;
-        background: #1e3a8a;
+        background: rgba(30, 58, 138, 0.88);
         color: white;
         border-radius: 50px;
-        padding: 12px 18px;
-        font-weight: bold;
+        padding: 12px 20px;
+        font-weight: 600;
         font-size: 0.9rem;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.2);
         z-index: 1000;
-        transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-        border: none;
+        transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        border: 1px solid rgba(255, 255, 255, 0.15);
         cursor: pointer;
         display: flex;
         align-items: center;
-        gap: 8px;
-        backdrop-filter: blur(4px);
-        background-color: rgba(30, 58, 138, 0.9);
+        gap: 10px;
+        backdrop-filter: blur(12px) saturate(180%);
+        -webkit-backdrop-filter: blur(12px) saturate(180%);
       }
+
       .accessibility-reader:hover {
-        transform: scale(1.05);
-        background-color: #0f2b6d;
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        transform: scale(1.06);
+        background: rgba(15, 39, 109, 0.92);
+        box-shadow: 0 20px 40px -8px rgba(0, 0, 0, 0.3);
       }
+
       .accessibility-reader:active {
-        transform: scale(0.98);
+        transform: scale(0.96);
       }
+
       .accessibility-reader.speaking {
-        background-color: #0e7e6e;
-        animation: pulse-glow 1.2s infinite;
+        background: rgba(14, 126, 110, 0.92);
+        animation: pulse-glow 1.4s ease-in-out infinite;
       }
+
       @keyframes pulse-glow {
-        0% {
-          box-shadow: 0 0 0 0 rgba(14, 126, 110, 0.7);
+        0%, 100% {
+          box-shadow: 0 0 0 0 rgba(14, 126, 110, 0.6);
         }
-        70% {
-          box-shadow: 0 0 0 10px rgba(14, 126, 110, 0);
-        }
-        100% {
-          box-shadow: 0 0 0 0 rgba(14, 126, 110, 0);
+        50% {
+          box-shadow: 0 0 0 16px rgba(14, 126, 110, 0);
         }
       }
 
@@ -209,137 +404,455 @@
         .accessibility-reader {
           bottom: 100px;
           right: 16px;
-          padding: 10px 14px;
+          padding: 10px 16px;
           font-size: 0.8rem;
         }
+      }
+
+      /* ===== HERO VIDEO 120HZ ===== */
+      .hero-video-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        min-height: 600px;
+        max-height: 800px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+        border-radius: 0;
+        will-change: transform;
+      }
+
+      .hero-video-wrapper video {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        will-change: transform;
+      }
+
+      .hero-video-wrapper .hero-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 3rem 2rem 4rem;
+        background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+        color: white;
+        z-index: 5;
+      }
+
+      .hero-video-wrapper .hero-overlay h1 {
+        font-size: 3.5rem;
+        font-weight: 900;
+        letter-spacing: -0.03em;
+        text-shadow: 0 4px 24px rgba(0,0,0,0.4);
+        max-width: 700px;
+        line-height: 1.1;
+      }
+
+      .hero-video-wrapper .hero-overlay h1 .gradient-text {
+        background: linear-gradient(135deg, #60a5fa, #22d3ee);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero-video-wrapper .hero-overlay p {
+        font-size: 1.25rem;
+        opacity: 0.92;
+        max-width: 550px;
+        text-shadow: 0 2px 16px rgba(0,0,0,0.3);
+        margin-top: 0.5rem;
+        font-weight: 300;
+        letter-spacing: 0.3px;
+      }
+
+      .hero-video-wrapper .hero-badge {
+        position: absolute;
+        top: 100px;
+        right: 2rem;
+        background: rgba(255,255,255,0.12);
+        backdrop-filter: blur(16px) saturate(180%);
+        -webkit-backdrop-filter: blur(16px) saturate(180%);
+        border: 1px solid rgba(255,255,255,0.15);
+        padding: 0.6rem 1.4rem;
+        border-radius: 50px;
+        color: white;
+        font-size: 0.85rem;
+        font-weight: 500;
+        z-index: 5;
+        letter-spacing: 0.4px;
+        animation: badgePulse 3s ease-in-out infinite;
+        will-change: transform, box-shadow;
+      }
+
+      @keyframes badgePulse {
+        0%, 100% {
+          box-shadow: 0 0 0 0 rgba(255,255,255,0.1);
+        }
+        50% {
+          box-shadow: 0 0 24px 4px rgba(255,255,255,0.05);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .hero-video-wrapper {
+          height: 70vh;
+          min-height: 400px;
+          max-height: 600px;
+        }
+        .hero-video-wrapper .hero-overlay h1 {
+          font-size: 2rem;
+        }
+        .hero-video-wrapper .hero-overlay p {
+          font-size: 1rem;
+        }
+        .hero-video-wrapper .hero-badge {
+          top: 80px;
+          right: 1rem;
+          font-size: 0.7rem;
+          padding: 0.4rem 0.8rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero-video-wrapper {
+          height: 60vh;
+          min-height: 350px;
+        }
+        .hero-video-wrapper .hero-overlay h1 {
+          font-size: 1.5rem;
+        }
+        .hero-video-wrapper .hero-overlay p {
+          font-size: 0.85rem;
+        }
+      }
+
+      .main-content {
+        position: relative;
+        z-index: 10;
+        margin-top: -2rem;
+        padding-top: 1rem;
+      }
+
+      @media (max-width: 768px) {
+        .main-content {
+          margin-top: 0;
+          padding-top: 0;
+        }
+      }
+
+      /* ===== BOTÃO VOLTAR AO TOPO 120HZ ===== */
+      #btn-top {
+        position: fixed;
+        bottom: 28px;
+        right: 28px;
+        z-index: 40;
+        background: rgba(37, 99, 235, 0.9);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        color: white;
+        padding: 14px;
+        border-radius: 50%;
+        box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
+        transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        will-change: transform, opacity;
+        border: 1px solid rgba(255,255,255,0.2);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      #btn-top:hover {
+        transform: scale(1.12) translateY(-4px);
+        box-shadow: 0 16px 40px -8px rgba(37, 99, 235, 0.5);
+        background: rgba(37, 99, 235, 1);
+      }
+
+      #btn-top.show {
+        display: flex;
+      }
+
+      @media (max-width: 640px) {
+        #btn-top {
+          bottom: 20px;
+          right: 20px;
+          padding: 12px;
+          font-size: 0.8rem;
+        }
+      }
+
+      /* ===== FEEDBACKS ===== */
+      .feedback-card {
+        transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: transform, box-shadow;
+        animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        opacity: 0;
+      }
+
+      .feedback-card:hover {
+        transform: translateY(-6px) scale(1.02);
+        box-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.12);
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .feedback-card:nth-child(1) { animation-delay: 0.05s; }
+      .feedback-card:nth-child(2) { animation-delay: 0.10s; }
+      .feedback-card:nth-child(3) { animation-delay: 0.15s; }
+      .feedback-card:nth-child(4) { animation-delay: 0.20s; }
+      .feedback-card:nth-child(5) { animation-delay: 0.25s; }
+      .feedback-card:nth-child(6) { animation-delay: 0.30s; }
+      .feedback-card:nth-child(7) { animation-delay: 0.35s; }
+      .feedback-card:nth-child(8) { animation-delay: 0.40s; }
+
+      .avatar-emoji {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.6rem;
+        flex-shrink: 0;
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        color: white;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      }
+
+      .avatar-emoji.green { background: linear-gradient(135deg, #10b981, #34d399); }
+      .avatar-emoji.pink { background: linear-gradient(135deg, #ec4899, #f472b6); }
+      .avatar-emoji.orange { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+      .avatar-emoji.purple { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+      .avatar-emoji.cyan { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
+      .avatar-emoji.red { background: linear-gradient(135deg, #ef4444, #f87171); }
+      .avatar-emoji.indigo { background: linear-gradient(135deg, #4f46e5, #818cf8); }
+      .avatar-emoji.teal { background: linear-gradient(135deg, #14b8a6, #2dd4bf); }
+      .avatar-emoji.amber { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+      .avatar-emoji.rose { background: linear-gradient(135deg, #f43f5e, #fb7185); }
+      .avatar-emoji.violet { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
+      .avatar-emoji.emerald { background: linear-gradient(135deg, #059669, #34d399); }
+
+      .star-filled {
+        color: #f59e0b;
+      }
+
+      .star-empty {
+        color: #d1d5db;
+      }
+
+      body.dark .star-empty {
+        color: #4b5563;
+      }
+
+      /* ===== ALERT PERSONALIZADO ===== */
+      .custom-alert {
+        position: fixed;
+        top: 100px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-20px);
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        padding: 1.5rem 2.5rem;
+        border-radius: 1.5rem;
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        z-index: 9999;
+        opacity: 0;
+        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        pointer-events: none;
+        max-width: 90%;
+        text-align: center;
+      }
+
+      .custom-alert.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+        pointer-events: auto;
+      }
+
+      .custom-alert .alert-icon {
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .custom-alert .alert-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #1e293b;
+      }
+
+      .custom-alert .alert-message {
+        font-size: 0.95rem;
+        color: #64748b;
+        margin-top: 0.25rem;
+      }
+
+      body.dark .custom-alert {
+        background: rgba(30, 41, 59, 0.95);
+        border-color: rgba(255, 255, 255, 0.05);
+      }
+
+      body.dark .custom-alert .alert-title {
+        color: #e2e8f0;
+      }
+
+      body.dark .custom-alert .alert-message {
+        color: #94a3b8;
+      }
+
+      @media (max-width: 640px) {
+        .custom-alert {
+          padding: 1.2rem 1.5rem;
+          top: 80px;
+        }
+        .custom-alert .alert-icon {
+          font-size: 2rem;
+        }
+        .custom-alert .alert-title {
+          font-size: 1rem;
+        }
+        .custom-alert .alert-message {
+          font-size: 0.85rem;
+        }
+      }
+
+      /* Badge de "Novo" para feedbacks */
+      .badge-new {
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        color: white;
+        font-size: 0.6rem;
+        font-weight: 700;
+        padding: 2px 10px;
+        border-radius: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        animation: pulse-badge 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse-badge {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.6; }
       }
     </style>
   </head>
   <body>
-    <!-- NAVBAR SIMPLES -->
+    <!-- ALERT PERSONALIZADO -->
+    <div id="customAlert" class="custom-alert">
+      <div class="alert-icon" id="alertIcon">🎉</div>
+      <div class="alert-title" id="alertTitle">Obrigado!</div>
+      <div class="alert-message" id="alertMessage">Seu comentário foi enviado com sucesso!</div>
+    </div>
+
+    <!-- NAVBAR TRANSPARENTE SOBRE O VÍDEO -->
     <div id="nav-container" class="fixed top-0 w-full z-50">
-      <nav
-        id="navbar"
-        class="w-full border-b border-white/30 shadow-sm transition-all duration-300"
-      >
+      <nav id="navbar" class="w-full transition-all duration-300">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex justify-between h-16 items-center">
-            <a
-              href="index.html"
-              class="text-2xl font-extrabold text-blue-800 tracking-tight hover:scale-105 transition"
-            >
-              Un<span class="text-cyan-600">ISCED</span>
+            <a href="index.html" class="text-2xl font-extrabold text-white tracking-tight hover:scale-105 transition">
+              Un<span class="text-cyan-300">ISCED</span>
             </a>
             <div class="hidden md:flex items-center gap-6">
-              <a
-                href="index.html"
-                id="link-inicio"
-                class="text-gray-700 hover:text-blue-700 font-semibold transition"
-                >Início</a
-              >
-              <button
-                id="theme-toggle"
-                class="theme-btn p-2 bg-white/50 rounded-full text-gray-800 w-9 h-9 flex items-center justify-center"
-              >
+              <a href="index.html" id="link-inicio" class="text-white hover:text-cyan-200 font-semibold transition">Início</a>
+              <button id="theme-toggle" class="theme-btn p-2 rounded-full w-9 h-9 flex items-center justify-center">
                 <i id="theme-icon" class="fa-solid fa-moon text-sm"></i>
               </button>
-              <button
-                id="btn-idioma"
-                class="font-bold text-blue-700 uppercase text-sm border border-blue-200 px-3 py-1.5 rounded-full hover:bg-blue-50/50 transition"
-              >
+              <button id="btn-idioma" class="font-bold uppercase text-sm border border-white/30 px-3 py-1.5 rounded-full hover:bg-white/10 transition text-white">
                 PT
               </button>
             </div>
             <div class="md:hidden flex items-center gap-3">
-              <button
-                id="theme-toggle-mobile"
-                class="theme-btn p-2 bg-white/50 rounded-full text-gray-800 w-8 h-8 flex items-center justify-center"
-              >
+              <button id="theme-toggle-mobile" class="theme-btn p-2 rounded-full w-8 h-8 flex items-center justify-center">
                 <i id="theme-icon-mobile" class="fa-solid fa-moon text-xs"></i>
               </button>
-              <button
-                id="btn-idioma-mobile"
-                class="font-bold text-blue-700 uppercase text-xs border border-blue-200 px-2 py-1 rounded-full"
-              >
+              <button id="btn-idioma-mobile" class="font-bold uppercase text-xs border border-white/30 px-2 py-1 rounded-full text-white">
                 PT
               </button>
-              <button id="menu-hamburger" class="text-gray-700 p-1">
-                <svg
-                  class="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
+              <button id="menu-hamburger" class="text-white p-1">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               </button>
             </div>
           </div>
         </div>
       </nav>
-      <div
-        id="mobile-menu"
-        class="hidden md:hidden bg-white/80 backdrop-blur-md border-b border-white/30 shadow-md"
-      >
+      <div id="mobile-menu" class="hidden md:hidden backdrop-blur-md border-b border-white/10 shadow-md">
         <div class="px-4 py-3 space-y-2">
-          <a
-            href="index.html"
-            id="mobile-link-inicio"
-            class="block py-2 text-gray-700 font-semibold hover:text-blue-700"
-            >Início</a
-          >
-          <a
-            href="Portal do aluno.html"
-            id="mobile-btn-portal"
-            class="block py-2 text-blue-700 font-semibold"
-            >Portal do Aluno</a
-          >
+          <a href="index.html" id="mobile-link-inicio" class="block py-2 font-semibold hover:text-cyan-200">Início</a>
+          <a href="Portal do aluno.html" id="mobile-btn-portal" class="block py-2 font-semibold">Portal do Aluno</a>
         </div>
       </div>
     </div>
 
-    <main
-      class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16 relative z-10"
-      id="main-content"
-    >
-      <!-- IMAGEM COM ALTURA MUITO MAIOR -->
+    <!-- HERO VIDEO - NOVO VÍDEO -->
+    <div class="hero-video-wrapper">
+      <video autoplay muted loop playsinline>
+        <source src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Novo%20Video.mp4?raw=true" type="video/mp4" />
+        Seu navegador não suporta vídeo.
+      </video>
+      <div class="hero-badge">
+        <i class="fa-solid fa-play mr-1"></i> Sempre disponível
+      </div>
+      <div class="hero-overlay">
+        <h1 id="hero-titulo">Centro de Recursos<br /><span class="gradient-text">UnISCED Katembe</span></h1>
+        <p id="hero-descricao">O melhor centro com tecnologia de ponta. Ambiente colaborativo e inovador para a sua formação.</p>
+      </div>
+    </div>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 relative z-10 main-content" id="main-content">
+      
+      <!-- SALA DE INFORMÁTICA -->
+      <div class="reveal mb-8 rounded-2xl overflow-hidden shadow-xl relative">
+        <img
+          src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Sala%20de%20informatica.jpg?raw=true"
+          alt="Sala de informática moderna"
+          class="w-full h-[20rem] md:h-[26rem] object-cover"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-6">
+          <div>
+            <span class="inline-block bg-blue-600/80 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full mb-2"><i class="fa-solid fa-microchip mr-1"></i> Tecnologia de ponta</span>
+            <h2 class="text-white text-2xl md:text-3xl font-black drop-shadow">Laboratório de Informática</h2>
+            <p class="text-white/90 max-w-xl text-sm md:text-base">Equipamentos modernos, computadores de alto desempenho e conectividade de última geração para potencializar seu aprendizado.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECEPÇÃO -->
       <div class="reveal mb-8">
         <div class="relative rounded-2xl overflow-hidden shadow-xl">
           <img
-            src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/IMG_20260609_160324.jpg?raw=true"
-            alt="Centro de Recursos de Maputo"
-            class="w-full h-[28rem] md:h-[36rem] lg:h-[42rem] object-cover"
+            src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Recepcao%20uniced.jpg?raw=true"
+            alt="Recepção do Centro de Recursos de Maputo"
+            class="w-full h-[20rem] md:h-[28rem] object-cover"
           />
-          <div
-            class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"
-          ></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
           <div class="absolute bottom-6 left-6">
-            <span
-              class="bg-blue-600/80 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full"
-              ><i class="fa-solid fa-location-dot mr-1"></i> Maputo,
-              Moçambique</span
-            >
-            <h1
-              id="titulo"
-              class="text-2xl md:text-4xl lg:text-5xl font-black text-white drop-shadow-lg mt-3"
-            >
-              Centro de Recursos de Maputo
+            <span class="bg-blue-600/80 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full"><i class="fa-solid fa-location-dot mr-1"></i> Maputo, Moçambique</span>
+            <h1 id="titulo" class="text-2xl md:text-4xl lg:text-5xl font-black text-white drop-shadow-lg mt-3">
+              Recepção do Centro de Recursos de Maputo
             </h1>
           </div>
         </div>
       </div>
 
-      <!-- Texto principal -->
+      <!-- TEXTO PRINCIPAL -->
       <div class="rounded-2xl p-6 md:p-8 shadow-sm mb-8 reveal card-glass">
-        <div
-          id="texto-principal"
-          class="space-y-4 text-gray-700 leading-relaxed"
-        >
+        <div id="texto-principal" class="space-y-4 text-gray-700 leading-relaxed">
           <p>
             O Centro de Recursos de Maputo é uma das unidades físicas da
             Universidade Aberta ISCED (UnISCED) localizada na cidade de Maputo,
@@ -369,72 +882,42 @@
         </div>
       </div>
 
-      <!-- Cards informativos -->
+      <!-- CARDS INFORMATIVOS -->
       <div class="grid md:grid-cols-3 gap-6 mb-8">
-        <div
-          class="p-5 rounded-xl border border-white/50 shadow-sm info-card card-glass reveal"
-        >
-          <div
-            class="w-12 h-12 bg-blue-100/80 rounded-xl flex items-center justify-center text-blue-700 text-xl mb-3"
-          >
+        <div class="p-5 rounded-xl border border-white/50 shadow-sm info-card card-glass reveal">
+          <div class="icon-wrapper w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center text-white text-2xl mb-3 shadow-lg shadow-blue-500/20">
             <i class="fa-solid fa-laptop-code"></i>
           </div>
-          <h3 class="font-bold text-gray-800" id="card1-titulo">
-            Tecnologia Avançada
-          </h3>
-          <p class="text-sm text-gray-600" id="card1-texto">
-            Computadores modernos, Internet de alta velocidade.
-          </p>
+          <h3 class="font-bold text-gray-800" id="card1-titulo">Tecnologia Avançada</h3>
+          <p class="text-sm text-gray-600" id="card1-texto">Computadores modernos, Internet de alta velocidade.</p>
         </div>
-        <div
-          class="p-5 rounded-xl border border-white/50 shadow-sm info-card card-glass reveal"
-        >
-          <div
-            class="w-12 h-12 bg-cyan-100/80 rounded-xl flex items-center justify-center text-cyan-700 text-xl mb-3"
-          >
+        <div class="p-5 rounded-xl border border-white/50 shadow-sm info-card card-glass reveal">
+          <div class="icon-wrapper w-14 h-14 bg-gradient-to-br from-cyan-500 to-teal-500 rounded-xl flex items-center justify-center text-white text-2xl mb-3 shadow-lg shadow-cyan-500/20">
             <i class="fa-solid fa-book-open"></i>
           </div>
-          <h3 class="font-bold text-gray-800" id="card2-titulo">
-            Biblioteca Digital
-          </h3>
-          <p class="text-sm text-gray-600" id="card2-texto">
-            Acervo de livros, artigos e materiais online.
-          </p>
+          <h3 class="font-bold text-gray-800" id="card2-titulo">Biblioteca Digital</h3>
+          <p class="text-sm text-gray-600" id="card2-texto">Acervo de livros, artigos e materiais online.</p>
         </div>
-        <div
-          class="p-5 rounded-xl border border-white/50 shadow-sm info-card card-glass reveal"
-        >
-          <div
-            class="w-12 h-12 bg-emerald-100/80 rounded-xl flex items-center justify-center text-emerald-700 text-xl mb-3"
-          >
+        <div class="p-5 rounded-xl border border-white/50 shadow-sm info-card card-glass reveal">
+          <div class="icon-wrapper w-14 h-14 bg-gradient-to-br from-emerald-500 to-green-500 rounded-xl flex items-center justify-center text-white text-2xl mb-3 shadow-lg shadow-emerald-500/20">
             <i class="fa-solid fa-headset"></i>
           </div>
-          <h3 class="font-bold text-gray-800" id="card3-titulo">
-            Suporte Técnico
-          </h3>
-          <p class="text-sm text-gray-600" id="card3-texto">
-            Assistência e orientação académica presencial.
-          </p>
+          <h3 class="font-bold text-gray-800" id="card3-titulo">Suporte Técnico</h3>
+          <p class="text-sm text-gray-600" id="card3-texto">Assistência e orientação académica presencial.</p>
         </div>
       </div>
 
-      <!-- Mapa + horário -->
+      <!-- MAPA + HORÁRIO -->
       <div class="grid md:grid-cols-2 gap-6 reveal">
-        <div
-          class="bg-gradient-to-r from-blue-700 to-cyan-700 rounded-xl p-6 text-white text-center shadow"
-        >
+        <div class="bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl p-6 text-white text-center shadow-lg shadow-blue-500/20">
           <i class="fa-regular fa-heart text-3xl mb-2 opacity-80"></i>
-          <p id="texto-espera" class="text-xl font-bold">
-            Estamos à sua espera!
-          </p>
-          <p class="text-sm text-blue-100" id="texto-visita">
-            Venha conhecer as nossas instalações
-          </p>
+          <p id="texto-espera" class="text-xl font-bold">Estamos à sua espera!</p>
+          <p class="text-sm text-blue-100" id="texto-visita">Venha conhecer as nossas instalações</p>
         </div>
         <a
           href="https://maps.app.goo.gl/bf3RwMEkd3WMctUN8"
           target="_blank"
-          class="flex items-center justify-center gap-2 bg-gray-800/80 backdrop-blur-sm hover:bg-gray-700/90 text-white font-semibold py-4 rounded-xl transition shadow"
+          class="map-btn flex items-center justify-center gap-2 bg-gray-800/80 backdrop-blur-sm hover:bg-gray-700/90 text-white font-semibold py-4 rounded-xl transition shadow-lg shadow-gray-800/20"
         >
           <i class="fa-solid fa-location-dot"></i>
           <span id="texto-botao">Ver no Mapa</span>
@@ -442,116 +925,384 @@
         </a>
       </div>
 
-      <!-- Horário de funcionamento -->
-      <div
-        class="mt-8 rounded-xl p-5 border border-white/50 shadow-sm reveal card-glass"
-      >
+      <!-- HORÁRIO -->
+      <div class="mt-8 rounded-xl p-5 border border-white/50 shadow-sm reveal card-glass">
         <h3 class="font-bold text-gray-800 flex items-center gap-2 mb-3">
           <i class="fa-regular fa-clock text-blue-600"></i>
           <span id="horario-titulo">Horário de Funcionamento</span>
         </h3>
         <div class="grid grid-cols-2 gap-2 text-sm">
-          <span class="text-gray-600" id="dia-semana">Segunda a Sexta</span
-          ><span class="font-semibold text-gray-800" id="hora-semana"
-            >08:00 – 17:00</span
-          >
-          <span class="text-gray-600" id="dia-sabado">Sábado</span
-          ><span class="font-semibold text-gray-800" id="hora-sabado"
-            >09:00 – 13:00</span
-          >
-          <span class="text-gray-600" id="dia-domingo">Domingo</span
-          ><span class="font-semibold text-green-600" id="hora-domingo"
-            >Fechado</span
-          >
+          <span class="text-gray-600" id="dia-semana">Segunda a Sexta</span>
+          <span class="font-semibold text-gray-800" id="hora-semana">08:00 – 17:00</span>
+          <span class="text-gray-600" id="dia-sabado">Sábado</span>
+          <span class="font-semibold text-gray-800" id="hora-sabado">09:00 – 13:00</span>
+          <span class="text-gray-600" id="dia-domingo">Domingo</span>
+          <span class="font-semibold text-green-600" id="hora-domingo">Fechado</span>
+        </div>
+      </div>
+
+      <!-- ===== SEÇÃO DE FEEDBACKS ===== -->
+      <div class="mt-12 reveal">
+        <h2 class="text-3xl md:text-4xl font-black text-gray-800 text-center mb-2" id="feedback-titulo">
+          💬 O que nossos alunos dizem
+        </h2>
+        <p class="text-center text-gray-500 mb-8" id="feedback-subtitulo">Feedbacks reais de estudantes da UnISCED</p>
+
+        <!-- Grid de feedbacks -->
+        <div id="feedbacks-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+          <!-- Os feedbacks serão inseridos via JS -->
+        </div>
+
+        <!-- Formulário de comentário -->
+        <div class="rounded-2xl p-6 md:p-8 card-glass">
+          <h3 class="text-xl font-bold text-gray-800 mb-4" id="form-titulo">✍️ Deixe seu feedback</h3>
+          <form id="feedback-form" class="space-y-4">
+            <div class="grid md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1" id="label-nome">Seu nome</label>
+                <input type="text" id="input-nome" placeholder="Ex: Ana Silva" required class="w-full px-4 py-2 rounded-xl border border-gray-200 bg-white/50 backdrop-blur-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition outline-none">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1" id="label-email">Seu email</label>
+                <input type="email" id="input-email" placeholder="exemplo@email.com" required class="w-full px-4 py-2 rounded-xl border border-gray-200 bg-white/50 backdrop-blur-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition outline-none">
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1" id="label-avaliacao">Avaliação</label>
+              <div class="flex gap-2 text-2xl" id="star-rating">
+                <span class="cursor-pointer transition hover:scale-110 star-select" data-value="1">☆</span>
+                <span class="cursor-pointer transition hover:scale-110 star-select" data-value="2">☆</span>
+                <span class="cursor-pointer transition hover:scale-110 star-select" data-value="3">☆</span>
+                <span class="cursor-pointer transition hover:scale-110 star-select" data-value="4">☆</span>
+                <span class="cursor-pointer transition hover:scale-110 star-select" data-value="5">☆</span>
+              </div>
+              <input type="hidden" id="input-estrelas" value="5">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1" id="label-comentario">Seu comentário</label>
+              <textarea id="input-comentario" rows="3" placeholder="Compartilhe sua experiência..." required class="w-full px-4 py-2 rounded-xl border border-gray-200 bg-white/50 backdrop-blur-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition outline-none"></textarea>
+            </div>
+            <button type="submit" class="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-xl shadow-lg shadow-blue-500/20 hover:scale-105 transition hover:shadow-xl">
+              <i class="fa-regular fa-paper-plane mr-2"></i>
+              <span id="btn-enviar">Enviar feedback</span>
+            </button>
+          </form>
         </div>
       </div>
     </main>
 
-    <!-- RODAPÉ CENTRALIZADO (não será lido) -->
+    <!-- RODAPÉ -->
     <footer class="footer-glass py-8 mt-8" id="footer-rodape">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Endereço -->
         <div class="text-center mb-6 pb-4 border-b border-white/30">
           <i class="fa-solid fa-location-dot text-blue-600 mr-2"></i>
-          <span class="text-gray-700 text-sm"
-            ><strong>Reitoria:</strong> Rua Carlos Pereira, parcela nº 148/07,
-            Estoril Expansão, Beira</span
-          >
+          <span class="text-gray-700 text-sm"><strong>Reitoria:</strong> Rua Carlos Pereira, parcela nº 148/07, Estoril Expansão, Beira</span>
         </div>
 
-        <!-- Tudo centralizado -->
+        <!-- REDES SOCIAIS -->
+        <div class="flex flex-wrap justify-center items-center gap-3 mb-6">
+          <a href="https://web.facebook.com/UnISCEDmz/" target="_blank" class="flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-2xl font-semibold text-xs hover:scale-110 hover:bg-blue-600 hover:text-white transition">
+            <i class="fa-brands fa-facebook-f"></i> Facebook
+          </a>
+          <a href="https://www.instagram.com/uniscedmz/" target="_blank" class="flex items-center gap-2 bg-pink-50 text-pink-700 px-4 py-2 rounded-2xl font-semibold text-xs hover:scale-110 hover:bg-gradient-to-tr hover:from-yellow-500 hover:to-purple-600 hover:text-white transition">
+            <i class="fa-brands fa-instagram"></i> Instagram
+          </a>
+          <a href="https://www.tiktok.com/@unisced" target="_blank" class="flex items-center gap-2 bg-gray-50 text-gray-900 px-4 py-2 rounded-2xl font-semibold text-xs hover:scale-110 hover:bg-black hover:text-white transition">
+            <i class="fa-brands fa-tiktok"></i> TikTok
+          </a>
+          <a href="https://www.whatsapp.com/channel/0029VayybTRG8l5LeckHjq3K" target="_blank" class="flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-2xl font-semibold text-xs hover:scale-110 hover:bg-emerald-600 hover:text-white transition">
+            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+          </a>
+          <a href="https://mz.linkedin.com/company/unisced-universidade-aberta-isced" target="_blank" class="flex items-center gap-2 bg-sky-50 text-sky-700 px-4 py-2 rounded-2xl font-semibold text-xs hover:scale-110 hover:bg-sky-600 hover:text-white transition">
+            <i class="fa-brands fa-linkedin-in"></i> LinkedIn
+          </a>
+          <a href="https://www.youtube.com/@uniscedmedia" target="_blank" class="flex items-center gap-2 bg-red-50 text-red-600 px-4 py-2 rounded-2xl font-semibold text-xs hover:scale-110 hover:bg-red-600 hover:text-white transition">
+            <i class="fa-brands fa-youtube"></i> YouTube
+          </a>
+          <a href="https://x.com/uniscedmz" target="_blank" class="flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-2xl font-semibold text-xs hover:scale-110 hover:bg-black transition">
+            <i class="fa-brands fa-x-twitter"></i> X
+          </a>
+        </div>
+
         <div class="text-center">
           <p class="text-gray-600 text-sm mb-3">
-            2026 ©
-            <span class="text-blue-700 font-semibold"
-              >Universidade Aberta ISCED</span
-            >. Todos os direitos reservados.
+            2026 © <span class="text-blue-700 font-semibold">Universidade Aberta ISCED</span>. Todos os direitos reservados.
           </p>
-          <a
-            href="#"
-            id="btn-app-movel"
-            class="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold text-xs px-4 py-2 rounded-full shadow-md transition hover:scale-105 mb-4"
-          >
+          <a href="https://download.moodle.org/" id="btn-app-movel" class="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold text-xs px-4 py-2 rounded-full shadow-md transition hover:scale-105 mb-4">
             <i class="fa-solid fa-mobile-screen-button"></i>
             <span>App móvel</span>
           </a>
           <div class="flex flex-wrap justify-center items-center gap-2 text-sm">
-            <a
-              href="privacidade.html"
-              id="foot-privacidade"
-              class="text-gray-500 hover:text-blue-600 transition"
-              >Privacidade</a
-            >
+            <a href="privacidade.html" id="foot-privacidade" class="text-gray-500 hover:text-blue-600 transition">Privacidade</a>
             <span class="text-gray-400">|</span>
-            <a
-              href="privacidade.html"
-              id="foot-termos"
-              class="text-gray-500 hover:text-blue-600 transition"
-              >Termos</a
-            >
+            <a href="privacidade.html" id="foot-termos" class="text-gray-500 hover:text-blue-600 transition">Termos</a>
             <span class="text-gray-400">|</span>
-            <a
-              href="Suporte.html"
-              id="foot-suporte"
-              class="text-gray-500 hover:text-blue-600 transition"
-              >Suporte</a
-            >
+            <a href="Suporte.html" id="foot-suporte" class="text-gray-500 hover:text-blue-600 transition">Suporte</a>
           </div>
         </div>
       </div>
     </footer>
 
     <!-- BOTÃO VOLTAR AO TOPO -->
-    <button
-      onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
-      id="btn-top"
-      class="fixed bottom-24 right-5 bg-blue-700 text-white p-3 rounded-full shadow-lg hidden hover:scale-105 transition z-40"
-    >
+    <button id="btn-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
       <i class="fa-solid fa-arrow-up"></i>
     </button>
 
-    <!-- BOTÃO WHATSAPP FLUTUANTE -->
-    <a
-      href="https://wa.me/258840000000?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20o%20Centro%20de%20Recursos%20de%20Maputo"
-      target="_blank"
-      class="whatsapp-btn fixed bottom-5 left-5 bg-green-500 text-white p-4 rounded-full shadow-lg z-50 flex items-center gap-2"
-    >
+    <!-- WHATSAPP -->
+    <a href="https://wa.me/258840000000?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20o%20Centro%20de%20Recursos%20de%20Maputo" target="_blank" class="whatsapp-btn fixed bottom-5 left-5 bg-green-500 text-white p-4 rounded-full shadow-lg z-50 flex items-center gap-2">
       <i class="fa-brands fa-whatsapp text-2xl"></i>
       <span class="hidden md:inline text-sm font-semibold">Fale connosco</span>
     </a>
 
-    <!-- BOTÃO DE ACESSIBILIDADE LEITOR -->
-    <button
-      id="accessibility-reader-btn"
-      class="accessibility-reader"
-      aria-label="Ler conteúdo da página"
-    >
+    <!-- LEITOR -->
+    <button id="accessibility-reader-btn" class="accessibility-reader" aria-label="Ler conteúdo da página">
       <i class="fa-solid fa-ear-listen"></i>
-      <span>Ouvir Página</span>
+      <span id="ler-texto">Ouvir Página</span>
     </button>
 
     <script>
-      // ================== BOTÃO LEITOR DE TELA ==================
+      // ===== FEEDBACKS - 15 COM EMOJIS =====
+      const feedbacksData = {
+        pt: [
+          { nome: "Ana Silva", emoji: "👩‍💻", curso: "Engenharia Informática", comentario: "O centro de recursos tem equipamentos incríveis! A internet é super rápida e o ambiente é muito acolhedor.", estrelas: 5, cor: "blue" },
+          { nome: "João Mendes", emoji: "👨‍🎓", curso: "Gestão de Empresas", comentario: "Excelente espaço para estudar e pesquisar. Os computadores são modernos e o suporte técnico é top!", estrelas: 5, cor: "green" },
+          { nome: "Maria Santos", emoji: "👩‍🏫", curso: "Ciências da Educação", comentario: "A biblioteca digital tem um acervo fantástico. Consigo acessar tudo que preciso para minhas pesquisas.", estrelas: 4, cor: "pink" },
+          { nome: "Carlos Ferreira", emoji: "👨‍💻", curso: "Sistemas de Informação", comentario: "Melhor centro de recursos que já visitei. Tecnologia de ponta e equipe muito atenciosa.", estrelas: 5, cor: "orange" },
+          { nome: "Patrícia Lima", emoji: "👩‍🔬", curso: "Biologia", comentario: "Adoro o ambiente colaborativo. Sempre encontro outros estudantes para trocar ideias e aprender juntos.", estrelas: 4, cor: "purple" },
+          { nome: "Ricardo Costa", emoji: "👨‍🏫", curso: "Matemática", comentario: "O suporte técnico é excelente! Sempre que preciso de ajuda, a equipe está pronta para auxiliar.", estrelas: 5, cor: "cyan" },
+          { nome: "Fernanda Dias", emoji: "👩‍🎨", curso: "Design Gráfico", comentario: "Os computadores têm configurações incríveis para design. O centro é um verdadeiro diferencial para nós alunos.", estrelas: 5, cor: "red" },
+          { nome: "Pedro Oliveira", emoji: "👨‍💻", curso: "Engenharia Civil", comentario: "Espaço moderno, bem equipado e com excelente infraestrutura. Recomendo a todos os alunos.", estrelas: 4, cor: "indigo" },
+          { nome: "Sofia Rodrigues", emoji: "👩‍⚕️", curso: "Enfermagem", comentario: "Acesso à internet de alta velocidade e muitos recursos digitais disponíveis. Perfeito para estudos!", estrelas: 5, cor: "teal" },
+          { nome: "Miguel Santos", emoji: "👨‍🎓", curso: "Economia", comentario: "O centro de recursos é um ponto de encontro essencial para nós alunos. Ambiente inspirador e produtivo.", estrelas: 4, cor: "amber" },
+          { nome: "Carla Vieira", emoji: "🧑‍🏫", curso: "Letras", comentario: "Os recursos digitais disponíveis são incríveis! Consegui fazer toda minha pesquisa sem sair do centro.", estrelas: 5, cor: "rose" },
+          { nome: "Rui Martins", emoji: "👨‍🔬", curso: "Engenharia Química", comentario: "Laboratórios bem equipados e ambiente muito profissional. Ótimo para desenvolver projetos.", estrelas: 5, cor: "violet" },
+          { nome: "Tânia Mendes", emoji: "👩‍💼", curso: "Administração", comentario: "Ótimo local para estudar em grupo. As salas são confortáveis e bem equipadas.", estrelas: 4, cor: "emerald" },
+          { nome: "André Gonçalves", emoji: "🧑‍💻", curso: "Ciência de Dados", comentario: "Os computadores são muito rápidos e a conexão estável. Perfeito para rodar meus algoritmos.", estrelas: 5, cor: "cyan" },
+          { nome: "Mariana Costa", emoji: "👩‍🎓", curso: "Psicologia", comentario: "Ambiente tranquilo e inspirador. Ótimo para leitura e concentração nos estudos.", estrelas: 4, cor: "pink" }
+        ],
+        en: [
+          { nome: "Ana Silva", emoji: "👩‍💻", curso: "Computer Engineering", comentario: "The resource center has amazing equipment! The internet is super fast and the environment is very welcoming.", estrelas: 5, cor: "blue" },
+          { nome: "João Mendes", emoji: "👨‍🎓", curso: "Business Management", comentario: "Great space to study and research. The computers are modern and the technical support is top-notch!", estrelas: 5, cor: "green" },
+          { nome: "Maria Santos", emoji: "👩‍🏫", curso: "Education Sciences", comentario: "The digital library has a fantastic collection. I can access everything I need for my research.", estrelas: 4, cor: "pink" },
+          { nome: "Carlos Ferreira", emoji: "👨‍💻", curso: "Information Systems", comentario: "Best resource center I've ever visited. Cutting-edge technology and very attentive staff.", estrelas: 5, cor: "orange" },
+          { nome: "Patrícia Lima", emoji: "👩‍🔬", curso: "Biology", comentario: "I love the collaborative environment. I always find other students to exchange ideas and learn together.", estrelas: 4, cor: "purple" },
+          { nome: "Ricardo Costa", emoji: "👨‍🏫", curso: "Mathematics", comentario: "Technical support is excellent! Whenever I need help, the team is ready to assist.", estrelas: 5, cor: "cyan" },
+          { nome: "Fernanda Dias", emoji: "👩‍🎨", curso: "Graphic Design", comentario: "The computers have incredible configurations for design. The center is a true differentiator for us students.", estrelas: 5, cor: "red" },
+          { nome: "Pedro Oliveira", emoji: "👨‍💻", curso: "Civil Engineering", comentario: "Modern space, well-equipped and with excellent infrastructure. I recommend it to all students.", estrelas: 4, cor: "indigo" },
+          { nome: "Sofia Rodrigues", emoji: "👩‍⚕️", curso: "Nursing", comentario: "High-speed internet access and many digital resources available. Perfect for studies!", estrelas: 5, cor: "teal" },
+          { nome: "Miguel Santos", emoji: "👨‍🎓", curso: "Economics", comentario: "The resource center is an essential meeting point for us students. Inspiring and productive environment.", estrelas: 4, cor: "amber" },
+          { nome: "Carla Vieira", emoji: "🧑‍🏫", curso: "Literature", comentario: "The digital resources available are incredible! I was able to do all my research without leaving the center.", estrelas: 5, cor: "rose" },
+          { nome: "Rui Martins", emoji: "👨‍🔬", curso: "Chemical Engineering", comentario: "Well-equipped labs and a very professional environment. Great for developing projects.", estrelas: 5, cor: "violet" },
+          { nome: "Tânia Mendes", emoji: "👩‍💼", curso: "Administration", comentario: "Great place for group study. The rooms are comfortable and well-equipped.", estrelas: 4, cor: "emerald" },
+          { nome: "André Gonçalves", emoji: "🧑‍💻", curso: "Data Science", comentario: "The computers are very fast and the connection is stable. Perfect for running my algorithms.", estrelas: 5, cor: "cyan" },
+          { nome: "Mariana Costa", emoji: "👩‍🎓", curso: "Psychology", comentario: "Peaceful and inspiring environment. Great for reading and concentration in studies.", estrelas: 4, cor: "pink" }
+        ]
+      };
+
+      // ===== VARIÁVEIS GLOBAIS =====
+      let lang = "pt";
+      let selectedStars = 5;
+      let currentFeedbacks = [];
+
+      // ===== FUNÇÕES DE FEEDBACK =====
+      function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      }
+
+      function getRandomFeedbacks(data, count = 8) {
+        const shuffled = shuffleArray([...data]);
+        return shuffled.slice(0, count);
+      }
+
+      function renderFeedbacks(langCode) {
+        const container = document.getElementById('feedbacks-container');
+        const data = feedbacksData[langCode] || feedbacksData.pt;
+        currentFeedbacks = getRandomFeedbacks(data, 8);
+        
+        container.innerHTML = '';
+        currentFeedbacks.forEach((fb, index) => {
+          const card = document.createElement('div');
+          card.className = 'feedback-card p-5 rounded-xl border border-white/50 shadow-sm card-glass';
+          const starFull = '★'.repeat(fb.estrelas);
+          const starEmpty = '☆'.repeat(5 - fb.estrelas);
+          const corClass = fb.cor || 'blue';
+          card.innerHTML = `
+            <div class="flex items-start gap-3">
+              <div class="avatar-emoji ${corClass}">${fb.emoji}</div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <div class="font-bold text-gray-800 text-sm">${fb.nome}</div>
+                </div>
+                <div class="text-xs text-gray-500">${fb.curso}</div>
+                <div class="text-sm text-yellow-500 mt-1">${starFull}${starEmpty}</div>
+                <p class="text-sm text-gray-600 mt-2">${fb.comentario}</p>
+              </div>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      function addNewFeedback(nome, curso, comentario, estrelas, emoji) {
+        const container = document.getElementById('feedbacks-container');
+        const card = document.createElement('div');
+        card.className = 'feedback-card p-5 rounded-xl border border-white/50 shadow-sm card-glass';
+        const starFull = '★'.repeat(estrelas);
+        const starEmpty = '☆'.repeat(5 - estrelas);
+        const cores = ['blue', 'green', 'pink', 'orange', 'purple', 'cyan', 'red', 'indigo', 'teal', 'amber', 'rose', 'violet', 'emerald'];
+        const corClass = cores[Math.floor(Math.random() * cores.length)];
+        
+        // Adiciona badge "Novo"
+        card.innerHTML = `
+          <div class="flex items-start gap-3">
+            <div class="avatar-emoji ${corClass}">${emoji || '👤'}</div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2">
+                <div class="font-bold text-gray-800 text-sm">${nome}</div>
+                <span class="badge-new">Novo</span>
+              </div>
+              <div class="text-xs text-gray-500">${curso}</div>
+              <div class="text-sm text-yellow-500 mt-1">${starFull}${starEmpty}</div>
+              <p class="text-sm text-gray-600 mt-2">${comentario}</p>
+            </div>
+          </div>
+        `;
+        
+        // Insere no topo
+        container.insertBefore(card, container.firstChild);
+        
+        // Remove o badge "Novo" após 5 segundos
+        setTimeout(() => {
+          const badge = card.querySelector('.badge-new');
+          if (badge) badge.remove();
+        }, 5000);
+      }
+
+      // ===== SISTEMA DE ESTRELAS =====
+      document.querySelectorAll('.star-select').forEach(el => {
+        el.addEventListener('click', function() {
+          const val = parseInt(this.dataset.value);
+          selectedStars = val;
+          document.getElementById('input-estrelas').value = val;
+          document.querySelectorAll('.star-select').forEach((star, index) => {
+            star.textContent = index < val ? '★' : '☆';
+            star.style.color = index < val ? '#f59e0b' : '#d1d5db';
+          });
+        });
+        el.addEventListener('mouseenter', function() {
+          const val = parseInt(this.dataset.value);
+          document.querySelectorAll('.star-select').forEach((star, index) => {
+            star.textContent = index < val ? '★' : '☆';
+            star.style.color = index < val ? '#fbbf24' : '#d1d5db';
+          });
+        });
+        el.addEventListener('mouseleave', function() {
+          const current = parseInt(document.getElementById('input-estrelas').value) || 5;
+          document.querySelectorAll('.star-select').forEach((star, index) => {
+            star.textContent = index < current ? '★' : '☆';
+            star.style.color = index < current ? '#f59e0b' : '#d1d5db';
+          });
+        });
+      });
+      document.getElementById('input-estrelas').value = 5;
+      document.querySelectorAll('.star-select').forEach((star, index) => {
+        star.textContent = index < 5 ? '★' : '☆';
+        star.style.color = index < 5 ? '#f59e0b' : '#d1d5db';
+      });
+
+      // ===== ALERT PERSONALIZADO =====
+      let alertTimeout = null;
+
+      function showCustomAlert(icon, title, message, isSuccess = true) {
+        const alertEl = document.getElementById('customAlert');
+        document.getElementById('alertIcon').textContent = icon;
+        document.getElementById('alertTitle').textContent = title;
+        document.getElementById('alertMessage').textContent = message;
+        alertEl.className = 'custom-alert show';
+        if (isSuccess) {
+          alertEl.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+        } else {
+          alertEl.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+        }
+        clearTimeout(alertTimeout);
+        alertTimeout = setTimeout(() => {
+          alertEl.classList.remove('show');
+        }, 4000);
+      }
+
+      // ===== FORMULÁRIO DE FEEDBACK =====
+      document.getElementById('feedback-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const nome = document.getElementById('input-nome').value.trim();
+        const email = document.getElementById('input-email').value.trim();
+        const comentario = document.getElementById('input-comentario').value.trim();
+        const estrelas = parseInt(document.getElementById('input-estrelas').value);
+
+        if (!nome || !email || !comentario) {
+          showCustomAlert('⚠️', 'Campos incompletos', 'Por favor, preencha todos os campos.', false);
+          return;
+        }
+
+        // Simula envio
+        const btn = this.querySelector('button[type="submit"]');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Enviando...';
+        btn.disabled = true;
+
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+          
+          // Adiciona o novo feedback na lista (com emoji aleatório)
+          const emojis = ['👤', '😊', '🌟', '🎓', '📚', '💡', '🚀', '✨', '👋', '😄'];
+          const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+          const cursos = ['Estudante', 'Aluno', 'Bolsista', 'Pesquisador', 'Monitor'];
+          const cursoAleatorio = cursos[Math.floor(Math.random() * cursos.length)];
+          
+          addNewFeedback(nome, cursoAleatorio, comentario, estrelas, randomEmoji);
+          
+          // Mostra alerta de sucesso
+          showCustomAlert('🎉', 'Feedback enviado!', 'Seu comentário apareceu na lista acima!');
+          
+          // Limpa o formulário
+          document.getElementById('input-nome').value = '';
+          document.getElementById('input-email').value = '';
+          document.getElementById('input-comentario').value = '';
+          // Reseta estrelas
+          selectedStars = 5;
+          document.getElementById('input-estrelas').value = 5;
+          document.querySelectorAll('.star-select').forEach((star, index) => {
+            star.textContent = index < 5 ? '★' : '☆';
+            star.style.color = index < 5 ? '#f59e0b' : '#d1d5db';
+          });
+        }, 1500);
+      });
+
+      // ===== NAVBAR SCROLL =====
+      const navbar = document.getElementById('navbar');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+      });
+
+      // ===== BOTÃO VOLTAR AO TOPO =====
+      const btnTop = document.getElementById('btn-top');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          btnTop.classList.add('show');
+        } else {
+          btnTop.classList.remove('show');
+        }
+      });
+
+      // ===== LEITOR =====
       let speechSynthesisUtterance = null;
       let isSpeaking = false;
       const readButton = document.getElementById("accessibility-reader-btn");
@@ -559,157 +1310,92 @@
 
       function getTextFromMainContent() {
         if (!mainContent) return "";
-        // Clona o conteúdo principal para não afetar a interface
         const clone = mainContent.cloneNode(true);
-
-        // Remove elementos que não devem ser lidos (botões, links de interação, etc)
         const unwantedSelectors = [
-          "button", // qualquer botão
-          ".theme-btn", // botões de tema
-          "#btn-idioma", // botão de idioma
-          "#btn-idioma-mobile",
-          ".whatsapp-btn", // botão flutuante WhatsApp
-          "#btn-top", // botão de voltar ao topo
-          'a[href="#"]', // links vazios
-          'a[target="_blank"]', // links externos (mapa)
+          "button", ".theme-btn", "#btn-idioma", "#btn-idioma-mobile",
+          ".whatsapp-btn", "#btn-top", 'a[href="#"]', 'a[target="_blank"]',
+          ".feedback-card", "#feedback-form"
         ];
-
         unwantedSelectors.forEach((selector) => {
-          const elementsToRemove = clone.querySelectorAll(selector);
-          elementsToRemove.forEach((el) => el.remove());
+          clone.querySelectorAll(selector).forEach(el => el.remove());
         });
-
-        // Remove também o link do mapa (é um link de ação)
         const mapLink = clone.querySelector('a[href*="maps.app.goo.gl"]');
         if (mapLink) mapLink.remove();
-
-        // Obtém todo o texto restante
         let text = clone.innerText || clone.textContent || "";
-        // Limpa espaços excessivos e quebras
         text = text.replace(/\s+/g, " ").trim();
         return text;
       }
 
       function stopReading() {
-        if (window.speechSynthesis) {
-          window.speechSynthesis.cancel();
-        }
-        if (speechSynthesisUtterance) {
-          speechSynthesisUtterance = null;
-        }
+        if (window.speechSynthesis) window.speechSynthesis.cancel();
+        speechSynthesisUtterance = null;
         isSpeaking = false;
         if (readButton) {
           readButton.classList.remove("speaking");
-          readButton.innerHTML =
-            '<i class="fa-solid fa-ear-listen"></i><span>Ouvir Página</span>';
+          const textSpan = document.getElementById("ler-texto");
+          if (textSpan) textSpan.textContent = lang === 'pt' ? 'Ouvir Página' : 'Listen Page';
         }
       }
 
       function readMainContent() {
-        if (isSpeaking) {
-          stopReading();
-          return;
-        }
-
+        if (isSpeaking) { stopReading(); return; }
         const fullText = getTextFromMainContent();
-        if (!fullText || fullText.length === 0) {
-          alert("Nenhum conteúdo textual disponível para leitura.");
-          return;
-        }
-
-        if (window.speechSynthesis) {
-          window.speechSynthesis.cancel();
-        }
-
-        // Detecta idioma baseado no botão de idioma atual
+        if (!fullText) { showCustomAlert('⚠️', 'Sem conteúdo', 'Nenhum texto disponível para leitura.', false); return; }
+        if (window.speechSynthesis) window.speechSynthesis.cancel();
         let langCode = "pt-PT";
         const btnIdioma = document.getElementById("btn-idioma");
-        if (btnIdioma && btnIdioma.innerText === "EN") {
-          langCode = "en-US";
-        }
-
+        if (btnIdioma && btnIdioma.innerText === "EN") langCode = "en-US";
         const utterance = new SpeechSynthesisUtterance(fullText);
         utterance.lang = langCode;
         utterance.rate = 0.9;
         utterance.pitch = 1;
         utterance.volume = 1;
-
         utterance.onstart = () => {
           isSpeaking = true;
           if (readButton) {
             readButton.classList.add("speaking");
-            readButton.innerHTML =
-              '<i class="fa-solid fa-stop"></i><span>Parar Leitura</span>';
-          }
-          // Efeito visual sutil
-          const mainDiv = document.querySelector(".card-glass");
-          if (mainDiv) {
-            mainDiv.style.transition = "background-color 0.2s";
-            mainDiv.style.backgroundColor = "rgba(255, 245, 200, 0.3)";
-            setTimeout(() => {
-              if (mainDiv) mainDiv.style.backgroundColor = "";
-            }, 500);
+            const textSpan = document.getElementById("ler-texto");
+            if (textSpan) textSpan.textContent = lang === 'pt' ? 'Parar Leitura' : 'Stop Reading';
           }
         };
-
         utterance.onend = () => {
           isSpeaking = false;
           if (readButton) {
             readButton.classList.remove("speaking");
-            readButton.innerHTML =
-              '<i class="fa-solid fa-ear-listen"></i><span>Ouvir Página</span>';
+            const textSpan = document.getElementById("ler-texto");
+            if (textSpan) textSpan.textContent = lang === 'pt' ? 'Ouvir Página' : 'Listen Page';
           }
         };
-
         utterance.onerror = () => {
           isSpeaking = false;
           if (readButton) {
             readButton.classList.remove("speaking");
-            readButton.innerHTML =
-              '<i class="fa-solid fa-ear-listen"></i><span>Ouvir Página</span>';
+            const textSpan = document.getElementById("ler-texto");
+            if (textSpan) textSpan.textContent = lang === 'pt' ? 'Ouvir Página' : 'Listen Page';
           }
         };
-
         speechSynthesisUtterance = utterance;
         window.speechSynthesis.speak(utterance);
       }
 
-      if (readButton) {
-        readButton.addEventListener("click", readMainContent);
-      }
+      if (readButton) readButton.addEventListener("click", readMainContent);
+      window.addEventListener("beforeunload", () => { if (window.speechSynthesis) window.speechSynthesis.cancel(); });
 
-      window.addEventListener("beforeunload", () => {
-        if (window.speechSynthesis) window.speechSynthesis.cancel();
-      });
-
-      // ================== MODO DARK SUAVE ==================
+      // ===== DARK MODE =====
       let dark = false;
       function toggleTheme() {
         if (isSpeaking) stopReading();
         dark = !dark;
-        const body = document.body;
+        document.body.classList.toggle("dark", dark);
         const icon = document.getElementById("theme-icon");
         const iconMob = document.getElementById("theme-icon-mobile");
-
-        if (dark) {
-          body.classList.add("dark");
-          if (icon) icon.className = "fa-solid fa-sun";
-          if (iconMob) iconMob.className = "fa-solid fa-sun";
-        } else {
-          body.classList.remove("dark");
-          if (icon) icon.className = "fa-solid fa-moon";
-          if (iconMob) iconMob.className = "fa-solid fa-moon";
-        }
+        if (icon) icon.className = dark ? "fa-solid fa-sun" : "fa-solid fa-moon";
+        if (iconMob) iconMob.className = dark ? "fa-solid fa-sun" : "fa-solid fa-moon";
       }
+      document.getElementById("theme-toggle")?.addEventListener("click", toggleTheme);
+      document.getElementById("theme-toggle-mobile")?.addEventListener("click", toggleTheme);
 
-      document
-        .getElementById("theme-toggle")
-        ?.addEventListener("click", toggleTheme);
-      document
-        .getElementById("theme-toggle-mobile")
-        ?.addEventListener("click", toggleTheme);
-
-      // ================== MENU HAMBÚRGUER ==================
+      // ===== MENU HAMBURGUER =====
       const hamburger = document.getElementById("menu-hamburger");
       const mobileMenuDiv = document.getElementById("mobile-menu");
       if (hamburger && mobileMenuDiv) {
@@ -718,31 +1404,27 @@
           mobileMenuDiv.classList.toggle("hidden");
         });
         document.addEventListener("click", (e) => {
-          if (
-            !mobileMenuDiv.contains(e.target) &&
-            !hamburger.contains(e.target)
-          )
+          if (!mobileMenuDiv.contains(e.target) && !hamburger.contains(e.target))
             mobileMenuDiv.classList.add("hidden");
         });
       }
 
-      // ================== SCROLL ==================
+      // ===== SCROLL =====
       let lastScroll = 0;
       window.addEventListener("scroll", () => {
         const nav = document.getElementById("nav-container");
         const scrollY = window.scrollY;
         if (scrollY > lastScroll && scrollY > 80)
           nav.style.transform = "translateY(-100%)";
-        else nav.style.transform = "translateY(0)";
+        else
+          nav.style.transform = "translateY(0)";
         lastScroll = scrollY;
-        const btnTop = document.getElementById("btn-top");
-        if (btnTop) btnTop.classList.toggle("hidden", scrollY < 300);
       });
 
-      // ================== REVEAL ==================
+      // ===== REVEAL =====
       const reveals = document.querySelectorAll(".reveal");
       function checkReveal() {
-        reveals.forEach((el) => {
+        reveals.forEach(el => {
           if (el.getBoundingClientRect().top < window.innerHeight - 80)
             el.classList.add("visible");
         });
@@ -750,12 +1432,14 @@
       window.addEventListener("load", checkReveal);
       window.addEventListener("scroll", checkReveal);
 
-      // ================== TRADUÇÃO ==================
+      // ===== TRADUÇÃO COMPLETA =====
       const transl = {
         pt: {
           inicio: "Início",
           portal: "Portal do Aluno",
-          titulo: "Centro de Recursos de Maputo",
+          titulo: "Recepção do Centro de Recursos de Maputo",
+          heroTitulo: 'Centro de Recursos<br /><span class="gradient-text">UnISCED Katembe</span>',
+          heroDescricao: "O melhor centro com tecnologia de ponta. Ambiente colaborativo e inovador para a sua formação.",
           botao: "Ver no Mapa",
           espera: "Estamos à sua espera!",
           visita: "Venha conhecer as nossas instalações",
@@ -776,14 +1460,26 @@
           footTermos: "Termos",
           footSuporte: "Suporte",
           appMovel: "App móvel",
+          lerTexto: "Ouvir Página",
+          pararTexto: "Parar Leitura",
+          feedbackTitulo: "💬 O que nossos alunos dizem",
+          feedbackSubtitulo: "Feedbacks reais de estudantes da UnISCED",
+          formTitulo: "✍️ Deixe seu feedback",
+          labelNome: "Seu nome",
+          labelEmail: "Seu email",
+          labelAvaliacao: "Avaliação",
+          labelComentario: "Seu comentário",
+          btnEnviar: "Enviar feedback",
           p1: "O Centro de Recursos de Maputo é uma das unidades físicas da Universidade Aberta ISCED (UnISCED) localizada na cidade de Maputo, em Moçambique. Como parte da infra-estrutura da universidade, esse centro tem como objectivo oferecer suporte e acesso aos recursos educacionais necessários para os estudantes matriculados nos cursos online da UnISCED.",
           p2: "O Centro de Recursos de Maputo é um espaço moderno e equipado com tecnologia avançada, computadores, acesso à Internet de alta velocidade e uma biblioteca física e digital. Essas instalações estão disponíveis para os estudantes realizarem suas actividades académicas, pesquisas, consultas de materiais e interacção com outros estudantes, proporcionando um ambiente de aprendizado inspirador e colaborativo.",
-          p3: "Além disso, o centro oferece suporte técnico e orientação académica aos estudantes, auxiliando-os no uso eficaz dos recursos disponíveis e na resolução de eventuais dificuldades. A equipa do Centro de Recursos de Maputo está prontamente disponível para fornecer assistência técnica, orientação sobre o uso das plataformas online da universidade e apoio na busca de materiais e recursos relevantes para a sua formação.",
+          p3: "Além disso, o centro oferece suporte técnico e orientação académica aos estudantes, auxiliando-os no uso eficaz dos recursos disponíveis e na resolução de eventuais dificuldades. A equipa do Centro de Recursos de Maputo está prontamente disponível para fornecer assistência técnica, orientação sobre o uso das plataformas online da universidade e apoio na busca de materiais e recursos relevantes para a sua formação."
         },
         en: {
           inicio: "Home",
           portal: "Student Portal",
-          titulo: "Maputo Resource Center",
+          titulo: "Maputo Resource Center Reception",
+          heroTitulo: 'Resource Center<br /><span class="gradient-text">UnISCED Katembe</span>',
+          heroDescricao: "The best center with cutting-edge technology. A collaborative and innovative environment for your education.",
           botao: "View on Map",
           espera: "We are waiting for you!",
           visita: "Come visit our facilities",
@@ -804,13 +1500,22 @@
           footTermos: "Terms",
           footSuporte: "Support",
           appMovel: "Mobile App",
+          lerTexto: "Listen Page",
+          pararTexto: "Stop Reading",
+          feedbackTitulo: "💬 What our students say",
+          feedbackSubtitulo: "Real feedback from UnISCED students",
+          formTitulo: "✍️ Leave your feedback",
+          labelNome: "Your name",
+          labelEmail: "Your email",
+          labelAvaliacao: "Rating",
+          labelComentario: "Your comment",
+          btnEnviar: "Send feedback",
           p1: "The Maputo Resource Center is one of the physical units of the Open University ISCED (UnISCED) located in the city of Maputo, Mozambique. As part of the university's infrastructure, this center aims to offer support and access to educational resources for students enrolled in UnISCED online courses.",
           p2: "The Maputo Resource Center is a modern space equipped with advanced technology, computers, high-speed Internet access, and a physical and digital library. These facilities are available for students to carry out their academic activities, research, consult materials, and interact with other students, providing an inspiring and collaborative learning environment.",
-          p3: "In addition, the center offers technical support and academic guidance to students, assisting them in the effective use of available resources and in resolving any difficulties. The Maputo Resource Center team is readily available to provide technical assistance, guidance on the use of the university's online platforms, and support in finding materials and resources relevant to their education.",
-        },
+          p3: "In addition, the center offers technical support and academic guidance to students, assisting them in the effective use of available resources and in resolving any difficulties. The Maputo Resource Center team is readily available to provide technical assistance, guidance on the use of the university's online platforms, and support in finding materials and resources relevant to their education."
+        }
       };
 
-      let lang = "pt";
       function updateLanguage(langCode) {
         if (isSpeaking) stopReading();
         const t = transl[langCode];
@@ -818,6 +1523,8 @@
         document.getElementById("mobile-link-inicio").innerText = t.inicio;
         document.getElementById("mobile-btn-portal").innerText = t.portal;
         document.getElementById("titulo").innerText = t.titulo;
+        document.getElementById("hero-titulo").innerHTML = t.heroTitulo;
+        document.getElementById("hero-descricao").innerText = t.heroDescricao;
         document.getElementById("texto-botao").innerText = t.botao;
         document.getElementById("texto-espera").innerText = t.espera;
         document.getElementById("texto-visita").innerText = t.visita;
@@ -842,10 +1549,26 @@
           appBtn.querySelector("span").innerText = t.appMovel;
         const textDiv = document.getElementById("texto-principal");
         textDiv.innerHTML = `<p>${t.p1}</p><p>${t.p2}</p><p>${t.p3}</p>`;
-        const idiomaBtn = document.getElementById("btn-idioma");
-        if (idiomaBtn) idiomaBtn.innerText = langCode.toUpperCase();
-        const idiomaBtnMobile = document.getElementById("btn-idioma-mobile");
-        if (idiomaBtnMobile) idiomaBtnMobile.innerText = langCode.toUpperCase();
+        
+        // Traduz botão do leitor
+        const lerSpan = document.getElementById("ler-texto");
+        if (lerSpan) lerSpan.textContent = isSpeaking ? t.pararTexto : t.lerTexto;
+        
+        // Traduz seção de feedbacks
+        document.getElementById("feedback-titulo").textContent = t.feedbackTitulo;
+        document.getElementById("feedback-subtitulo").textContent = t.feedbackSubtitulo;
+        document.getElementById("form-titulo").textContent = t.formTitulo;
+        document.getElementById("label-nome").textContent = t.labelNome;
+        document.getElementById("label-email").textContent = t.labelEmail;
+        document.getElementById("label-avaliacao").textContent = t.labelAvaliacao;
+        document.getElementById("label-comentario").textContent = t.labelComentario;
+        document.getElementById("btn-enviar").textContent = t.btnEnviar;
+        
+        // Atualiza os feedbacks
+        renderFeedbacks(langCode);
+        
+        document.getElementById("btn-idioma").innerText = langCode.toUpperCase();
+        document.getElementById("btn-idioma-mobile").innerText = langCode.toUpperCase();
       }
 
       function toggleLanguage() {
@@ -853,11 +1576,12 @@
         updateLanguage(lang);
       }
 
-      const langBtn = document.getElementById("btn-idioma");
-      const langBtnMob = document.getElementById("btn-idioma-mobile");
-      if (langBtn) langBtn.addEventListener("click", toggleLanguage);
-      if (langBtnMob) langBtnMob.addEventListener("click", toggleLanguage);
-      updateLanguage("pt");
+      document.getElementById("btn-idioma").addEventListener("click", toggleLanguage);
+      document.getElementById("btn-idioma-mobile").addEventListener("click", toggleLanguage);
+      
+      // Inicializa com PT
+      renderFeedbacks('pt');
+      updateLanguage('pt');
     </script>
   </body>
 </html>
