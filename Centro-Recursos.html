@@ -224,14 +224,13 @@
         text-shadow: none !important;
       }
 
-      /* ===== MOBILE MENU - CORRIGIDO ===== */
+      /* ===== MOBILE MENU ===== */
       #mobile-menu {
         background: rgba(0, 0, 0, 0.75) !important;
         backdrop-filter: blur(20px) saturate(180%);
         -webkit-backdrop-filter: blur(20px) saturate(180%);
         border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        /* REMOVIDO display: block; para o Tailwind controlar com hidden */
       }
 
       #mobile-menu a {
@@ -241,6 +240,7 @@
         display: block;
         padding: 10px 16px;
         border-radius: 12px;
+        cursor: pointer !important;
       }
 
       #mobile-menu a:hover {
@@ -845,11 +845,11 @@
         </div>
       </nav>
       
-      <!-- MOBILE MENU - CORRIGIDO -->
+      <!-- ===== MOBILE MENU - CORRIGIDO ===== -->
       <div id="mobile-menu" class="hidden md:hidden backdrop-blur-md border-b border-white/10 shadow-md">
         <div class="px-4 py-3 space-y-1">
           <a href="index.html" id="mobile-link-inicio" class="block py-2 font-semibold hover:text-cyan-200 hover:bg-white/5 rounded-lg transition">Início</a>
-          <a href="Portal do aluno.html" id="mobile-btn-portal" class="block py-2 font-semibold hover:text-cyan-200 hover:bg-white/5 rounded-lg transition">Portal do Aluno</a>
+          <a href="Portal.html" id="mobile-btn-portal" class="block py-2 font-semibold hover:text-cyan-200 hover:bg-white/5 rounded-lg transition">Portal do Aluno</a>
         </div>
       </div>
     </div>
