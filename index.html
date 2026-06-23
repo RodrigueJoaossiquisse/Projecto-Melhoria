@@ -1698,6 +1698,48 @@
 
     <script>
       // ============================================================
+      // 0. CONTROLE DE LOADING - NUNCA APARECE DENTRO DO SITE!
+      // ============================================================
+      (function() {
+        // Verifica se é a PRIMEIRA visita na ABA (sessionStorage)
+        const loadingDone = sessionStorage.getItem('loadingDone');
+        
+        if (loadingDone === 'true') {
+          // JÁ VISITOU → PULA O LOADING COMPLETAMENTE
+          console.log('🔄 Sessão já carregada - pulando loading');
+          
+          // Esconde o loading instantaneamente
+          const screen = document.getElementById('loading-screen');
+          if (screen) {
+            screen.style.display = 'none';
+            screen.classList.add('hidden');
+          }
+          
+          // Mostra o conteúdo principal
+          document.querySelectorAll('.hidden-content').forEach(el => el.classList.remove('hidden-content'));
+          document.getElementById('hero-real').style.display = 'block';
+          document.getElementById('campaign-real').style.display = 'block';
+          document.getElementById('courses-real').style.display = 'block';
+          document.getElementById('hero-skeleton').style.display = 'none';
+          document.getElementById('campaign-skeleton').style.display = 'none';
+          document.getElementById('courses-skeleton').style.display = 'none';
+          
+          // Se já escolheu cookies antes, inicia contadores
+          if (sessionStorage.getItem('cookieChoice')) {
+            setTimeout(iniciarContadores, 4000);
+          } else {
+            setTimeout(showCookieBanner, 2500);
+          }
+          
+          // Inicia typewriter
+          const heroTitle = document.getElementById('hero-titulo');
+          const textoOriginal = heroTitle.textContent;
+          typewriter(heroTitle, textoOriginal, 40);
+          setTimeout(checkReveal, 300);
+        }
+      })();
+
+      // ============================================================
       // 1. RODA DE 24 ESFERAS CINZAS
       // ============================================================
       function criarRodasEsferas() {
@@ -1782,21 +1824,18 @@
         const video = document.getElementById('video-preload');
         if (!video) return false;
         
-        // Verifica se o download está 100% completo
         if (video.buffered.length > 0) {
           const bufferedEnd = video.buffered.end(0);
           const duration = video.duration || 1;
           const percent = (bufferedEnd / duration) * 100;
           atualizarProgresso(percent);
           
-          // SÓ LIBERA QUANDO ESTIVER 100%!
           if (percent >= 100 || video.readyState >= 4) {
             videoPronto = true;
             return true;
           }
         }
         
-        // Se o vídeo já está pronto para tocar (readyState 4 = HAVE_ENOUGH_DATA)
         if (video.readyState >= 4) {
           videoPronto = true;
           atualizarProgresso(100);
@@ -1810,10 +1849,8 @@
         const video = document.getElementById('video-preload');
         if (!video) return;
 
-        // Força o carregamento
         video.load();
 
-        // Monitora progresso do download
         video.addEventListener('progress', function() {
           if (videoPronto || fallbackAtivado) return;
           if (video.buffered.length > 0) {
@@ -1830,7 +1867,6 @@
           }
         });
 
-        // Verifica periodicamente
         const checkInterval = setInterval(() => {
           if (videoPronto || fallbackAtivado) {
             clearInterval(checkInterval);
@@ -1842,7 +1878,6 @@
           }
         }, 500);
 
-        // FALLBACK: se demorar mais de 20 segundos, libera o conteúdo
         setTimeout(() => {
           if (!videoPronto && !loadingFinalizado) {
             console.log('⏰ Fallback: vídeo demorou muito para carregar, liberando o conteúdo...');
@@ -1867,7 +1902,6 @@
           setTimeout(() => { screen.style.display = 'none'; }, 900);
         }
         
-        // Mostra o conteúdo principal
         document.querySelectorAll('.hidden-content').forEach(el => el.classList.remove('hidden-content'));
         document.getElementById('hero-real').style.display = 'block';
         document.getElementById('campaign-real').style.display = 'block';
@@ -1876,17 +1910,14 @@
         document.getElementById('campaign-skeleton').style.display = 'none';
         document.getElementById('courses-skeleton').style.display = 'none';
         
-        // Marca no sessionStorage que o loading já foi feito
         sessionStorage.setItem('loadingDone', 'true');
         sessionStorage.setItem('videoPrecarregado', 'true');
         
-        // Inicia typewriter e verifica cookies
         const heroTitle = document.getElementById('hero-titulo');
         const textoOriginal = heroTitle.textContent;
         typewriter(heroTitle, textoOriginal, 40);
         setTimeout(checkReveal, 300);
         
-        // Verifica cookies
         if (sessionStorage.getItem('cookieChoice')) {
           setTimeout(iniciarContadores, 4000);
         } else {
@@ -1912,9 +1943,7 @@
       };
 
       function abrirLocalizacaoObrigatoria() {
-        // Só abre se for a primeira visita
         if (sessionStorage.getItem('localizacaoFeita') === 'true') {
-          // Se já fez localização antes, pula direto
           finalizarLoading();
           return;
         }
@@ -1966,8 +1995,6 @@
         document.getElementById('localizacao-modal-obrigatoria').classList.remove('open');
         sessionStorage.setItem('localizacaoFeita', 'true');
         sessionStorage.setItem('cidadeSelecionada', cidadeSelecionada);
-        
-        // Finaliza o loading
         finalizarLoading();
       }
 
@@ -2908,56 +2935,12 @@
       // 26. INICIALIZAÇÃO
       // ============================================================
       window.addEventListener('load', () => {
-        aplicarTraducoes('pt');
-        iniciarContador();
-        
-        // VERIFICA SE O LOADING JÁ FOI FEITO NESTA SESSÃO
+        // Verifica novamente se o loading já foi pulado
         const loadingDone = sessionStorage.getItem('loadingDone');
-        const localizacaoFeita = sessionStorage.getItem('localizacaoFeita');
         
-        if (loadingDone === 'true' && localizacaoFeita === 'true') {
-          // PULA O LOADING E A LOCALIZAÇÃO - VAI DIRETO PARA O CONTEÚDO
-          console.log('🔄 Sessão já carregada - pulando loading e localização');
-          
-          // Esconde o loading sem animação
-          const screen = document.getElementById('loading-screen');
-          if (screen) {
-            screen.classList.add('hidden');
-            screen.style.display = 'none';
-          }
-          
-          // Fecha a localização se estiver aberta
-          const modal = document.getElementById('localizacao-modal-obrigatoria');
-          if (modal) modal.classList.remove('open');
-          
-          // Mostra o conteúdo principal
-          document.querySelectorAll('.hidden-content').forEach(el => el.classList.remove('hidden-content'));
-          document.getElementById('hero-real').style.display = 'block';
-          document.getElementById('campaign-real').style.display = 'block';
-          document.getElementById('courses-real').style.display = 'block';
-          document.getElementById('hero-skeleton').style.display = 'none';
-          document.getElementById('campaign-skeleton').style.display = 'none';
-          document.getElementById('courses-skeleton').style.display = 'none';
-          
-          // Se já escolheu cookies antes, inicia contadores imediatamente
-          if (sessionStorage.getItem('cookieChoice')) {
-            console.log('🍪 Cookie já escolhido antes - iniciando contadores imediatamente!');
-            setTimeout(iniciarContadores, 4000);
-          } else {
-            // Se não escolheu, mostra o cookie banner
-            setTimeout(showCookieBanner, 2500);
-          }
-          
-          // Inicia typewriter
-          const heroTitle = document.getElementById('hero-titulo');
-          const textoOriginal = heroTitle.textContent;
-          typewriter(heroTitle, textoOriginal, 40);
-          
-          setTimeout(checkReveal, 300);
-          
-        } else {
-          // PRIMEIRA VEZ - MOSTRA O LOADING NORMAL
-          console.log('🔄 Primeira visita - mostrando loading e localização');
+        // Se NÃO tiver loadingDone, mostra o loading normal
+        if (!loadingDone || loadingDone !== 'true') {
+          console.log('🔄 Primeira visita na aba - mostrando loading');
           
           // Força o pré-carregamento do vídeo
           const video = document.getElementById('video-preload');
@@ -2973,10 +2956,11 @@
           
           // Inicia o monitoramento do vídeo
           iniciarMonitoramentoVideo();
-          
-          // Quando o loading estiver pronto (vídeo 100% baixado), a localização aparece
-          // O monitoramento do vídeo chama finalizarLoading() quando estiver 100%
         }
+        
+        // Aplica traduções e outras inicializações
+        aplicarTraducoes('pt');
+        iniciarContador();
         
         setTimeout(checkReveal, 100);
         sugerirPergunta('');
