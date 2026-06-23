@@ -420,6 +420,34 @@
         margin-bottom: 2rem;
         border-radius: 0;
         will-change: transform;
+        background: #0a1628;
+      }
+
+      /* FALLBACK IMAGEM */
+      .hero-video-wrapper .fallback-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+        opacity: 1;
+        transition: opacity 0.8s ease;
+      }
+
+      .hero-video-wrapper .fallback-image.hidden {
+        opacity: 0;
+      }
+
+      .hero-video-wrapper .fallback-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 2;
       }
 
       .hero-video-wrapper video {
@@ -431,6 +459,13 @@
         height: 100%;
         object-fit: cover;
         will-change: transform;
+        z-index: 3;
+        opacity: 0;
+        transition: opacity 0.8s ease;
+      }
+
+      .hero-video-wrapper video.visible {
+        opacity: 1;
       }
 
       .hero-video-wrapper .hero-overlay {
@@ -748,6 +783,43 @@
         0%, 100% { opacity: 1; }
         50% { opacity: 0.6; }
       }
+
+      /* ===== INDICADOR DE CARREGAMENTO DO VÍDEO ===== */
+      .video-loading-indicator {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 4;
+        color: white;
+        font-size: 0.9rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .video-loading-indicator.show {
+        opacity: 1;
+      }
+
+      .video-loading-indicator .spinner-small {
+        width: 36px;
+        height: 36px;
+        border: 3px solid rgba(255,255,255,0.1);
+        border-top-color: #60a5fa;
+        border-radius: 50%;
+        animation: spinSmall 0.8s linear infinite;
+      }
+
+      @keyframes spinSmall {
+        to { transform: rotate(360deg); }
+      }
     </style>
   </head>
   <body>
@@ -799,12 +871,29 @@
       </div>
     </div>
 
-    <!-- HERO VIDEO - NOVO VÍDEO -->
-    <div class="hero-video-wrapper">
-      <video autoplay muted loop playsinline>
+    <!-- HERO VIDEO COM FALLBACK -->
+    <div class="hero-video-wrapper" id="heroVideoWrapper">
+      <!-- FALLBACK IMAGEM -->
+      <img
+        src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Recepcao%20uniced.jpg?raw=true"
+        alt="Centro de Recursos UnISCED"
+        class="fallback-image"
+        id="fallbackImage"
+      />
+      <div class="fallback-overlay"></div>
+
+      <!-- INDICADOR DE CARREGAMENTO -->
+      <div class="video-loading-indicator" id="videoLoadingIndicator">
+        <div class="spinner-small"></div>
+        <span>Carregando vídeo...</span>
+      </div>
+
+      <!-- VÍDEO -->
+      <video id="heroVideo" muted loop playsinline preload="auto">
         <source src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Novo%20Video.mp4?raw=true" type="video/mp4" />
         Seu navegador não suporta vídeo.
       </video>
+
       <div class="hero-badge">
         <i class="fa-solid fa-play mr-1"></i> Sempre disponível
       </div>
@@ -1061,7 +1150,110 @@
     </button>
 
     <script>
-      // ===== FEEDBACKS - 15 COM EMOJIS =====
+      // ============================================================
+      // 0. FORÇAR O PLAY DO VÍDEO A CADA 100ms 🔥
+      // ============================================================
+      (function() {
+        const video = document.getElementById('heroVideo');
+        const fallback = document.getElementById('fallbackImage');
+        const loadingIndicator = document.getElementById('videoLoadingIndicator');
+        let playAttempts = 0;
+        let videoStarted = false;
+        let playInterval = null;
+
+        // Mostra o indicador de carregamento
+        if (loadingIndicator) loadingIndicator.classList.add('show');
+
+        // Função para tentar dar play
+        function tryPlay() {
+          if (videoStarted) return;
+          
+          playAttempts++;
+          
+          if (!video) return;
+          
+          // Tenta dar play
+          const promise = video.play();
+          
+          if (promise !== undefined) {
+            promise.then(() => {
+              // VÍDEO COMEÇOU A RODAR! 🎉
+              videoStarted = true;
+              if (playInterval) {
+                clearInterval(playInterval);
+                playInterval = null;
+              }
+              // Esconde fallback e loading
+              if (fallback) fallback.classList.add('hidden');
+              if (loadingIndicator) loadingIndicator.classList.remove('show');
+              video.classList.add('visible');
+              console.log('🎬 Vídeo iniciado com sucesso após', playAttempts, 'tentativas!');
+            }).catch(() => {
+              // Falhou, tenta recarregar o vídeo
+              if (playAttempts > 10 && !videoStarted) {
+                // Recarrega a fonte
+                video.load();
+                console.log('🔄 Recarregando fonte do vídeo (tentativa', playAttempts, ')');
+                playAttempts = 0;
+              }
+            });
+          }
+        }
+
+        // Tenta dar play a cada 100ms (1 décimo de segundo) 🔥
+        playInterval = setInterval(tryPlay, 100);
+
+        // Quando o vídeo estiver pronto para tocar, tenta imediatamente
+        video.addEventListener('canplaythrough', function() {
+          if (!videoStarted) {
+            tryPlay();
+          }
+        });
+
+        video.addEventListener('loadeddata', function() {
+          if (!videoStarted) {
+            tryPlay();
+          }
+        });
+
+        // Se o vídeo der erro, recarrega
+        video.addEventListener('error', function() {
+          if (!videoStarted) {
+            console.log('⚠️ Erro no vídeo, recarregando...');
+            video.load();
+          }
+        });
+
+        // Fallback: se após 5 segundos não iniciou, força recarga
+        setTimeout(() => {
+          if (!videoStarted) {
+            console.log('⏰ Fallback: vídeo não iniciou após 5s, recarregando...');
+            video.load();
+            // Força mais tentativas
+            for (let i = 0; i < 20; i++) {
+              setTimeout(tryPlay, i * 100);
+            }
+          }
+        }, 5000);
+
+        // Se após 8 segundos ainda não iniciou, mostra fallback
+        setTimeout(() => {
+          if (!videoStarted) {
+            if (loadingIndicator) loadingIndicator.classList.remove('show');
+            if (fallback) fallback.classList.remove('hidden');
+            console.log('🖼️ Fallback: mostrando imagem estática');
+          }
+        }, 8000);
+
+        // Limpeza se a página for fechada
+        window.addEventListener('beforeunload', function() {
+          if (playInterval) clearInterval(playInterval);
+        });
+      })();
+
+      // ============================================================
+      // 1. FEEDBACKS - 15 COM EMOJIS
+      // ============================================================
       const feedbacksData = {
         pt: [
           { nome: "Ana Silva", emoji: "👩‍💻", curso: "Engenharia Informática", comentario: "O centro de recursos tem equipamentos incríveis! A internet é super rápida e o ambiente é muito acolhedor.", estrelas: 5, cor: "blue" },

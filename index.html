@@ -19,6 +19,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     
+    <!-- ===== PRÉ-CARREGAMENTO DO VÍDEO DO CENTRO DE RECURSOS ===== -->
+    <link rel="preload" as="video" href="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Novo%20Video.mp4?raw=true" />
+    
     <!-- ===== PRÉ-CARREGAMENTO DA IMAGEM ===== -->
     <link rel="preload" as="image" href="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/estudante-feliz-com-chapeu-de-formatura-e-diploma-em-cinza_231208-12981.avif?raw=true" />
     
@@ -52,9 +55,9 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(10, 20, 40, 0.75);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
+        background: rgba(10, 20, 40, 0.85);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -71,20 +74,21 @@
       #loading-screen .loader-content {
         text-align: center;
         padding: 20px;
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(255, 255, 255, 0.04);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border-radius: 32px;
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.06);
         padding: 40px 50px;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        max-width: 90%;
       }
       #loading-screen .loader-logo {
         font-size: 3.5rem;
         font-weight: 900;
         color: white;
         letter-spacing: -2px;
-        margin-bottom: 24px;
+        margin-bottom: 20px;
         background: linear-gradient(135deg, #60a5fa, #22d3ee);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -101,7 +105,7 @@
         position: relative;
         width: 120px;
         height: 120px;
-        margin: 0 auto 20px;
+        margin: 0 auto 16px;
         animation: spinWheel 4s linear infinite;
       }
       .wheel-spinner .sphere {
@@ -109,13 +113,13 @@
         width: 12px;
         height: 12px;
         border-radius: 50%;
-        background: linear-gradient(145deg, rgba(156, 163, 175, 0.8), rgba(209, 213, 219, 0.6));
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        background: linear-gradient(145deg, rgba(156, 163, 175, 0.6), rgba(209, 213, 219, 0.4));
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         top: 50%;
         left: 50%;
         transform-origin: center center;
         backdrop-filter: blur(4px);
-        border: 1px solid rgba(255,255,255,0.2);
+        border: 1px solid rgba(255,255,255,0.1);
       }
       .wheel-spinner .sphere::after {
         content: '';
@@ -125,7 +129,7 @@
         width: 4px;
         height: 4px;
         border-radius: 50%;
-        background: rgba(255,255,255,0.4);
+        background: rgba(255,255,255,0.3);
       }
       @keyframes spinWheel {
         0% { transform: rotate(0deg); }
@@ -133,37 +137,63 @@
       }
 
       #loading-screen .loader-message {
-        color: rgba(255,255,255,0.7);
-        font-size: 0.9rem;
+        color: rgba(255,255,255,0.85);
+        font-size: 0.95rem;
         font-weight: 400;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.3px;
         margin-top: 8px;
         transition: opacity 0.5s ease;
-        min-height: 28px;
+        min-height: 32px;
         text-shadow: 0 2px 10px rgba(0,0,0,0.2);
       }
+      #loading-screen .loader-sub-message {
+        color: rgba(255,255,255,0.4);
+        font-size: 0.7rem;
+        font-weight: 300;
+        letter-spacing: 0.5px;
+        margin-top: 4px;
+        min-height: 20px;
+      }
       #loading-screen .loader-progress {
-        width: 180px;
-        height: 2px;
+        width: 220px;
+        height: 3px;
         background: rgba(255,255,255,0.08);
         border-radius: 4px;
-        margin: 16px auto 0;
+        margin: 20px auto 0;
         overflow: hidden;
+        position: relative;
       }
       #loading-screen .loader-progress-bar {
         height: 100%;
         width: 0%;
-        background: linear-gradient(90deg, rgba(156, 163, 175, 0.8), rgba(209, 213, 219, 0.8));
+        background: linear-gradient(90deg, #60a5fa, #22d3ee, #60a5fa);
+        background-size: 200% 100%;
         border-radius: 4px;
-        animation: progressBar 2.8s ease-in-out forwards;
+        transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        animation: shimmerProgress 1.5s ease-in-out infinite;
       }
-      @keyframes progressBar {
-        0% { width: 0%; }
-        20% { width: 12%; }
-        40% { width: 30%; }
-        60% { width: 55%; }
-        80% { width: 78%; }
-        100% { width: 100%; }
+      @keyframes shimmerProgress {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+      }
+      #loading-screen .loader-percent {
+        color: rgba(255,255,255,0.5);
+        font-size: 0.65rem;
+        font-weight: 600;
+        margin-top: 8px;
+        letter-spacing: 1px;
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* ===== VÍDEO OCULTO PARA PRÉ-CARREGAMENTO ===== */
+      #video-preload {
+        position: fixed;
+        top: -9999px;
+        left: -9999px;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+        pointer-events: none;
       }
 
       /* ===== PROGRESS BAR ===== */
@@ -1059,15 +1089,22 @@
   </head>
   <body>
 
+    <!-- ===== VÍDEO OCULTO PARA PRÉ-CARREGAMENTO ===== -->
+    <video id="video-preload" preload="auto" muted playsinline>
+      <source src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Novo%20Video.mp4?raw=true" type="video/mp4" />
+    </video>
+
     <!-- ===== LOADING SCREEN ===== -->
     <div id="loading-screen">
       <div class="loader-content">
         <div class="loader-logo">Un<span>ISCED</span></div>
         <div class="wheel-spinner" id="wheel-spinner"></div>
-        <div class="loader-message" id="loader-message">Carregando... tenha paciência ✨</div>
+        <div class="loader-message" id="loader-message">✨ Preparando uma experiência incrível para você...</div>
+        <div class="loader-sub-message" id="loader-sub-message">Aguarde um momento, estamos quase lá</div>
         <div class="loader-progress">
-          <div class="loader-progress-bar"></div>
+          <div class="loader-progress-bar" id="loader-progress-bar"></div>
         </div>
+        <div class="loader-percent" id="loader-percent">0%</div>
       </div>
     </div>
 
@@ -1155,7 +1192,7 @@
             <div class="hidden md:flex items-center space-x-6">
               <a href="index.html" id="link-inicio" class="text-gray-700 hover:text-blue-900 font-semibold px-3 py-1.5 rounded-xl transition">Início</a>
               <a href="cursos.html" id="link-cursos" class="text-gray-700 hover:text-blue-900 font-semibold px-3 py-1.5 rounded-xl transition">Cursos</a>
-              <a href="Centro-Recursos.html" id="link-recursos" class="text-gray-700 hover:text-blue-900 font-semibold px-3 py-1.5 rounded-xl transition">Centro de Recursos</a>
+              <a href="Centro-Recursos.html" id="link-recursos" class="text-gray-700 hover:text-blue-900 font-semibold px-3 py-1.5 rounded-xl transition bg-blue-50/50 border border-blue-100">Centro de Recursos</a>
               <a href="noticias.html" id="link-noticias" class="text-gray-700 hover:text-blue-900 font-semibold px-3 py-1.5 rounded-xl transition">Notícias</a>
               <a href="Sobre.html" id="link-sobre" class="text-gray-700 hover:text-blue-900 font-semibold px-3 py-1.5 rounded-xl transition">Sobre Nós</a>
               <div class="relative inline-block text-left">
@@ -1212,7 +1249,7 @@
           <div class="absolute -right-10 -top-10 w-40 h-40 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
           <div class="text-left max-w-4xl">
             <span id="hero-tagline" class="inline-block bg-white/10 text-cyan-200 border border-white/20 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3">Estudar já não tem hora nem lugar!</span>
-            <h1 id="hero-titulo" class="text-3xl md:text-5xl font-black mb-3 tracking-tight leading-tight glitch" data-text="Descubra o ensino mais prático da UnISCED!"></h1>
+            <h1 id="hero-titulo" class="text-3xl md:text-5xl font-black mb-3 tracking-tight leading-tight glitch" data-text="Descubra o ensino mais prático da UnISCED!">Descubra o ensino mais prático da UnISCED!</h1>
             <p id="hero-subtitulo" class="text-blue-100/90 text-sm md:text-base max-w-2xl mb-5 font-medium leading-relaxed">Uma plataforma modernizada para facilitar o acesso à informação e à gestão académica inteligente do nosso campus de forma 100% flexível.</p>
             <div class="flex flex-wrap gap-3">
               <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" id="hero-btn" class="ripple inline-block bg-white text-blue-950 font-bold px-6 py-3 rounded-xl shadow-md hover:bg-cyan-50 hover:scale-[1.02] transition duration-300 relative overflow-hidden">Saber Mais</a>
@@ -1659,9 +1696,6 @@
       </div>
     </div>
 
-    <!-- ===== LOCALIZAÇÃO MODAL CHAT (REMOVIDA) ===== -->
-    <!-- O modal de localização do chat foi removido conforme solicitado -->
-
     <script>
       // ============================================================
       // 1. RODA DE 24 ESFERAS CINZAS
@@ -1689,79 +1723,180 @@
       criarRodasEsferas();
 
       // ============================================================
-      // 2. LOADING SCREEN E LOCALIZAÇÃO OBRIGATÓRIA
+      // 2. LOADING COM PROGRESSO REAL DO VÍDEO
       // ============================================================
-      const loadingMessagesPT = [
-        "Carregando... tenha paciência ✨",
-        "Preparando sua experiência 🚀",
-        "Quase lá... 🌟",
-        "Buscando conhecimento 📚",
-        "Abrindo portas para o futuro 🔮",
-        "Conectando-se ao saber 💡",
-        "Organizando os pensamentos 🧠",
-        "Calibrando a inteligência ⚡",
-        "Aquecendo os motores 🏎️",
-        "Carregando o universo UnISCED 🌌"
-      ];
-      const loadingMessagesEN = [
-        "Loading... please be patient ✨",
-        "Preparing your experience 🚀",
-        "Almost there... 🌟",
-        "Seeking knowledge 📚",
-        "Opening doors to the future 🔮",
-        "Connecting to knowledge 💡",
-        "Organizing thoughts 🧠",
-        "Calibrating intelligence ⚡",
-        "Warming up engines 🏎️",
-        "Loading the UnISCED universe 🌌"
+      const loadingMessages = [
+        "✨ Preparando uma experiência incrível para você...",
+        "🚀 Quase lá... estamos afinando os detalhes",
+        "🌟 Carregando o futuro da sua educação",
+        "💫 Organizando o conhecimento para você",
+        "🎯 O melhor está por vir...",
+        "🌟 Tudo pronto para você brilhar!"
       ];
 
-      let currentLang = 'pt';
-      let loadingMessageIndex = 0;
+      const loadingSubMessages = [
+        "Aguardando um momento, estamos quase lá",
+        "A magia está prestes a acontecer",
+        "O conhecimento está chegando",
+        "Prepare-se para uma jornada incrível",
+        "Seu futuro começa aqui"
+      ];
+
+      let loadingIndex = 0;
       let loadingInterval;
-      let cidadeSelecionada = null;
-      let loadingFinalizado = false;
-      let cookieInteragiu = false;
-      let cookieEscolha = null;
-      let contadoresIniciados = false;
-
-      function getLoadingMessages() { return currentLang === 'en' ? loadingMessagesEN : loadingMessagesPT; }
 
       function rotateLoadingMessage() {
-        const messages = getLoadingMessages();
         const el = document.getElementById('loader-message');
+        const subEl = document.getElementById('loader-sub-message');
         if (el) {
           el.style.opacity = '0';
           setTimeout(() => {
-            loadingMessageIndex = (loadingMessageIndex + 1) % messages.length;
-            el.textContent = messages[loadingMessageIndex];
+            loadingIndex = (loadingIndex + 1) % loadingMessages.length;
+            el.textContent = loadingMessages[loadingIndex];
             el.style.opacity = '1';
           }, 400);
         }
+        if (subEl) {
+          const subIndex = Math.floor(Math.random() * loadingSubMessages.length);
+          subEl.textContent = loadingSubMessages[subIndex];
+        }
       }
 
-      function startLoadingMessages() {
-        const messages = getLoadingMessages();
-        const el = document.getElementById('loader-message');
-        if (el) el.textContent = messages[0];
-        loadingInterval = setInterval(rotateLoadingMessage, 2500);
+      let progressoVideo = 0;
+      let videoPronto = false;
+      let fallbackAtivado = false;
+      let loadingFinalizado = false;
+
+      // ============================================================
+      // 3. MONITORAR PROGRESSO DO VÍDEO
+      // ============================================================
+      function atualizarProgresso(percent) {
+        const bar = document.getElementById('loader-progress-bar');
+        const percentEl = document.getElementById('loader-percent');
+        if (bar) bar.style.width = Math.min(percent, 100) + '%';
+        if (percentEl) percentEl.textContent = Math.min(Math.round(percent), 100) + '%';
+        progressoVideo = percent;
       }
 
-      function esconderLoading() {
+      function verificarVideoPronto() {
+        const video = document.getElementById('video-preload');
+        if (!video) return false;
+        
+        // Verifica se o vídeo já está pronto para tocar
+        if (video.readyState >= 4) {
+          videoPronto = true;
+          return true;
+        }
+        
+        // Verifica se o download está completo (buffered)
+        if (video.buffered.length > 0) {
+          const bufferedEnd = video.buffered.end(0);
+          const duration = video.duration || 1;
+          const percent = (bufferedEnd / duration) * 100;
+          atualizarProgresso(percent);
+          if (percent >= 100 || video.readyState >= 3) {
+            videoPronto = true;
+            return true;
+          }
+        }
+        return false;
+      }
+
+      function iniciarMonitoramentoVideo() {
+        const video = document.getElementById('video-preload');
+        if (!video) return;
+
+        // Força o carregamento
+        video.load();
+
+        // Monitora progresso do download
+        video.addEventListener('progress', function() {
+          if (videoPronto || fallbackAtivado) return;
+          if (video.buffered.length > 0) {
+            const bufferedEnd = video.buffered.end(0);
+            const duration = video.duration || 1;
+            const percent = (bufferedEnd / duration) * 100;
+            atualizarProgresso(percent);
+            
+            if (percent >= 100 || video.readyState >= 4) {
+              videoPronto = true;
+              finalizarLoading();
+            }
+          }
+        });
+
+        // Verifica periodicamente
+        const checkInterval = setInterval(() => {
+          if (videoPronto || fallbackAtivado) {
+            clearInterval(checkInterval);
+            return;
+          }
+          if (verificarVideoPronto()) {
+            finalizarLoading();
+            clearInterval(checkInterval);
+          }
+        }, 500);
+
+        // FALLBACK: se demorar mais de 15 segundos, libera o conteúdo
+        setTimeout(() => {
+          if (!videoPronto && !loadingFinalizado) {
+            console.log('⏰ Fallback: vídeo demorou muito para carregar, liberando o conteúdo...');
+            fallbackAtivado = true;
+            atualizarProgresso(100);
+            finalizarLoading();
+          }
+        }, 15000);
+      }
+
+      // ============================================================
+      // 4. FINALIZAR LOADING
+      // ============================================================
+      function finalizarLoading() {
         if (loadingFinalizado) return;
         loadingFinalizado = true;
         clearInterval(loadingInterval);
+        
         const screen = document.getElementById('loading-screen');
         if (screen) {
           screen.classList.add('hidden');
           setTimeout(() => { screen.style.display = 'none'; }, 900);
         }
-        setTimeout(abrirLocalizacaoObrigatoria, 500);
+        
+        // Mostra o conteúdo principal
+        document.querySelectorAll('.hidden-content').forEach(el => el.classList.remove('hidden-content'));
+        document.getElementById('hero-real').style.display = 'block';
+        document.getElementById('campaign-real').style.display = 'block';
+        document.getElementById('courses-real').style.display = 'block';
+        document.getElementById('hero-skeleton').style.display = 'none';
+        document.getElementById('campaign-skeleton').style.display = 'none';
+        document.getElementById('courses-skeleton').style.display = 'none';
+        
+        // Marca no sessionStorage
+        sessionStorage.setItem('loadingDone', 'true');
+        sessionStorage.setItem('videoPrecarregado', 'true');
+        
+        // Inicia typewriter e verifica cookies
+        const heroTitle = document.getElementById('hero-titulo');
+        const textoOriginal = heroTitle.textContent;
+        typewriter(heroTitle, textoOriginal, 40);
+        setTimeout(checkReveal, 300);
+        
+        // Verifica cookies
+        if (sessionStorage.getItem('cookieChoice')) {
+          setTimeout(iniciarContadores, 4000);
+        } else {
+          setTimeout(showCookieBanner, 2500);
+        }
       }
 
       // ============================================================
-      // 3. LOCALIZAÇÃO OBRIGATÓRIA
+      // 5. LOCALIZAÇÃO OBRIGATÓRIA
       // ============================================================
+      let cidadeSelecionada = null;
+      let currentLang = 'pt';
+      let cookieInteragiu = false;
+      let contadoresIniciados = false;
+
       const centros = {
         beira: { pt: 'Rua Carlos Pereira, parcela nº 148/07, Estoril Expansão, Beira', en: 'Rua Carlos Pereira, plot 148/07, Estoril Expansion, Beira' },
         maputo: { pt: 'Rua de Katembe, nº 1234, Maputo', en: 'Rua de Katembe, nº 1234, Maputo' },
@@ -1772,6 +1907,13 @@
       };
 
       function abrirLocalizacaoObrigatoria() {
+        // Só abre se for a primeira visita
+        if (sessionStorage.getItem('localizacaoFeita') === 'true') {
+          // Se já fez localização antes, pula direto para o conteúdo
+          finalizarLoading();
+          return;
+        }
+        
         const modal = document.getElementById('localizacao-modal-obrigatoria');
         modal.classList.add('open');
         document.getElementById('loc-obrigatorio-resultado').classList.remove('show');
@@ -1817,41 +1959,15 @@
           return;
         }
         document.getElementById('localizacao-modal-obrigatoria').classList.remove('open');
-        
-        // Mostrar conteúdo principal
-        document.querySelectorAll('.hidden-content').forEach(el => el.classList.remove('hidden-content'));
-        document.getElementById('hero-real').style.display = 'block';
-        document.getElementById('campaign-real').style.display = 'block';
-        document.getElementById('courses-real').style.display = 'block';
-        document.getElementById('hero-skeleton').style.display = 'none';
-        document.getElementById('campaign-skeleton').style.display = 'none';
-        document.getElementById('courses-skeleton').style.display = 'none';
-        
-        // Salvar no sessionStorage que o loading já foi feito
-        sessionStorage.setItem('loadingDone', 'true');
         sessionStorage.setItem('localizacaoFeita', 'true');
         sessionStorage.setItem('cidadeSelecionada', cidadeSelecionada);
         
-        // Iniciar typewriter e verificar cookies
-        const heroTitle = document.getElementById('hero-titulo');
-        const textoOriginal = heroTitle.textContent;
-        typewriter(heroTitle, textoOriginal, 40);
-        setTimeout(checkReveal, 300);
-        
-        // Verificar se já interagiu com cookies antes
-        if (sessionStorage.getItem('cookieChoice')) {
-          cookieInteragiu = true;
-          cookieEscolha = sessionStorage.getItem('cookieChoice');
-          // Iniciar contadores imediatamente se já interagiu antes
-          setTimeout(iniciarContadores, 600);
-        } else {
-          // Mostrar cookie banner após 2.5s
-          setTimeout(showCookieBanner, 2500);
-        }
+        // Finaliza o loading
+        finalizarLoading();
       }
 
       // ============================================================
-      // 4. PROGRESS BAR
+      // 6. PROGRESS BAR
       // ============================================================
       window.addEventListener('scroll', () => {
         const scrollTop = window.pageYOffset;
@@ -1861,35 +1977,29 @@
       });
 
       // ============================================================
-      // 5. COOKIE - FUNÇÕES MODIFICADAS (CONTADORES SEMPRE INICIAM)
+      // 7. COOKIE
       // ============================================================
       function aceitarCookies() {
         cookieInteragiu = true;
-        cookieEscolha = 'accepted';
         sessionStorage.setItem('cookieChoice', 'accepted');
         document.getElementById('cookie-banner').classList.remove('show');
-        // Iniciar contadores com efeito lindo
-        iniciarContadores();
+        setTimeout(iniciarContadores, 4000);
         mostrarCookieAlert('aceitar');
       }
 
       function personalizarCookies() {
         cookieInteragiu = true;
-        cookieEscolha = 'customized';
         sessionStorage.setItem('cookieChoice', 'customized');
         document.getElementById('cookie-banner').classList.remove('show');
-        // Iniciar contadores com efeito lindo
-        iniciarContadores();
+        setTimeout(iniciarContadores, 4000);
         mostrarCookieAlert('personalizar');
       }
 
       function recusarCookies() {
         cookieInteragiu = true;
-        cookieEscolha = 'declined';
         sessionStorage.setItem('cookieChoice', 'declined');
         document.getElementById('cookie-banner').classList.remove('show');
-        // MESMO RECUSANDO, OS CONTADORES COMEÇAM!
-        iniciarContadores();
+        setTimeout(iniciarContadores, 4000);
         mostrarCookieAlert('recusar');
       }
 
@@ -1900,27 +2010,13 @@
         
         let titulo, mensagem;
         if (lang === 'en') {
-          if (tipo === 'aceitar') {
-            titulo = '🍪 Cookies Accepted!';
-            mensagem = 'You have accepted all cookies. But wait... this is just a demo! 😄';
-          } else if (tipo === 'personalizar') {
-            titulo = '🍪 Cookies Customized!';
-            mensagem = 'You have customized your cookie preferences. But wait... this is just a demo! 😄';
-          } else {
-            titulo = '🍪 Cookies Declined';
-            mensagem = 'You have declined cookies. But wait... this is just a demo! And the counters still work! 😄🔥';
-          }
+          if (tipo === 'aceitar') { titulo = '🍪 Cookies Accepted!'; mensagem = 'You have accepted all cookies. But wait... this is just a demo! 😄'; }
+          else if (tipo === 'personalizar') { titulo = '🍪 Cookies Customized!'; mensagem = 'You have customized your cookie preferences. But wait... this is just a demo! 😄'; }
+          else { titulo = '🍪 Cookies Declined'; mensagem = 'You have declined cookies. But wait... this is just a demo! And the counters still work! 😄🔥'; }
         } else {
-          if (tipo === 'aceitar') {
-            titulo = '🍪 Cookies Aceitos!';
-            mensagem = 'Você aceitou todos os cookies. Mas calma... isso é apenas um demo! 😄';
-          } else if (tipo === 'personalizar') {
-            titulo = '🍪 Cookies Personalizados!';
-            mensagem = 'Você personalizou suas preferências de cookies. Mas calma... isso é apenas um demo! 😄';
-          } else {
-            titulo = '🍪 Cookies Recusados';
-            mensagem = 'Você recusou os cookies. Mas calma... isso é apenas um demo! E os contadores ainda funcionam! 😄🔥';
-          }
+          if (tipo === 'aceitar') { titulo = '🍪 Cookies Aceitos!'; mensagem = 'Você aceitou todos os cookies. Mas calma... isso é apenas um demo! 😄'; }
+          else if (tipo === 'personalizar') { titulo = '🍪 Cookies Personalizados!'; mensagem = 'Você personalizou suas preferências de cookies. Mas calma... isso é apenas um demo! 😄'; }
+          else { titulo = '🍪 Cookies Recusados'; mensagem = 'Você recusou os cookies. Mas calma... isso é apenas um demo! E os contadores ainda funcionam! 😄🔥'; }
         }
         
         document.getElementById('cookie-alert-title').textContent = titulo;
@@ -1932,14 +2028,13 @@
       }
 
       function showCookieBanner() {
-        // Só mostra se ainda não interagiu com cookies
         if (!cookieInteragiu && !sessionStorage.getItem('cookieChoice')) {
           document.getElementById('cookie-banner').classList.add('show');
         }
       }
 
       // ============================================================
-      // 6. TRADUÇÕES
+      // 8. TRADUÇÕES
       // ============================================================
       const traducoes = {
         pt: {
@@ -2057,7 +2152,7 @@
       };
 
       // ============================================================
-      // 7. FUNÇÕES GLOBAIS
+      // 9. FUNÇÕES GLOBAIS
       // ============================================================
       let temaEscuro = false;
       let isSpeaking = false;
@@ -2071,7 +2166,7 @@
       let statsObserver = null;
 
       // ============================================================
-      // 8. TYPEWRITER
+      // 10. TYPEWRITER
       // ============================================================
       function typewriter(element, text, speed = 40) {
         element.textContent = '';
@@ -2082,7 +2177,7 @@
       }
 
       // ============================================================
-      // 9. CONTADOR (REGRESSIVO)
+      // 11. CONTADOR (REGRESSIVO)
       // ============================================================
       function iniciarContador() {
         const targetDate = new Date('2026-08-25T00:00:00').getTime();
@@ -2110,7 +2205,7 @@
       }
 
       // ============================================================
-      // 10. CONTADOR ANIMADO (0 → NÚMERO FINAL) - SÓ COMEÇA DEPOIS DO COOKIE
+      // 12. CONTADOR ANIMADO
       // ============================================================
       function animarContador(element, target, duration, suffix = '', growthText = '') {
         const el = document.getElementById(element);
@@ -2141,14 +2236,13 @@
       function iniciarContadores() {
         if (contadoresIniciados) return;
         contadoresIniciados = true;
-        console.log('🚀 Contadores iniciados com efeito lindo!');
         setTimeout(() => animarContador('stat-estudantes-num', 18000, 1800, '+', '12%'), 300);
         setTimeout(() => animarContador('stat-cursos-num', 23, 3000, '', '8%'), 900);
         setTimeout(() => animarContador('stat-graduados-num', 5000, 2500, '+', '15%'), 1500);
       }
 
       // ============================================================
-      // 11. SCROLL REVEAL
+      // 13. SCROLL REVEAL
       // ============================================================
       function checkReveal() {
         document.querySelectorAll('.reveal').forEach(el => {
@@ -2163,8 +2257,7 @@
         statsObserver = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
             if (entry.isIntersecting && !contadoresIniciados) {
-              // Se os contadores ainda não começaram, inicia
-              iniciarContadores();
+              setTimeout(iniciarContadores, 4000);
             }
           });
         }, { threshold: 0.3 });
@@ -2172,7 +2265,7 @@
       }
 
       // ============================================================
-      // 12. CHATBOT
+      // 14. CHATBOT
       // ============================================================
       function toggleChatbot() {
         chatbotOpen = !chatbotOpen;
@@ -2319,7 +2412,7 @@
       }
 
       // ============================================================
-      // 13. SUGESTÕES DO CHATBOT
+      // 15. SUGESTÕES DO CHATBOT
       // ============================================================
       function sugerirPergunta(texto) {
         const container = document.getElementById('chatbot-suggestions');
@@ -2357,7 +2450,7 @@
       }
 
       // ============================================================
-      // 14. ENVIAR MENSAGEM
+      // 16. ENVIAR MENSAGEM
       // ============================================================
       function enviarMensagem() {
         const input = document.getElementById('chatbot-input');
@@ -2410,7 +2503,7 @@
       }
 
       // ============================================================
-      // 15. RECOMENDADOR
+      // 17. RECOMENDADOR
       // ============================================================
       function abrirRecomendador() {
         document.getElementById('recomendador-modal').classList.add('open');
@@ -2461,7 +2554,7 @@
       }
 
       // ============================================================
-      // 16. ALERT
+      // 18. ALERT
       // ============================================================
       function mostrarAlert(titulo, mensagem) {
         const modal = document.getElementById('alert-modal');
@@ -2472,7 +2565,7 @@
       function fecharAlert() { document.getElementById('alert-modal').classList.remove('open'); }
 
       // ============================================================
-      // 17. RESUMO
+      // 19. RESUMO
       // ============================================================
       function resumirTexto(botao, elementoId) {
         const el = document.getElementById(elementoId);
@@ -2494,7 +2587,7 @@
       }
 
       // ============================================================
-      // 18. TOGGLE DETALHES
+      // 20. TOGGLE DETALHES
       // ============================================================
       function toggleDetalhes(idElemento, botao) {
         const painel = document.getElementById(idElemento);
@@ -2511,7 +2604,7 @@
       }
 
       // ============================================================
-      // 19. TEMA
+      // 21. TEMA
       // ============================================================
       function alternarTema() {
         temaEscuro = !temaEscuro;
@@ -2534,7 +2627,7 @@
       document.getElementById('theme-toggle-mobile')?.addEventListener('click', alternarTema);
 
       // ============================================================
-      // 20. MENU MOBILE
+      // 22. MENU MOBILE
       // ============================================================
       const menuHamburger = document.getElementById('menu-hamburger');
       const mobileMenu = document.getElementById('mobile-menu');
@@ -2548,7 +2641,7 @@
       });
 
       // ============================================================
-      // 21. NAVBAR SCROLL
+      // 23. NAVBAR SCROLL
       // ============================================================
       const navContainer = document.getElementById("nav-container");
       let ultimoScroll = 0;
@@ -2561,7 +2654,7 @@
       });
 
       // ============================================================
-      // 22. IDIOMA
+      // 24. IDIOMA
       // ============================================================
       const btnIdioma = document.getElementById("btn-idioma");
       const menuIdioma = document.getElementById("menu-idioma");
@@ -2572,7 +2665,7 @@
       }
 
       // ============================================================
-      // 23. APLICAR TRADUÇÕES
+      // 25. APLICAR TRADUÇÕES
       // ============================================================
       function aplicarTraducoes(lang) {
         currentLang = lang;
@@ -2593,9 +2686,9 @@
         if (document.getElementById("mobile-btn-portal")?.querySelector("span")) document.getElementById("mobile-btn-portal").querySelector("span").innerText = t.portal;
 
         document.getElementById("hero-tagline").innerText = t.heroTag;
-        document.getElementById("hero-titulo").innerText = t.heroTit;
+        document.getElementById("hero-titulo").innerHTML = t.heroTit;
         document.getElementById("hero-subtitulo").innerText = t.heroSub;
-        document.getElementById("hero-btn").innerText = t.heroBtn;
+        document.getElementById("hero-btn").innerHTML = t.heroBtn;
 
         document.getElementById("parceiros-tag").innerText = t.parceirosTag;
         document.getElementById("parceiros-titulo").innerText = t.parceirosTit;
@@ -2725,19 +2818,13 @@
         sugestoesAtuais = lang === 'en' ? sugestoes.en : sugestoes.pt;
         if (document.getElementById('chatbot-input').value.length < 2) sugerirPergunta('');
 
-        const loaderMsg = document.getElementById('loader-message');
-        if (loaderMsg && document.getElementById('loading-screen').style.display !== 'none') {
-          const msgs = getLoadingMessages();
-          loaderMsg.textContent = msgs[loadingMessageIndex % msgs.length];
-        }
-
         if (mobileMenu) mobileMenu.classList.add('hidden');
       }
 
       window.mudarIdioma = function(lang) { aplicarTraducoes(lang); };
 
       // ============================================================
-      // 24. LEITOR DE TELA
+      // 26. LEITOR DE TELA
       // ============================================================
       const readButton = document.getElementById('accessibility-reader-btn');
       const mainContent = document.getElementById('main-content');
@@ -2813,63 +2900,54 @@
       window.addEventListener('beforeunload', () => { if (window.speechSynthesis) window.speechSynthesis.cancel(); });
 
       // ============================================================
-      // 25. INICIALIZAÇÃO - COM VERIFICAÇÃO DE SESSION STORAGE
+      // 27. REDIRECIONAMENTO PARA CENTRO-RECURSOS (APÓS 1ª VISITA)
+      // ============================================================
+      function verificarRedirecionamento() {
+        const indexVisitado = sessionStorage.getItem('indexVisitado');
+        const videoPrecarregado = sessionStorage.getItem('videoPrecarregado');
+        
+        if (indexVisitado === 'true' && videoPrecarregado === 'true') {
+          console.log('🔄 Index já visitado e vídeo pré-carregado → redirecionando para Centro-Recursos.html');
+          window.location.href = 'Centro-Recursos.html';
+          return true;
+        }
+        return false;
+      }
+
+      // ============================================================
+      // 28. INICIALIZAÇÃO
       // ============================================================
       window.addEventListener('load', () => {
         aplicarTraducoes('pt');
         iniciarContador();
         
-        // VERIFICA SE O LOADING JÁ FOI FEITO NESTA SESSÃO
+        // Verifica se deve redirecionar (1ª VEZ VS VISITAS SEGUINTES)
         const loadingDone = sessionStorage.getItem('loadingDone');
         const localizacaoFeita = sessionStorage.getItem('localizacaoFeita');
-        const cookieChoice = sessionStorage.getItem('cookieChoice');
         
         if (loadingDone === 'true' && localizacaoFeita === 'true') {
-          // PULA O LOADING E A LOCALIZAÇÃO - VAI DIRETO PARA O CONTEÚDO
-          console.log('🔄 Sessão já carregada - pulando loading e localização');
+          sessionStorage.setItem('indexVisitado', 'true');
+          sessionStorage.setItem('videoPrecarregado', 'true');
           
-          // Esconde o loading sem animação
-          const screen = document.getElementById('loading-screen');
-          if (screen) {
-            screen.classList.add('hidden');
-            screen.style.display = 'none';
-          }
-          
-          // Fecha a localização se estiver aberta
-          const modal = document.getElementById('localizacao-modal-obrigatoria');
-          if (modal) modal.classList.remove('open');
-          
-          // Mostra o conteúdo principal
-          document.querySelectorAll('.hidden-content').forEach(el => el.classList.remove('hidden-content'));
-          document.getElementById('hero-real').style.display = 'block';
-          document.getElementById('campaign-real').style.display = 'block';
-          document.getElementById('courses-real').style.display = 'block';
-          document.getElementById('hero-skeleton').style.display = 'none';
-          document.getElementById('campaign-skeleton').style.display = 'none';
-          document.getElementById('courses-skeleton').style.display = 'none';
-          
-          // Se já escolheu cookies antes, inicia contadores imediatamente
-          if (cookieChoice) {
-            console.log('🍪 Cookie já escolhido antes - iniciando contadores imediatamente!');
-            setTimeout(iniciarContadores, 600);
-          } else {
-            // Se não escolheu, mostra o cookie banner
-            setTimeout(showCookieBanner, 2500);
-          }
-          
-          // Inicia typewriter
-          const heroTitle = document.getElementById('hero-titulo');
-          const textoOriginal = heroTitle.textContent;
-          typewriter(heroTitle, textoOriginal, 40);
-          
-          setTimeout(checkReveal, 300);
-          
-        } else {
-          // PRIMEIRA VEZ - MOSTRA O LOADING NORMAL
-          console.log('🔄 Primeira visita - mostrando loading e localização');
-          startLoadingMessages();
-          setTimeout(esconderLoading, 3200);
+          console.log('🔄 Sessão já carregada - redirecionando para Centro-Recursos.html');
+          window.location.href = 'Centro-Recursos.html';
+          return;
         }
+        
+        // PRIMEIRA VISITA
+        console.log('🔄 Primeira visita - iniciando pré-carregamento do vídeo');
+        
+        // Inicia as mensagens de loading
+        const el = document.getElementById('loader-message');
+        if (el) el.textContent = loadingMessages[0];
+        loadingInterval = setInterval(rotateLoadingMessage, 3000);
+        
+        // Inicia o monitoramento do vídeo
+        iniciarMonitoramentoVideo();
+        
+        // Marca que o index foi visitado
+        sessionStorage.setItem('indexVisitado', 'true');
+        sessionStorage.setItem('videoPrecarregado', 'true');
         
         setTimeout(checkReveal, 100);
         sugerirPergunta('');
@@ -2892,7 +2970,7 @@
       });
 
       // ============================================================
-      // 26. RIPPLE
+      // 29. RIPPLE
       // ============================================================
       document.addEventListener('click', function(e) {
         const target = e.target.closest('.ripple');
@@ -2913,7 +2991,7 @@
       });
 
       // ============================================================
-      // 27. FOCUS
+      // 30. FOCUS
       // ============================================================
       function alternarFocus() {
         const overlay = document.getElementById('focus-overlay');
