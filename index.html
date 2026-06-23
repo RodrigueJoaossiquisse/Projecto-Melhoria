@@ -55,9 +55,9 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(10, 20, 40, 0.85);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+        background: rgba(10, 20, 40, 0.88);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -113,13 +113,13 @@
         width: 12px;
         height: 12px;
         border-radius: 50%;
-        background: linear-gradient(145deg, rgba(156, 163, 175, 0.6), rgba(209, 213, 219, 0.4));
+        background: linear-gradient(145deg, rgba(156, 163, 175, 0.5), rgba(209, 213, 219, 0.3));
         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         top: 50%;
         left: 50%;
         transform-origin: center center;
         backdrop-filter: blur(4px);
-        border: 1px solid rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.08);
       }
       .wheel-spinner .sphere::after {
         content: '';
@@ -129,7 +129,7 @@
         width: 4px;
         height: 4px;
         border-radius: 50%;
-        background: rgba(255,255,255,0.3);
+        background: rgba(255,255,255,0.2);
       }
       @keyframes spinWheel {
         0% { transform: rotate(0deg); }
@@ -147,7 +147,7 @@
         text-shadow: 0 2px 10px rgba(0,0,0,0.2);
       }
       #loading-screen .loader-sub-message {
-        color: rgba(255,255,255,0.4);
+        color: rgba(255,255,255,0.35);
         font-size: 0.7rem;
         font-weight: 300;
         letter-spacing: 0.5px;
@@ -177,7 +177,7 @@
         100% { background-position: -200% 0; }
       }
       #loading-screen .loader-percent {
-        color: rgba(255,255,255,0.5);
+        color: rgba(255,255,255,0.4);
         font-size: 0.65rem;
         font-weight: 600;
         margin-top: 8px;
@@ -1723,7 +1723,7 @@
       criarRodasEsferas();
 
       // ============================================================
-      // 2. LOADING COM PROGRESSO REAL DO VÍDEO
+      // 2. LOADING COM PROGRESSO REAL DO VÍDEO (100% COMPLETO)
       // ============================================================
       const loadingMessages = [
         "✨ Preparando uma experiência incrível para você...",
@@ -1735,7 +1735,7 @@
       ];
 
       const loadingSubMessages = [
-        "Aguardando um momento, estamos quase lá",
+        "Aguarde um momento, estamos quase lá",
         "A magia está prestes a acontecer",
         "O conhecimento está chegando",
         "Prepare-se para uma jornada incrível",
@@ -1744,6 +1744,11 @@
 
       let loadingIndex = 0;
       let loadingInterval;
+      let progressoVideo = 0;
+      let videoPronto = false;
+      let fallbackAtivado = false;
+      let loadingFinalizado = false;
+      let primeiraVez = true;
 
       function rotateLoadingMessage() {
         const el = document.getElementById('loader-message');
@@ -1762,19 +1767,14 @@
         }
       }
 
-      let progressoVideo = 0;
-      let videoPronto = false;
-      let fallbackAtivado = false;
-      let loadingFinalizado = false;
-
-      // ============================================================
-      // 3. MONITORAR PROGRESSO DO VÍDEO
-      // ============================================================
       function atualizarProgresso(percent) {
         const bar = document.getElementById('loader-progress-bar');
         const percentEl = document.getElementById('loader-percent');
         if (bar) bar.style.width = Math.min(percent, 100) + '%';
-        if (percentEl) percentEl.textContent = Math.min(Math.round(percent), 100) + '%';
+        if (percentEl) {
+          const rounded = Math.min(Math.round(percent), 100);
+          percentEl.textContent = rounded + '%';
+        }
         progressoVideo = percent;
       }
 
@@ -1782,23 +1782,27 @@
         const video = document.getElementById('video-preload');
         if (!video) return false;
         
-        // Verifica se o vídeo já está pronto para tocar
-        if (video.readyState >= 4) {
-          videoPronto = true;
-          return true;
-        }
-        
-        // Verifica se o download está completo (buffered)
+        // Verifica se o download está 100% completo
         if (video.buffered.length > 0) {
           const bufferedEnd = video.buffered.end(0);
           const duration = video.duration || 1;
           const percent = (bufferedEnd / duration) * 100;
           atualizarProgresso(percent);
-          if (percent >= 100 || video.readyState >= 3) {
+          
+          // SÓ LIBERA QUANDO ESTIVER 100%!
+          if (percent >= 100 || video.readyState >= 4) {
             videoPronto = true;
             return true;
           }
         }
+        
+        // Se o vídeo já está pronto para tocar (readyState 4 = HAVE_ENOUGH_DATA)
+        if (video.readyState >= 4) {
+          videoPronto = true;
+          atualizarProgresso(100);
+          return true;
+        }
+        
         return false;
       }
 
@@ -1820,6 +1824,7 @@
             
             if (percent >= 100 || video.readyState >= 4) {
               videoPronto = true;
+              atualizarProgresso(100);
               finalizarLoading();
             }
           }
@@ -1837,7 +1842,7 @@
           }
         }, 500);
 
-        // FALLBACK: se demorar mais de 15 segundos, libera o conteúdo
+        // FALLBACK: se demorar mais de 20 segundos, libera o conteúdo
         setTimeout(() => {
           if (!videoPronto && !loadingFinalizado) {
             console.log('⏰ Fallback: vídeo demorou muito para carregar, liberando o conteúdo...');
@@ -1845,11 +1850,11 @@
             atualizarProgresso(100);
             finalizarLoading();
           }
-        }, 15000);
+        }, 20000);
       }
 
       // ============================================================
-      // 4. FINALIZAR LOADING
+      // 3. FINALIZAR LOADING
       // ============================================================
       function finalizarLoading() {
         if (loadingFinalizado) return;
@@ -1871,7 +1876,7 @@
         document.getElementById('campaign-skeleton').style.display = 'none';
         document.getElementById('courses-skeleton').style.display = 'none';
         
-        // Marca no sessionStorage
+        // Marca no sessionStorage que o loading já foi feito
         sessionStorage.setItem('loadingDone', 'true');
         sessionStorage.setItem('videoPrecarregado', 'true');
         
@@ -1890,7 +1895,7 @@
       }
 
       // ============================================================
-      // 5. LOCALIZAÇÃO OBRIGATÓRIA
+      // 4. LOCALIZAÇÃO OBRIGATÓRIA
       // ============================================================
       let cidadeSelecionada = null;
       let currentLang = 'pt';
@@ -1909,7 +1914,7 @@
       function abrirLocalizacaoObrigatoria() {
         // Só abre se for a primeira visita
         if (sessionStorage.getItem('localizacaoFeita') === 'true') {
-          // Se já fez localização antes, pula direto para o conteúdo
+          // Se já fez localização antes, pula direto
           finalizarLoading();
           return;
         }
@@ -1967,7 +1972,7 @@
       }
 
       // ============================================================
-      // 6. PROGRESS BAR
+      // 5. PROGRESS BAR
       // ============================================================
       window.addEventListener('scroll', () => {
         const scrollTop = window.pageYOffset;
@@ -1977,7 +1982,7 @@
       });
 
       // ============================================================
-      // 7. COOKIE
+      // 6. COOKIE
       // ============================================================
       function aceitarCookies() {
         cookieInteragiu = true;
@@ -2034,7 +2039,7 @@
       }
 
       // ============================================================
-      // 8. TRADUÇÕES
+      // 7. TRADUÇÕES
       // ============================================================
       const traducoes = {
         pt: {
@@ -2152,7 +2157,7 @@
       };
 
       // ============================================================
-      // 9. FUNÇÕES GLOBAIS
+      // 8. FUNÇÕES GLOBAIS
       // ============================================================
       let temaEscuro = false;
       let isSpeaking = false;
@@ -2166,7 +2171,7 @@
       let statsObserver = null;
 
       // ============================================================
-      // 10. TYPEWRITER
+      // 9. TYPEWRITER
       // ============================================================
       function typewriter(element, text, speed = 40) {
         element.textContent = '';
@@ -2177,7 +2182,7 @@
       }
 
       // ============================================================
-      // 11. CONTADOR (REGRESSIVO)
+      // 10. CONTADOR (REGRESSIVO)
       // ============================================================
       function iniciarContador() {
         const targetDate = new Date('2026-08-25T00:00:00').getTime();
@@ -2205,7 +2210,7 @@
       }
 
       // ============================================================
-      // 12. CONTADOR ANIMADO
+      // 11. CONTADOR ANIMADO
       // ============================================================
       function animarContador(element, target, duration, suffix = '', growthText = '') {
         const el = document.getElementById(element);
@@ -2242,7 +2247,7 @@
       }
 
       // ============================================================
-      // 13. SCROLL REVEAL
+      // 12. SCROLL REVEAL
       // ============================================================
       function checkReveal() {
         document.querySelectorAll('.reveal').forEach(el => {
@@ -2265,7 +2270,7 @@
       }
 
       // ============================================================
-      // 14. CHATBOT
+      // 13. CHATBOT
       // ============================================================
       function toggleChatbot() {
         chatbotOpen = !chatbotOpen;
@@ -2412,7 +2417,7 @@
       }
 
       // ============================================================
-      // 15. SUGESTÕES DO CHATBOT
+      // 14. SUGESTÕES DO CHATBOT
       // ============================================================
       function sugerirPergunta(texto) {
         const container = document.getElementById('chatbot-suggestions');
@@ -2450,7 +2455,7 @@
       }
 
       // ============================================================
-      // 16. ENVIAR MENSAGEM
+      // 15. ENVIAR MENSAGEM
       // ============================================================
       function enviarMensagem() {
         const input = document.getElementById('chatbot-input');
@@ -2503,7 +2508,7 @@
       }
 
       // ============================================================
-      // 17. RECOMENDADOR
+      // 16. RECOMENDADOR
       // ============================================================
       function abrirRecomendador() {
         document.getElementById('recomendador-modal').classList.add('open');
@@ -2554,7 +2559,7 @@
       }
 
       // ============================================================
-      // 18. ALERT
+      // 17. ALERT
       // ============================================================
       function mostrarAlert(titulo, mensagem) {
         const modal = document.getElementById('alert-modal');
@@ -2565,7 +2570,7 @@
       function fecharAlert() { document.getElementById('alert-modal').classList.remove('open'); }
 
       // ============================================================
-      // 19. RESUMO
+      // 18. RESUMO
       // ============================================================
       function resumirTexto(botao, elementoId) {
         const el = document.getElementById(elementoId);
@@ -2587,7 +2592,7 @@
       }
 
       // ============================================================
-      // 20. TOGGLE DETALHES
+      // 19. TOGGLE DETALHES
       // ============================================================
       function toggleDetalhes(idElemento, botao) {
         const painel = document.getElementById(idElemento);
@@ -2604,7 +2609,7 @@
       }
 
       // ============================================================
-      // 21. TEMA
+      // 20. TEMA
       // ============================================================
       function alternarTema() {
         temaEscuro = !temaEscuro;
@@ -2627,7 +2632,7 @@
       document.getElementById('theme-toggle-mobile')?.addEventListener('click', alternarTema);
 
       // ============================================================
-      // 22. MENU MOBILE
+      // 21. MENU MOBILE
       // ============================================================
       const menuHamburger = document.getElementById('menu-hamburger');
       const mobileMenu = document.getElementById('mobile-menu');
@@ -2641,7 +2646,7 @@
       });
 
       // ============================================================
-      // 23. NAVBAR SCROLL
+      // 22. NAVBAR SCROLL
       // ============================================================
       const navContainer = document.getElementById("nav-container");
       let ultimoScroll = 0;
@@ -2654,7 +2659,7 @@
       });
 
       // ============================================================
-      // 24. IDIOMA
+      // 23. IDIOMA
       // ============================================================
       const btnIdioma = document.getElementById("btn-idioma");
       const menuIdioma = document.getElementById("menu-idioma");
@@ -2665,7 +2670,7 @@
       }
 
       // ============================================================
-      // 25. APLICAR TRADUÇÕES
+      // 24. APLICAR TRADUÇÕES
       // ============================================================
       function aplicarTraducoes(lang) {
         currentLang = lang;
@@ -2824,7 +2829,7 @@
       window.mudarIdioma = function(lang) { aplicarTraducoes(lang); };
 
       // ============================================================
-      // 26. LEITOR DE TELA
+      // 25. LEITOR DE TELA
       // ============================================================
       const readButton = document.getElementById('accessibility-reader-btn');
       const mainContent = document.getElementById('main-content');
@@ -2900,54 +2905,78 @@
       window.addEventListener('beforeunload', () => { if (window.speechSynthesis) window.speechSynthesis.cancel(); });
 
       // ============================================================
-      // 27. REDIRECIONAMENTO PARA CENTRO-RECURSOS (APÓS 1ª VISITA)
-      // ============================================================
-      function verificarRedirecionamento() {
-        const indexVisitado = sessionStorage.getItem('indexVisitado');
-        const videoPrecarregado = sessionStorage.getItem('videoPrecarregado');
-        
-        if (indexVisitado === 'true' && videoPrecarregado === 'true') {
-          console.log('🔄 Index já visitado e vídeo pré-carregado → redirecionando para Centro-Recursos.html');
-          window.location.href = 'Centro-Recursos.html';
-          return true;
-        }
-        return false;
-      }
-
-      // ============================================================
-      // 28. INICIALIZAÇÃO
+      // 26. INICIALIZAÇÃO
       // ============================================================
       window.addEventListener('load', () => {
         aplicarTraducoes('pt');
         iniciarContador();
         
-        // Verifica se deve redirecionar (1ª VEZ VS VISITAS SEGUINTES)
+        // VERIFICA SE O LOADING JÁ FOI FEITO NESTA SESSÃO
         const loadingDone = sessionStorage.getItem('loadingDone');
         const localizacaoFeita = sessionStorage.getItem('localizacaoFeita');
         
         if (loadingDone === 'true' && localizacaoFeita === 'true') {
-          sessionStorage.setItem('indexVisitado', 'true');
-          sessionStorage.setItem('videoPrecarregado', 'true');
+          // PULA O LOADING E A LOCALIZAÇÃO - VAI DIRETO PARA O CONTEÚDO
+          console.log('🔄 Sessão já carregada - pulando loading e localização');
           
-          console.log('🔄 Sessão já carregada - redirecionando para Centro-Recursos.html');
-          window.location.href = 'Centro-Recursos.html';
-          return;
+          // Esconde o loading sem animação
+          const screen = document.getElementById('loading-screen');
+          if (screen) {
+            screen.classList.add('hidden');
+            screen.style.display = 'none';
+          }
+          
+          // Fecha a localização se estiver aberta
+          const modal = document.getElementById('localizacao-modal-obrigatoria');
+          if (modal) modal.classList.remove('open');
+          
+          // Mostra o conteúdo principal
+          document.querySelectorAll('.hidden-content').forEach(el => el.classList.remove('hidden-content'));
+          document.getElementById('hero-real').style.display = 'block';
+          document.getElementById('campaign-real').style.display = 'block';
+          document.getElementById('courses-real').style.display = 'block';
+          document.getElementById('hero-skeleton').style.display = 'none';
+          document.getElementById('campaign-skeleton').style.display = 'none';
+          document.getElementById('courses-skeleton').style.display = 'none';
+          
+          // Se já escolheu cookies antes, inicia contadores imediatamente
+          if (sessionStorage.getItem('cookieChoice')) {
+            console.log('🍪 Cookie já escolhido antes - iniciando contadores imediatamente!');
+            setTimeout(iniciarContadores, 4000);
+          } else {
+            // Se não escolheu, mostra o cookie banner
+            setTimeout(showCookieBanner, 2500);
+          }
+          
+          // Inicia typewriter
+          const heroTitle = document.getElementById('hero-titulo');
+          const textoOriginal = heroTitle.textContent;
+          typewriter(heroTitle, textoOriginal, 40);
+          
+          setTimeout(checkReveal, 300);
+          
+        } else {
+          // PRIMEIRA VEZ - MOSTRA O LOADING NORMAL
+          console.log('🔄 Primeira visita - mostrando loading e localização');
+          
+          // Força o pré-carregamento do vídeo
+          const video = document.getElementById('video-preload');
+          if (video) {
+            video.load();
+            console.log('📹 Vídeo começou a ser baixado em background!');
+          }
+          
+          // Inicia as mensagens de loading
+          const el = document.getElementById('loader-message');
+          if (el) el.textContent = loadingMessages[0];
+          loadingInterval = setInterval(rotateLoadingMessage, 3000);
+          
+          // Inicia o monitoramento do vídeo
+          iniciarMonitoramentoVideo();
+          
+          // Quando o loading estiver pronto (vídeo 100% baixado), a localização aparece
+          // O monitoramento do vídeo chama finalizarLoading() quando estiver 100%
         }
-        
-        // PRIMEIRA VISITA
-        console.log('🔄 Primeira visita - iniciando pré-carregamento do vídeo');
-        
-        // Inicia as mensagens de loading
-        const el = document.getElementById('loader-message');
-        if (el) el.textContent = loadingMessages[0];
-        loadingInterval = setInterval(rotateLoadingMessage, 3000);
-        
-        // Inicia o monitoramento do vídeo
-        iniciarMonitoramentoVideo();
-        
-        // Marca que o index foi visitado
-        sessionStorage.setItem('indexVisitado', 'true');
-        sessionStorage.setItem('videoPrecarregado', 'true');
         
         setTimeout(checkReveal, 100);
         sugerirPergunta('');
@@ -2970,7 +2999,7 @@
       });
 
       // ============================================================
-      // 29. RIPPLE
+      // 27. RIPPLE
       // ============================================================
       document.addEventListener('click', function(e) {
         const target = e.target.closest('.ripple');
@@ -2991,7 +3020,7 @@
       });
 
       // ============================================================
-      // 30. FOCUS
+      // 28. FOCUS
       // ============================================================
       function alternarFocus() {
         const overlay = document.getElementById('focus-overlay');

@@ -108,7 +108,7 @@
         color: #94a3b8 !important;
       }
 
-      /* ===== NAVBAR CORRIGIDA - CONTRASTE ===== */
+      /* ===== NAVBAR ===== */
       #nav-container {
         position: fixed;
         top: 0;
@@ -131,7 +131,6 @@
         will-change: background, border-color;
       }
 
-      /* TEXTO BRANCO COM SOMBRA (visível sobre vídeo) */
       #navbar .text-gray-700,
       #navbar .text-blue-700,
       #navbar .text-blue-800,
@@ -160,7 +159,6 @@
         transition: all 0.3s ease;
       }
 
-      /* ===== NAVBAR SCROLLADA (fundo claro) ===== */
       #navbar.scrolled {
         background: rgba(255, 255, 255, 0.85) !important;
         backdrop-filter: blur(20px) saturate(180%);
@@ -169,7 +167,6 @@
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
       }
 
-      /* TEXTO ESCURO (visível sobre fundo claro) */
       #navbar.scrolled .text-gray-700,
       #navbar.scrolled .text-blue-700,
       #navbar.scrolled .text-blue-800,
@@ -189,7 +186,6 @@
         text-shadow: none !important;
       }
 
-      /* ===== DARK MODE NAVBAR ===== */
       body.dark #navbar {
         background: rgba(0, 0, 0, 0.35) !important;
       }
@@ -228,44 +224,32 @@
         text-shadow: none !important;
       }
 
-      /* ===== MOBILE MENU ===== */
+      /* ===== MOBILE MENU - CORRIGIDO ===== */
       #mobile-menu {
         background: rgba(0, 0, 0, 0.75) !important;
         backdrop-filter: blur(20px) saturate(180%);
         -webkit-backdrop-filter: blur(20px) saturate(180%);
         border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        /* REMOVIDO display: block; para o Tailwind controlar com hidden */
       }
 
       #mobile-menu a {
         color: #ffffff !important;
         text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
         transition: all 0.2s ease;
+        display: block;
+        padding: 10px 16px;
+        border-radius: 12px;
       }
 
       #mobile-menu a:hover {
         color: #67e8f9 !important;
+        background: rgba(255,255,255,0.05);
         transform: translateX(4px);
       }
 
-      #navbar.scrolled + #mobile-menu {
-        background: rgba(255, 255, 255, 0.94) !important;
-      }
-
-      #navbar.scrolled + #mobile-menu a {
-        color: #1e293b !important;
-        text-shadow: none !important;
-      }
-
-      body.dark #navbar.scrolled + #mobile-menu {
-        background: rgba(15, 23, 42, 0.94) !important;
-      }
-
-      body.dark #navbar.scrolled + #mobile-menu a {
-        color: #e2e8f0 !important;
-      }
-
-      /* ===== RODAPÉ 120HZ ===== */
+      /* ===== RODAPÉ ===== */
       .footer-glass {
         background: rgba(255, 255, 255, 0.7) !important;
         backdrop-filter: blur(16px) saturate(180%);
@@ -309,7 +293,7 @@
         width: 100%;
       }
 
-      /* ===== REVEAL 120HZ ===== */
+      /* ===== REVEAL ===== */
       .reveal {
         opacity: 0;
         transform: translateY(30px) scale(0.98);
@@ -322,7 +306,7 @@
         transform: translateY(0) scale(1);
       }
 
-      /* ===== INFO CARDS 120HZ ===== */
+      /* ===== INFO CARDS ===== */
       .info-card {
         transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         will-change: transform, box-shadow;
@@ -342,7 +326,7 @@
         transform: scale(1.12) rotate(4deg);
       }
 
-      /* ===== WHATSAPP 120HZ ===== */
+      /* ===== WHATSAPP ===== */
       .whatsapp-btn {
         transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
         will-change: transform, box-shadow;
@@ -353,7 +337,7 @@
         box-shadow: 0 16px 40px -8px rgba(34, 197, 94, 0.5);
       }
 
-      /* ===== ACCESSIBILITY 120HZ ===== */
+      /* ===== ACCESSIBILITY ===== */
       .accessibility-reader {
         position: fixed;
         bottom: 120px;
@@ -409,7 +393,7 @@
         }
       }
 
-      /* ===== HERO VIDEO 120HZ ===== */
+      /* ===== HERO VIDEO ===== */
       .hero-video-wrapper {
         position: relative;
         width: 100%;
@@ -423,7 +407,6 @@
         background: #0a1628;
       }
 
-      /* FALLBACK IMAGEM */
       .hero-video-wrapper .fallback-image {
         position: absolute;
         top: 0;
@@ -580,7 +563,7 @@
         }
       }
 
-      /* ===== BOTÃO VOLTAR AO TOPO 120HZ ===== */
+      /* ===== BOTÃO VOLTAR AO TOPO ===== */
       #btn-top {
         position: fixed;
         bottom: 28px;
@@ -766,7 +749,6 @@
         }
       }
 
-      /* Badge de "Novo" para feedbacks */
       .badge-new {
         background: linear-gradient(135deg, #3b82f6, #8b5cf6);
         color: white;
@@ -784,7 +766,6 @@
         50% { opacity: 0.6; }
       }
 
-      /* ===== INDICADOR DE CARREGAMENTO DO VÍDEO ===== */
       .video-loading-indicator {
         position: absolute;
         top: 50%;
@@ -830,7 +811,7 @@
       <div class="alert-message" id="alertMessage">Seu comentário foi enviado com sucesso!</div>
     </div>
 
-    <!-- NAVBAR TRANSPARENTE SOBRE O VÍDEO -->
+    <!-- NAVBAR -->
     <div id="nav-container" class="fixed top-0 w-full z-50">
       <nav id="navbar" class="w-full transition-all duration-300">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -854,7 +835,7 @@
               <button id="btn-idioma-mobile" class="font-bold uppercase text-xs border border-white/30 px-2 py-1 rounded-full text-white">
                 PT
               </button>
-              <button id="menu-hamburger" class="text-white p-1">
+              <button id="menu-hamburger" class="text-white p-2 hover:bg-white/10 rounded-lg transition">
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
@@ -863,17 +844,18 @@
           </div>
         </div>
       </nav>
+      
+      <!-- MOBILE MENU - CORRIGIDO -->
       <div id="mobile-menu" class="hidden md:hidden backdrop-blur-md border-b border-white/10 shadow-md">
-        <div class="px-4 py-3 space-y-2">
-          <a href="index.html" id="mobile-link-inicio" class="block py-2 font-semibold hover:text-cyan-200">Início</a>
-          <a href="Portal do aluno.html" id="mobile-btn-portal" class="block py-2 font-semibold">Portal do Aluno</a>
+        <div class="px-4 py-3 space-y-1">
+          <a href="index.html" id="mobile-link-inicio" class="block py-2 font-semibold hover:text-cyan-200 hover:bg-white/5 rounded-lg transition">Início</a>
+          <a href="Portal do aluno.html" id="mobile-btn-portal" class="block py-2 font-semibold hover:text-cyan-200 hover:bg-white/5 rounded-lg transition">Portal do Aluno</a>
         </div>
       </div>
     </div>
 
     <!-- HERO VIDEO COM FALLBACK -->
     <div class="hero-video-wrapper" id="heroVideoWrapper">
-      <!-- FALLBACK IMAGEM -->
       <img
         src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Recepcao%20uniced.jpg?raw=true"
         alt="Centro de Recursos UnISCED"
@@ -882,13 +864,11 @@
       />
       <div class="fallback-overlay"></div>
 
-      <!-- INDICADOR DE CARREGAMENTO -->
       <div class="video-loading-indicator" id="videoLoadingIndicator">
         <div class="spinner-small"></div>
         <span>Carregando vídeo...</span>
       </div>
 
-      <!-- VÍDEO -->
       <video id="heroVideo" muted loop playsinline preload="auto">
         <source src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Novo%20Video.mp4?raw=true" type="video/mp4" />
         Seu navegador não suporta vídeo.
@@ -1037,12 +1017,8 @@
         </h2>
         <p class="text-center text-gray-500 mb-8" id="feedback-subtitulo">Feedbacks reais de estudantes da UnISCED</p>
 
-        <!-- Grid de feedbacks -->
-        <div id="feedbacks-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-          <!-- Os feedbacks serão inseridos via JS -->
-        </div>
+        <div id="feedbacks-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10"></div>
 
-        <!-- Formulário de comentário -->
         <div class="rounded-2xl p-6 md:p-8 card-glass">
           <h3 class="text-xl font-bold text-gray-800 mb-4" id="form-titulo">✍️ Deixe seu feedback</h3>
           <form id="feedback-form" class="space-y-4">
@@ -1088,7 +1064,6 @@
           <span class="text-gray-700 text-sm"><strong>Reitoria:</strong> Rua Carlos Pereira, parcela nº 148/07, Estoril Expansão, Beira</span>
         </div>
 
-        <!-- REDES SOCIAIS -->
         <div class="flex flex-wrap justify-center items-center gap-3 mb-6">
           <a href="https://web.facebook.com/UnISCEDmz/" target="_blank" class="flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-2xl font-semibold text-xs hover:scale-110 hover:bg-blue-600 hover:text-white transition">
             <i class="fa-brands fa-facebook-f"></i> Facebook
@@ -1161,37 +1136,27 @@
         let videoStarted = false;
         let playInterval = null;
 
-        // Mostra o indicador de carregamento
         if (loadingIndicator) loadingIndicator.classList.add('show');
 
-        // Função para tentar dar play
         function tryPlay() {
           if (videoStarted) return;
-          
           playAttempts++;
-          
           if (!video) return;
           
-          // Tenta dar play
           const promise = video.play();
-          
           if (promise !== undefined) {
             promise.then(() => {
-              // VÍDEO COMEÇOU A RODAR! 🎉
               videoStarted = true;
               if (playInterval) {
                 clearInterval(playInterval);
                 playInterval = null;
               }
-              // Esconde fallback e loading
               if (fallback) fallback.classList.add('hidden');
               if (loadingIndicator) loadingIndicator.classList.remove('show');
               video.classList.add('visible');
               console.log('🎬 Vídeo iniciado com sucesso após', playAttempts, 'tentativas!');
             }).catch(() => {
-              // Falhou, tenta recarregar o vídeo
               if (playAttempts > 10 && !videoStarted) {
-                // Recarrega a fonte
                 video.load();
                 console.log('🔄 Recarregando fonte do vídeo (tentativa', playAttempts, ')');
                 playAttempts = 0;
@@ -1200,23 +1165,16 @@
           }
         }
 
-        // Tenta dar play a cada 100ms (1 décimo de segundo) 🔥
         playInterval = setInterval(tryPlay, 100);
 
-        // Quando o vídeo estiver pronto para tocar, tenta imediatamente
         video.addEventListener('canplaythrough', function() {
-          if (!videoStarted) {
-            tryPlay();
-          }
+          if (!videoStarted) tryPlay();
         });
 
         video.addEventListener('loadeddata', function() {
-          if (!videoStarted) {
-            tryPlay();
-          }
+          if (!videoStarted) tryPlay();
         });
 
-        // Se o vídeo der erro, recarrega
         video.addEventListener('error', function() {
           if (!videoStarted) {
             console.log('⚠️ Erro no vídeo, recarregando...');
@@ -1224,19 +1182,16 @@
           }
         });
 
-        // Fallback: se após 5 segundos não iniciou, força recarga
         setTimeout(() => {
           if (!videoStarted) {
             console.log('⏰ Fallback: vídeo não iniciou após 5s, recarregando...');
             video.load();
-            // Força mais tentativas
             for (let i = 0; i < 20; i++) {
               setTimeout(tryPlay, i * 100);
             }
           }
         }, 5000);
 
-        // Se após 8 segundos ainda não iniciou, mostra fallback
         setTimeout(() => {
           if (!videoStarted) {
             if (loadingIndicator) loadingIndicator.classList.remove('show');
@@ -1245,14 +1200,13 @@
           }
         }, 8000);
 
-        // Limpeza se a página for fechada
         window.addEventListener('beforeunload', function() {
           if (playInterval) clearInterval(playInterval);
         });
       })();
 
       // ============================================================
-      // 1. FEEDBACKS - 15 COM EMOJIS
+      // 1. FEEDBACKS
       // ============================================================
       const feedbacksData = {
         pt: [
@@ -1291,12 +1245,10 @@
         ]
       };
 
-      // ===== VARIÁVEIS GLOBAIS =====
       let lang = "pt";
       let selectedStars = 5;
       let currentFeedbacks = [];
 
-      // ===== FUNÇÕES DE FEEDBACK =====
       function shuffleArray(arr) {
         for (let i = arr.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
@@ -1314,9 +1266,8 @@
         const container = document.getElementById('feedbacks-container');
         const data = feedbacksData[langCode] || feedbacksData.pt;
         currentFeedbacks = getRandomFeedbacks(data, 8);
-        
         container.innerHTML = '';
-        currentFeedbacks.forEach((fb, index) => {
+        currentFeedbacks.forEach((fb) => {
           const card = document.createElement('div');
           card.className = 'feedback-card p-5 rounded-xl border border-white/50 shadow-sm card-glass';
           const starFull = '★'.repeat(fb.estrelas);
@@ -1348,7 +1299,6 @@
         const cores = ['blue', 'green', 'pink', 'orange', 'purple', 'cyan', 'red', 'indigo', 'teal', 'amber', 'rose', 'violet', 'emerald'];
         const corClass = cores[Math.floor(Math.random() * cores.length)];
         
-        // Adiciona badge "Novo"
         card.innerHTML = `
           <div class="flex items-start gap-3">
             <div class="avatar-emoji ${corClass}">${emoji || '👤'}</div>
@@ -1364,17 +1314,14 @@
           </div>
         `;
         
-        // Insere no topo
         container.insertBefore(card, container.firstChild);
         
-        // Remove o badge "Novo" após 5 segundos
         setTimeout(() => {
           const badge = card.querySelector('.badge-new');
           if (badge) badge.remove();
         }, 5000);
       }
 
-      // ===== SISTEMA DE ESTRELAS =====
       document.querySelectorAll('.star-select').forEach(el => {
         el.addEventListener('click', function() {
           const val = parseInt(this.dataset.value);
@@ -1406,7 +1353,6 @@
         star.style.color = index < 5 ? '#f59e0b' : '#d1d5db';
       });
 
-      // ===== ALERT PERSONALIZADO =====
       let alertTimeout = null;
 
       function showCustomAlert(icon, title, message, isSuccess = true) {
@@ -1426,7 +1372,6 @@
         }, 4000);
       }
 
-      // ===== FORMULÁRIO DE FEEDBACK =====
       document.getElementById('feedback-form').addEventListener('submit', function(e) {
         e.preventDefault();
         const nome = document.getElementById('input-nome').value.trim();
@@ -1439,7 +1384,6 @@
           return;
         }
 
-        // Simula envio
         const btn = this.querySelector('button[type="submit"]');
         const originalText = btn.innerHTML;
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Enviando...';
@@ -1449,22 +1393,17 @@
           btn.innerHTML = originalText;
           btn.disabled = false;
           
-          // Adiciona o novo feedback na lista (com emoji aleatório)
           const emojis = ['👤', '😊', '🌟', '🎓', '📚', '💡', '🚀', '✨', '👋', '😄'];
           const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
           const cursos = ['Estudante', 'Aluno', 'Bolsista', 'Pesquisador', 'Monitor'];
           const cursoAleatorio = cursos[Math.floor(Math.random() * cursos.length)];
           
           addNewFeedback(nome, cursoAleatorio, comentario, estrelas, randomEmoji);
-          
-          // Mostra alerta de sucesso
           showCustomAlert('🎉', 'Feedback enviado!', 'Seu comentário apareceu na lista acima!');
           
-          // Limpa o formulário
           document.getElementById('input-nome').value = '';
           document.getElementById('input-email').value = '';
           document.getElementById('input-comentario').value = '';
-          // Reseta estrelas
           selectedStars = 5;
           document.getElementById('input-estrelas').value = 5;
           document.querySelectorAll('.star-select').forEach((star, index) => {
@@ -1587,18 +1526,28 @@
       document.getElementById("theme-toggle")?.addEventListener("click", toggleTheme);
       document.getElementById("theme-toggle-mobile")?.addEventListener("click", toggleTheme);
 
-      // ===== MENU HAMBURGUER =====
-      const hamburger = document.getElementById("menu-hamburger");
-      const mobileMenuDiv = document.getElementById("mobile-menu");
+      // ===== MENU HAMBURGUER - CORRIGIDO =====
+      const hamburger = document.getElementById('menu-hamburger');
+      const mobileMenuDiv = document.getElementById('mobile-menu');
+
       if (hamburger && mobileMenuDiv) {
-        hamburger.addEventListener("click", (e) => {
-          e.stopPropagation();
-          mobileMenuDiv.classList.toggle("hidden");
-        });
-        document.addEventListener("click", (e) => {
-          if (!mobileMenuDiv.contains(e.target) && !hamburger.contains(e.target))
-            mobileMenuDiv.classList.add("hidden");
-        });
+          // Garante que o menu começa fechado
+          mobileMenuDiv.classList.add('hidden');
+          
+          hamburger.addEventListener('click', function(e) {
+              e.stopPropagation();
+              mobileMenuDiv.classList.toggle('hidden');
+              console.log('Menu toggled:', mobileMenuDiv.classList.contains('hidden') ? 'fechado' : 'aberto');
+          });
+          
+          // Fecha o menu ao clicar fora
+          document.addEventListener('click', function(e) {
+              if (mobileMenuDiv && !mobileMenuDiv.classList.contains('hidden')) {
+                  if (!mobileMenuDiv.contains(e.target) && !hamburger.contains(e.target)) {
+                      mobileMenuDiv.classList.add('hidden');
+                  }
+              }
+          });
       }
 
       // ===== SCROLL =====
@@ -1624,7 +1573,7 @@
       window.addEventListener("load", checkReveal);
       window.addEventListener("scroll", checkReveal);
 
-      // ===== TRADUÇÃO COMPLETA =====
+      // ===== TRADUÇÃO =====
       const transl = {
         pt: {
           inicio: "Início",
@@ -1742,11 +1691,9 @@
         const textDiv = document.getElementById("texto-principal");
         textDiv.innerHTML = `<p>${t.p1}</p><p>${t.p2}</p><p>${t.p3}</p>`;
         
-        // Traduz botão do leitor
         const lerSpan = document.getElementById("ler-texto");
         if (lerSpan) lerSpan.textContent = isSpeaking ? t.pararTexto : t.lerTexto;
         
-        // Traduz seção de feedbacks
         document.getElementById("feedback-titulo").textContent = t.feedbackTitulo;
         document.getElementById("feedback-subtitulo").textContent = t.feedbackSubtitulo;
         document.getElementById("form-titulo").textContent = t.formTitulo;
@@ -1756,7 +1703,6 @@
         document.getElementById("label-comentario").textContent = t.labelComentario;
         document.getElementById("btn-enviar").textContent = t.btnEnviar;
         
-        // Atualiza os feedbacks
         renderFeedbacks(langCode);
         
         document.getElementById("btn-idioma").innerText = langCode.toUpperCase();
@@ -1771,7 +1717,6 @@
       document.getElementById("btn-idioma").addEventListener("click", toggleLanguage);
       document.getElementById("btn-idioma-mobile").addEventListener("click", toggleLanguage);
       
-      // Inicializa com PT
       renderFeedbacks('pt');
       updateLanguage('pt');
     </script>
