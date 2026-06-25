@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
+      /* ... TODOS OS ESTILOS ANTERIORES ... */
       * {
         font-family: "Inter", system-ui, sans-serif;
         -webkit-font-smoothing: antialiased;
@@ -583,6 +584,152 @@
         }
       }
 
+      /* LOADING DO VÍDEO - APARECE QUANDO CLICA NO PLAY */
+      .video-loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(12px) saturate(180%);
+        -webkit-backdrop-filter: blur(12px) saturate(180%);
+        z-index: 8;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+
+      .video-loading-overlay.show {
+        display: flex;
+        opacity: 1;
+      }
+
+      .video-loading-overlay .loading-spinner {
+        width: 70px;
+        height: 70px;
+        border: 4px solid rgba(255, 255, 255, 0.08);
+        border-top-color: #60a5fa;
+        border-radius: 50%;
+        animation: spinLoading 0.8s linear infinite;
+        box-shadow: 0 0 40px rgba(96, 165, 250, 0.15);
+      }
+
+      .video-loading-overlay .loading-text {
+        color: white;
+        margin-top: 25px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        letter-spacing: 1.5px;
+        opacity: 0.9;
+      }
+
+      .video-loading-overlay .loading-dots {
+        display: inline-flex;
+        gap: 4px;
+        margin-left: 4px;
+      }
+
+      .video-loading-overlay .loading-dots span {
+        animation: dotPulse 1.4s ease-in-out infinite;
+        opacity: 0;
+      }
+
+      .video-loading-overlay .loading-dots span:nth-child(1) {
+        animation-delay: 0s;
+      }
+      .video-loading-overlay .loading-dots span:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .video-loading-overlay .loading-dots span:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+
+      @keyframes dotPulse {
+        0%,
+        80%,
+        100% {
+          opacity: 0;
+          transform: scale(0.8);
+        }
+        40% {
+          opacity: 1;
+          transform: scale(1.2);
+        }
+      }
+
+      @keyframes spinLoading {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .video-loading-overlay .loading-bar {
+        width: 200px;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        margin-top: 20px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .video-loading-overlay .loading-bar .bar-progress {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #3b82f6, #22d3ee);
+        border-radius: 10px;
+        transition: width 0.3s ease;
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+      }
+
+      .video-loading-overlay .loading-percent {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.8rem;
+        margin-top: 8px;
+        font-weight: 300;
+        letter-spacing: 0.5px;
+      }
+
+      .video-loading-overlay .loading-error {
+        color: #f87171;
+        font-size: 0.9rem;
+        margin-top: 15px;
+        display: none;
+        font-weight: 400;
+        letter-spacing: 0.5px;
+      }
+
+      .video-loading-overlay .loading-error.show {
+        display: block;
+      }
+
+      .video-loading-overlay .loading-retry-btn {
+        margin-top: 15px;
+        padding: 8px 24px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 50px;
+        color: white;
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: none;
+      }
+
+      .video-loading-overlay .loading-retry-btn.show {
+        display: block;
+      }
+
+      .video-loading-overlay .loading-retry-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.05);
+      }
+
       .hero-video-wrapper .hero-overlay {
         position: absolute;
         bottom: 0;
@@ -681,6 +828,16 @@
           font-size: 0.7rem;
           bottom: -38px;
         }
+        .video-loading-overlay .loading-spinner {
+          width: 50px;
+          height: 50px;
+        }
+        .video-loading-overlay .loading-text {
+          font-size: 0.9rem;
+        }
+        .video-loading-overlay .loading-bar {
+          width: 150px;
+        }
       }
 
       @media (max-width: 480px) {
@@ -705,6 +862,16 @@
         .play-button .play-text {
           font-size: 0.6rem;
           bottom: -32px;
+        }
+        .video-loading-overlay .loading-spinner {
+          width: 40px;
+          height: 40px;
+        }
+        .video-loading-overlay .loading-text {
+          font-size: 0.8rem;
+        }
+        .video-loading-overlay .loading-bar {
+          width: 120px;
         }
       }
 
@@ -1023,6 +1190,25 @@
         Seu navegador não suporta vídeo.
       </video>
 
+      <!-- TELA DE CARREGAMENTO DO VÍDEO -->
+      <div class="video-loading-overlay" id="videoLoadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">
+          Carregando vídeo
+          <span class="loading-dots">
+            <span>.</span>
+            <span>.</span>
+            <span>.</span>
+          </span>
+        </div>
+        <div class="loading-bar">
+          <div class="bar-progress" id="loadingProgress"></div>
+        </div>
+        <div class="loading-percent" id="loadingPercent">0%</div>
+        <div class="loading-error" id="loadingError">⚠️ Falha ao carregar. Tente novamente.</div>
+        <button class="loading-retry-btn" id="loadingRetryBtn">🔄 Tentar novamente</button>
+      </div>
+
       <!-- BOTÃO DE PLAY ESTILOSO -->
       <div class="play-button" id="playButton">
         <i class="fa-solid fa-play"></i>
@@ -1251,7 +1437,7 @@
 
     <script>
       // ============================================================
-      // 0. VÍDEO COM BOTÃO DE PLAY - CORRIGIDO (BUG DO RECARREGAMENTO)
+      // 0. VÍDEO COM BOTÃO DE PLAY + TELA DE CARREGAMENTO
       // ============================================================
       (function() {
         const video = document.getElementById('heroVideo');
@@ -1259,15 +1445,42 @@
         const posterImage = document.getElementById('posterImage');
         const overlayDark = document.getElementById('overlayDark');
         const wrapper = document.getElementById('heroVideoWrapper');
+        const loadingOverlay = document.getElementById('videoLoadingOverlay');
+        const loadingProgress = document.getElementById('loadingProgress');
+        const loadingPercent = document.getElementById('loadingPercent');
+        const loadingError = document.getElementById('loadingError');
+        const loadingRetryBtn = document.getElementById('loadingRetryBtn');
+        
         let isPlaying = false;
         let isVideoReady = false;
-        let playAttempts = 0;
+        let isLoading = false;
+        let loadingInterval = null;
+        let loadingTimeout = null;
+        let progressValue = 0;
 
         // FUNÇÃO PARA RESETAR O VÍDEO
         function resetVideo() {
           isPlaying = false;
           isVideoReady = false;
-          playAttempts = 0;
+          isLoading = false;
+          progressValue = 0;
+          
+          if (loadingInterval) {
+            clearInterval(loadingInterval);
+            loadingInterval = null;
+          }
+          if (loadingTimeout) {
+            clearTimeout(loadingTimeout);
+            loadingTimeout = null;
+          }
+          
+          // Esconde o loading
+          loadingOverlay.classList.remove('show');
+          loadingOverlay.style.display = 'none';
+          loadingError.classList.remove('show');
+          loadingRetryBtn.classList.remove('show');
+          loadingProgress.style.width = '0%';
+          loadingPercent.textContent = '0%';
           
           // Mostra o botão e o overlay
           playButton.classList.remove('hidden');
@@ -1287,26 +1500,115 @@
           video.load();
         }
 
+        // FUNÇÃO PARA SIMULAR O CARREGAMENTO
+        function startLoadingSimulation() {
+          progressValue = 0;
+          loadingProgress.style.width = '0%';
+          loadingPercent.textContent = '0%';
+          loadingError.classList.remove('show');
+          loadingRetryBtn.classList.remove('show');
+          
+          // Mostra o loading
+          loadingOverlay.style.display = 'flex';
+          loadingOverlay.classList.add('show');
+          
+          // Simula o progresso
+          if (loadingInterval) clearInterval(loadingInterval);
+          loadingInterval = setInterval(() => {
+            // Progresso mais lento no início, mais rápido no final
+            const increment = progressValue < 30 ? 2 : (progressValue < 70 ? 1.5 : 0.8);
+            progressValue = Math.min(progressValue + increment, 95);
+            loadingProgress.style.width = progressValue + '%';
+            loadingPercent.textContent = Math.floor(progressValue) + '%';
+          }, 150);
+        }
+
+        // FUNÇÃO PARA FINALIZAR O CARREGAMENTO (quando o vídeo começa)
+        function finishLoading() {
+          if (loadingInterval) {
+            clearInterval(loadingInterval);
+            loadingInterval = null;
+          }
+          if (loadingTimeout) {
+            clearTimeout(loadingTimeout);
+            loadingTimeout = null;
+          }
+          
+          // Completa a barra
+          progressValue = 100;
+          loadingProgress.style.width = '100%';
+          loadingPercent.textContent = '100%';
+          
+          // Esconde o loading com um pequeno delay
+          setTimeout(() => {
+            loadingOverlay.classList.remove('show');
+            loadingOverlay.style.display = 'none';
+            loadingError.classList.remove('show');
+            loadingRetryBtn.classList.remove('show');
+          }, 400);
+        }
+
+        // FUNÇÃO PARA MOSTRAR ERRO
+        function showLoadingError() {
+          if (loadingInterval) {
+            clearInterval(loadingInterval);
+            loadingInterval = null;
+          }
+          if (loadingTimeout) {
+            clearTimeout(loadingTimeout);
+            loadingTimeout = null;
+          }
+          
+          loadingError.classList.add('show');
+          loadingRetryBtn.classList.add('show');
+          loadingProgress.style.width = '100%';
+          loadingPercent.textContent = '100%';
+        }
+
         // FUNÇÃO PARA TOCAR O VÍDEO
         function playVideo() {
           if (isPlaying) {
             return;
           }
 
-          // Se o vídeo não estiver pronto, tenta carregar
+          // Se o vídeo não estiver pronto, mostra loading e tenta carregar
           if (!isVideoReady) {
-            if (playAttempts < 10) {
-              playAttempts++;
-              video.load();
-              setTimeout(playVideo, 300);
+            startLoadingSimulation();
+            
+            // Tenta carregar o vídeo
+            video.load();
+            
+            // Aguarda o vídeo ficar pronto
+            video.addEventListener('canplaythrough', function onReady() {
+              isVideoReady = true;
+              video.removeEventListener('canplaythrough', onReady);
+              // Tenta tocar novamente
+              playVideo();
+            });
+
+            // Se já estiver pronto
+            if (video.readyState >= 3) {
+              isVideoReady = true;
+              playVideo();
             }
+
+            // Timeout: se não carregar em 10 segundos, mostra erro
+            loadingTimeout = setTimeout(() => {
+              if (!isPlaying && !isVideoReady) {
+                showLoadingError();
+              }
+            }, 10000);
+
             return;
           }
           
+          // Tenta reproduzir
           const promise = video.play();
           if (promise !== undefined) {
             promise.then(() => {
               isPlaying = true;
+              finishLoading();
+              
               // Esconde o botão com animação
               playButton.classList.add('hidden');
               playButton.style.display = 'none';
@@ -1316,32 +1618,29 @@
               }, 800);
             }).catch((error) => {
               console.warn('Erro ao reproduzir:', error);
-              // Tenta recarregar o vídeo
+              // Se falhou, tenta recarregar
+              isVideoReady = false;
               video.load();
               setTimeout(playVideo, 500);
             });
           }
         }
 
-        // INICIALIZA O VÍDEO (chamado a cada carregamento)
+        // INICIALIZA O VÍDEO
         function initVideo() {
-          // Reseta tudo
           resetVideo();
           
           // Aguarda o vídeo ficar pronto
           video.addEventListener('canplaythrough', function onReady() {
             isVideoReady = true;
-            playButton.style.pointerEvents = 'auto';
             video.removeEventListener('canplaythrough', onReady);
           });
 
           // Se o vídeo já estiver pronto
           if (video.readyState >= 3) {
             isVideoReady = true;
-            playButton.style.pointerEvents = 'auto';
           }
 
-          // Força o carregamento
           video.load();
         }
 
@@ -1352,15 +1651,23 @@
           playVideo();
         });
 
-        // EVENTO DE CLIQUE NO WRAPPER (clica no vídeo)
+        // EVENTO DE CLIQUE NO BOTÃO DE TENTAR NOVAMENTE
+        loadingRetryBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          // Reseta o erro e tenta de novo
+          isVideoReady = false;
+          video.load();
+          setTimeout(playVideo, 300);
+        });
+
+        // EVENTO DE CLIQUE NO WRAPPER
         wrapper.addEventListener('click', function(e) {
-          // Se clicou no botão, não faz nada (já tratado acima)
           if (e.target.closest('.play-button')) return;
+          if (e.target.closest('.video-loading-overlay')) return;
           
           if (!isPlaying) {
             playVideo();
           } else {
-            // Toggle play/pause
             if (video.paused) {
               video.play().catch(() => {});
             } else {
@@ -1369,10 +1676,11 @@
           }
         });
 
-        // QUANDO O VÍDEO COMEÇAR A TOCAR (evento de segurança)
+        // QUANDO O VÍDEO COMEÇAR A TOCAR
         video.addEventListener('playing', function() {
           if (!isPlaying) {
             isPlaying = true;
+            finishLoading();
             playButton.classList.add('hidden');
             playButton.style.display = 'none';
             overlayDark.classList.add('hidden');
@@ -1392,12 +1700,20 @@
 
         // LIMPEZA ANTES DE FECHAR A PÁGINA
         window.addEventListener('beforeunload', function() {
+          if (loadingInterval) {
+            clearInterval(loadingInterval);
+            loadingInterval = null;
+          }
+          if (loadingTimeout) {
+            clearTimeout(loadingTimeout);
+            loadingTimeout = null;
+          }
           video.pause();
           video.removeAttribute('src');
           video.load();
         });
 
-        // INICIALIZA O VÍDEO
+        // INICIALIZA
         initVideo();
 
         console.log('🎬 Vídeo carregado! Clique no botão para assistir.');
