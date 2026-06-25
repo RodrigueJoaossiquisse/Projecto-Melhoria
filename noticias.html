@@ -160,7 +160,6 @@
         .zoom-img { transition: transform 0.5s ease; }
         .zoom-img:hover { transform: scale(1.03); }
         
-        /* MODAL MELHORADO - FUNDO BRANCO E TEXTO ESCURO LEGÍVEL */
         .modal {
             display: none;
             position: fixed;
@@ -204,7 +203,6 @@
         }
         .modal-close:hover { background: rgba(0,0,0,0.9); transform: scale(1.1); }
         
-        /* Estilo do texto dentro do modal */
         .modal-content p {
             color: #1e293b !important;
             line-height: 1.6;
@@ -224,6 +222,21 @@
         body.dark .modal-content .bg-blue-50 {
             background-color: #1e3a5f !important;
         }
+        
+        /* ALERTA NEWSLETTER - MAIS ESTREITO */
+        .alert-newsletter {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .alert-newsletter:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px -10px rgba(37, 99, 235, 0.15);
+        }
+        .alert-newsletter.hidden-alert {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -238,7 +251,7 @@
         <div class="toast-close" onclick="hideToast()"><i class="fa-solid fa-xmark"></i></div>
     </div>
 
-    <!-- MODAL -->
+    <!-- MODAL PRINCIPAL -->
     <div id="modal" class="modal">
         <div class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark text-xl"></i></div>
         <div class="modal-content">
@@ -300,6 +313,49 @@
             <span id="badge-destaques" class="inline-block bg-blue-100 text-blue-700 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3"><i class="fa-brands fa-facebook mr-1"></i> Destaques</span>
             <h1 id="page-title" class="text-4xl md:text-5xl font-black text-gray-800">Notícias da UnISCED</h1>
             <p id="page-subtitle" class="text-gray-500 mt-2 max-w-2xl mx-auto">Acompanhe as últimas novidades da Universidade Aberta ISCED</p>
+        </div>
+
+        <!-- ======================================== -->
+        <!-- ALERTA NEWSLETTER - MAIS ESTREITO        -->
+        <!-- ======================================== -->
+        <div id="alertNewsletter" class="mb-10 reveal alert-newsletter">
+            <div class="card-glass rounded-2xl p-4 md:p-5 border-l-8 border-blue-600 shadow-lg relative overflow-hidden">
+                
+                <!-- Efeito decorativo de fundo (mais suave) -->
+                <div class="absolute -top-12 -right-12 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl"></div>
+                <div class="absolute -bottom-12 -left-12 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl"></div>
+                
+                <div class="relative z-10 flex flex-col sm:flex-row items-center gap-4">
+                    <!-- Ícone/Ilustração (menor) -->
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/25">
+                            <i class="fa-regular fa-envelope text-white text-xl md:text-2xl"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Texto (mais compacto) -->
+                    <div class="flex-1 text-center sm:text-left">
+                        <h3 class="text-base md:text-lg font-black text-gray-800 dark:text-white">
+                            <span class="text-blue-600">📬</span> 
+                            <span id="alert-news-titulo">Fique por dentro das novidades!</span>
+                        </h3>
+                        <p class="text-xs md:text-sm text-gray-600 dark:text-gray-300 max-w-2xl">
+                            <span id="alert-news-texto">Receba em primeira mão as notícias, eventos e comunicados da UnISCED.</span>
+                        </p>
+                    </div>
+                    
+                    <!-- Botão CTA (menor) -->
+                    <div class="flex-shrink-0">
+                        <button id="btnFecharAlerta" onclick="fecharAlerta()" class="group relative bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-bold px-5 py-2.5 rounded-full shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl flex items-center gap-2 overflow-hidden text-sm">
+                            <span class="relative z-10 flex items-center gap-2">
+                                <i class="fa-regular fa-bell"></i>
+                                <span id="alert-news-btn">Quero receber</span>
+                            </span>
+                            <span class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- NOTÍCIAS EM DESTAQUE -->
@@ -444,6 +500,11 @@
     <script>
         // ================== TOAST ==================
         let toastTimeout;
+        let mensagemToast = {
+            pt: { titulo: "Inscrição confirmada!", mensagem: "Obrigado! Você receberá nossas novidades em breve 📬" },
+            en: { titulo: "Subscription confirmed!", mensagem: "Thank you! You will receive our news soon 📬" }
+        };
+        
         function showToast(message, title = "UnISCED") {
             const toast = document.getElementById('toastNotification');
             document.getElementById('toastTitle').textContent = title;
@@ -454,19 +515,21 @@
         }
         function hideToast() { document.getElementById('toastNotification').classList.remove('show'); if (toastTimeout) clearTimeout(toastTimeout); }
         
-        // ================== MODAL COM TEXTOS TRADUZÍVEIS ==================
+        // ================== FECHAR ALERTA NEWSLETTER ==================
+        function fecharAlerta() {
+            const alerta = document.getElementById('alertNewsletter');
+            alerta.classList.add('hidden-alert');
+            // Mostra um toast de agradecimento com a tradução correta
+            const toastMsg = mensagemToast[lang];
+            showToast(toastMsg.mensagem, toastMsg.titulo);
+        }
+        
+        // ================== MODAL PRINCIPAL ==================
         const modal = document.getElementById('modal');
         
-        // Objeto que será atualizado dinamicamente pela tradução
         let textosModal = {
-            parceria: {
-                title: "",
-                body: ""
-            },
-            relacoes: {
-                title: "",
-                body: ""
-            }
+            parceria: { title: "", body: "" },
+            relacoes: { title: "", body: "" }
         };
         
         function openModal(tipo) {
@@ -535,7 +598,7 @@
         window.addEventListener('load', checkReveal);
         window.addEventListener('scroll', checkReveal);
 
-        // ================== TRADUÇÃO COMPLETA (COM MODAL) ==================
+        // ================== TRADUÇÃO COMPLETA ==================
         const dict = {
             pt: {
                 link_inicio: "Início", link_cursos: "Cursos", link_recursos: "Centro de Recursos", link_sobre: "Sobre",
@@ -567,7 +630,9 @@
                 app_movel: "App móvel",
                 foot_priv: "Privacidade", foot_termos: "Termos", foot_suporte: "Suporte",
                 whatsapp_text: "Fale connosco",
-                // Textos do MODAL
+                alert_titulo: "Fique por dentro das novidades!",
+                alert_texto: "Receba em primeira mão as notícias, eventos e comunicados da UnISCED.",
+                alert_btn: "Quero receber",
                 modal_parceria_title: "UnISCED e UMUM discutem parceria para desenvolvimento do ensino",
                 modal_parceria_body: `<p>A Universidade Aberta ISCED (UnISCED) recebeu no dia 27 de Janeiro uma comitiva da Universidade Metodista Unida de Moçambique (UMUM), nas suas instalações na Cidade da Beira. O encontro teve como principal objectivo discutir a criação de parcerias para o aprimoramento do processo de ensino, pesquisa, extensão e inovação.</p>
                         <p>A comitiva foi recebida pelo Vice-Reitor da UnISCED para a Área Académica, <strong>Prof. Doutor Simone Mura</strong>, acompanhado pelo Director de Recursos Virtuais e Multimédia, <strong>António Chimuzo</strong>. Durante o encontro, a Directora Pedagógica da UMUM, <strong>Nomissa Chadreca Faduco</strong>, explicou que a visita visava colher experiências para melhorar as práticas pedagógicas da sua instituição, principalmente na área do ensino à distância, em que a UnISCED já possui uma experiência consolidada.</p>
@@ -609,6 +674,9 @@
                 app_movel: "Mobile App",
                 foot_priv: "Privacy", foot_termos: "Terms", foot_suporte: "Support",
                 whatsapp_text: "Contact us",
+                alert_titulo: "Stay updated with the latest news!",
+                alert_texto: "Receive first-hand news, events and announcements from UnISCED.",
+                alert_btn: "Subscribe now",
                 modal_parceria_title: "UnISCED and UMUM discuss partnership for teaching development",
                 modal_parceria_body: `<p>The Open University ISCED (UnISCED) received on January 27 a delegation from the United Methodist University of Mozambique (UMUM), at its premises in the city of Beira. The meeting's main objective was to discuss the creation of partnerships to improve the teaching, research, extension and innovation process.</p>
                         <p>The delegation was received by the Vice-Rector of UnISCED for Academic Affairs, <strong>Prof. Dr. Simone Mura</strong>, accompanied by the Director of Virtual and Multimedia Resources, <strong>António Chimuzo</strong>. During the meeting, UMUM's Pedagogical Director, <strong>Nomissa Chadreca Faduco</strong>, explained that the visit aimed to gather experiences to improve the pedagogical practices of their institution, especially in the area of distance learning, in which UnISCED already has consolidated experience.</p>
@@ -690,16 +758,28 @@
             document.getElementById('foot-suporte').innerText = t.foot_suporte;
             document.getElementById('whatsapp-text').innerText = t.whatsapp_text;
             
+            // ALERTA NEWSLETTER
+            document.getElementById('alert-news-titulo').innerText = t.alert_titulo;
+            document.getElementById('alert-news-texto').innerText = t.alert_texto;
+            document.getElementById('alert-news-btn').innerText = t.alert_btn;
+            
+            // MODAIS
             textosModal.parceria.title = t.modal_parceria_title;
             textosModal.parceria.body = t.modal_parceria_body;
             textosModal.relacoes.title = t.modal_relacoes_title;
             textosModal.relacoes.body = t.modal_relacoes_body;
             
+            // TOAST (já está sendo usado pelo fecharAlerta)
+            // O objeto mensagemToast já foi definido acima
+            
             document.getElementById('btn-idioma').innerText = lang.toUpperCase();
             if(document.getElementById('btn-idioma-mobile')) document.getElementById('btn-idioma-mobile').innerText = lang.toUpperCase();
         }
         
-        function toggleLang() { lang = lang === 'pt' ? 'en' : 'pt'; updateLanguage(); }
+        function toggleLang() { 
+            lang = lang === 'pt' ? 'en' : 'pt'; 
+            updateLanguage(); 
+        }
         
         document.getElementById('btn-idioma')?.addEventListener('click', toggleLang);
         document.getElementById('btn-idioma-mobile')?.addEventListener('click', toggleLang);

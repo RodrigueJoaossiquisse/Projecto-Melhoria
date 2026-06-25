@@ -13,6 +13,9 @@
         font-family: "Inter", system-ui, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
 
       * {
@@ -26,6 +29,7 @@
         animation: liquidMove 15s ease infinite;
         transition: background 0.3s ease;
         will-change: background-position;
+        overflow-x: hidden;
       }
 
       body.dark {
@@ -57,6 +61,61 @@
         pointer-events: none;
         z-index: 0;
         will-change: transform;
+      }
+
+      /* LOADING SCREEN */
+      #loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #0a1628;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 99999;
+        transition: opacity 0.8s ease, visibility 0.8s ease;
+        opacity: 1;
+        visibility: visible;
+      }
+
+      #loading-screen.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      #loading-screen .spinner-big {
+        width: 60px;
+        height: 60px;
+        border: 4px solid rgba(255, 255, 255, 0.1);
+        border-top-color: #60a5fa;
+        border-radius: 50%;
+        animation: spinBig 0.8s linear infinite;
+      }
+
+      #loading-screen .loading-text {
+        color: white;
+        margin-top: 20px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        letter-spacing: 1px;
+        opacity: 0.8;
+      }
+
+      #loading-screen .loading-sub {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.85rem;
+        margin-top: 8px;
+        font-weight: 300;
+      }
+
+      @keyframes spinBig {
+        to {
+          transform: rotate(360deg);
+        }
       }
 
       .card-glass {
@@ -420,6 +479,7 @@
         }
       }
 
+      /* HERO VIDEO */
       .hero-video-wrapper {
         position: relative;
         width: 100%;
@@ -441,12 +501,12 @@
         height: 100%;
         object-fit: cover;
         z-index: 1;
-        opacity: 1;
+        opacity: 0;
         transition: opacity 0.8s ease;
       }
 
-      .hero-video-wrapper .fallback-image.hidden {
-        opacity: 0;
+      .hero-video-wrapper .fallback-image.visible {
+        opacity: 1;
       }
 
       .hero-video-wrapper .fallback-overlay {
@@ -469,12 +529,8 @@
         object-fit: cover;
         will-change: transform;
         z-index: 3;
-        opacity: 0;
-        transition: opacity 0.8s ease;
-      }
-
-      .hero-video-wrapper video.visible {
         opacity: 1;
+        background: #0a1628;
       }
 
       .hero-video-wrapper .hero-overlay {
@@ -678,67 +734,103 @@
         animation-delay: 0.40s;
       }
 
-      .avatar-emoji {
-        width: 48px;
-        height: 48px;
+      .avatar-img {
+        width: 60px;
+        height: 60px;
         border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.6rem;
+        object-fit: contain;
+        background: #f0f4ff;
         flex-shrink: 0;
+        border: 3px solid rgba(255, 255, 255, 0.8);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 2px;
+      }
+
+      .avatar-img.blue {
+        border-color: #3b82f6;
+      }
+      .avatar-img.green {
+        border-color: #10b981;
+      }
+      .avatar-img.pink {
+        border-color: #ec4899;
+      }
+      .avatar-img.orange {
+        border-color: #f59e0b;
+      }
+      .avatar-img.purple {
+        border-color: #8b5cf6;
+      }
+      .avatar-img.cyan {
+        border-color: #06b6d4;
+      }
+      .avatar-img.red {
+        border-color: #ef4444;
+      }
+      .avatar-img.indigo {
+        border-color: #4f46e5;
+      }
+      .avatar-img.teal {
+        border-color: #14b8a6;
+      }
+      .avatar-img.amber {
+        border-color: #f59e0b;
+      }
+      .avatar-img.rose {
+        border-color: #f43f5e;
+      }
+      .avatar-img.violet {
+        border-color: #7c3aed;
+      }
+      .avatar-img.emerald {
+        border-color: #059669;
+      }
+
+      .badge-new {
         background: linear-gradient(135deg, #3b82f6, #8b5cf6);
         color: white;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        font-size: 0.6rem;
+        font-weight: 700;
+        padding: 2px 10px;
+        border-radius: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        animation: pulse-badge 2s ease-in-out infinite;
       }
 
-      .avatar-emoji.green {
-        background: linear-gradient(135deg, #10b981, #34d399);
-      }
-      .avatar-emoji.pink {
-        background: linear-gradient(135deg, #ec4899, #f472b6);
-      }
-      .avatar-emoji.orange {
-        background: linear-gradient(135deg, #f59e0b, #fbbf24);
-      }
-      .avatar-emoji.purple {
-        background: linear-gradient(135deg, #8b5cf6, #a78bfa);
-      }
-      .avatar-emoji.cyan {
-        background: linear-gradient(135deg, #06b6d4, #22d3ee);
-      }
-      .avatar-emoji.red {
-        background: linear-gradient(135deg, #ef4444, #f87171);
-      }
-      .avatar-emoji.indigo {
-        background: linear-gradient(135deg, #4f46e5, #818cf8);
-      }
-      .avatar-emoji.teal {
-        background: linear-gradient(135deg, #14b8a6, #2dd4bf);
-      }
-      .avatar-emoji.amber {
-        background: linear-gradient(135deg, #f59e0b, #fbbf24);
-      }
-      .avatar-emoji.rose {
-        background: linear-gradient(135deg, #f43f5e, #fb7185);
-      }
-      .avatar-emoji.violet {
-        background: linear-gradient(135deg, #7c3aed, #a78bfa);
-      }
-      .avatar-emoji.emerald {
-        background: linear-gradient(135deg, #059669, #34d399);
+      .badge-destaque {
+        background: linear-gradient(135deg, #f59e0b, #f97316);
+        color: white;
+        font-size: 0.6rem;
+        font-weight: 700;
+        padding: 2px 10px;
+        border-radius: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        animation: pulse-badge 2s ease-in-out infinite;
       }
 
-      .star-filled {
-        color: #f59e0b;
+      @keyframes pulse-badge {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.6;
+        }
       }
 
-      .star-empty {
-        color: #d1d5db;
-      }
-
-      body.dark .star-empty {
-        color: #4b5563;
+      .lab-badge {
+        display: inline-block;
+        background: rgba(37, 99, 235, 0.8);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        color: white;
+        font-size: 0.7rem;
+        padding: 0.25rem 0.8rem;
+        border-radius: 50px;
+        font-weight: 500;
+        letter-spacing: 0.3px;
       }
 
       .custom-alert {
@@ -812,83 +904,16 @@
           font-size: 0.85rem;
         }
       }
-
-      .badge-new {
-        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-        color: white;
-        font-size: 0.6rem;
-        font-weight: 700;
-        padding: 2px 10px;
-        border-radius: 20px;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        animation: pulse-badge 2s ease-in-out infinite;
-      }
-
-      @keyframes pulse-badge {
-        0%,
-        100% {
-          opacity: 1;
-        }
-        50% {
-          opacity: 0.6;
-        }
-      }
-
-      .video-loading-indicator {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 4;
-        color: white;
-        font-size: 0.9rem;
-        font-weight: 500;
-        letter-spacing: 0.5px;
-        opacity: 0;
-        transition: opacity 0.4s ease;
-        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 12px;
-      }
-
-      .video-loading-indicator.show {
-        opacity: 1;
-      }
-
-      .video-loading-indicator .spinner-small {
-        width: 36px;
-        height: 36px;
-        border: 3px solid rgba(255, 255, 255, 0.1);
-        border-top-color: #60a5fa;
-        border-radius: 50%;
-        animation: spinSmall 0.8s linear infinite;
-      }
-
-      @keyframes spinSmall {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-
-      /* Estilo para o badge do laboratório */
-      .lab-badge {
-        display: inline-block;
-        background: rgba(37, 99, 235, 0.8);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        color: white;
-        font-size: 0.7rem;
-        padding: 0.25rem 0.8rem;
-        border-radius: 50px;
-        font-weight: 500;
-        letter-spacing: 0.3px;
-      }
     </style>
   </head>
   <body>
+    <!-- LOADING SCREEN -->
+    <div id="loading-screen">
+      <div class="spinner-big"></div>
+      <div class="loading-text">Carregando Centro de Recursos...</div>
+      <div class="loading-sub">Aguarde, o vídeo está sendo preparado</div>
+    </div>
+
     <!-- ALERT PERSONALIZADO -->
     <div id="customAlert" class="custom-alert">
       <div class="alert-icon" id="alertIcon">🎉</div>
@@ -924,17 +949,8 @@
       <img src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Recepcao%20uniced.jpg?raw=true" alt="Centro de Recursos UnISCED" class="fallback-image" id="fallbackImage" />
       <div class="fallback-overlay"></div>
 
-      <div class="video-loading-indicator" id="videoLoadingIndicator">
-        <div class="spinner-small"></div>
-        <span>Carregando vídeo...</span>
-      </div>
+      <video id="heroVideo" muted loop playsinline preload="auto"></video>
 
-      <video id="heroVideo" muted loop playsinline preload="auto">
-        <source src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Novo%20Video.mp4?raw=true" type="video/mp4" />
-        Seu navegador não suporta vídeo.
-      </video>
-
-      <!-- BADGE TRADUZÍVEL -->
       <div class="hero-badge" id="heroBadge">
         <i class="fa-solid fa-play mr-1"></i>
         <span id="badge-texto">Sempre disponível</span>
@@ -948,7 +964,7 @@
 
     <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 relative z-10 main-content" id="main-content">
 
-      <!-- SALA DE INFORMÁTICA - TODOS OS TEXTOS TRADUZÍVEIS -->
+      <!-- SALA DE INFORMÁTICA -->
       <div class="reveal mb-8 rounded-2xl overflow-hidden shadow-xl relative">
         <img src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Sala%20de%20informatica.jpg?raw=true" alt="Sala de informática moderna" class="w-full h-[20rem] md:h-[26rem] object-cover" />
         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-6">
@@ -1157,100 +1173,394 @@
 
     <script>
       // ============================================================
-      // 0. VÍDEO
+      // 0. VÍDEO - VERSÃO LEVE (560KB) COM FETCH E CACHE
       // ============================================================
       (function() {
         const video = document.getElementById('heroVideo');
+        const loadingScreen = document.getElementById('loading-screen');
         const fallback = document.getElementById('fallbackImage');
-        const loadingIndicator = document.getElementById('videoLoadingIndicator');
-        let playAttempts = 0;
+        
         let videoStarted = false;
-        let playInterval = null;
+        let fallbackShown = false;
+        let attempts = 0;
+        const maxAttempts = 15; // Menos tentativas porque o vídeo é leve
+        let retryInterval = null;
+        let loadTimeout = null;
 
-        if (loadingIndicator) loadingIndicator.classList.add('show');
+        // URL do vídeo leve
+        const videoUrl = 'https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Video%20leve.mp4?raw=true';
 
-        function tryPlay() {
+        function showFallback() {
+          if (fallbackShown) return;
+          fallbackShown = true;
+          if (fallback) {
+            fallback.classList.add('visible');
+          }
+          setTimeout(() => {
+            if (loadingScreen) {
+              loadingScreen.classList.add('hidden');
+            }
+          }, 300);
+        }
+
+        function hideLoading() {
+          if (loadingScreen) {
+            loadingScreen.classList.add('hidden');
+          }
+        }
+
+        function startVideo() {
           if (videoStarted) return;
-          playAttempts++;
-          if (!video) return;
+          
           const promise = video.play();
           if (promise !== undefined) {
             promise.then(() => {
               videoStarted = true;
-              if (playInterval) { clearInterval(playInterval);
-                playInterval = null; }
-              if (fallback) fallback.classList.add('hidden');
-              if (loadingIndicator) loadingIndicator.classList.remove('show');
-              video.classList.add('visible');
+              if (retryInterval) {
+                clearInterval(retryInterval);
+                retryInterval = null;
+              }
+              if (loadTimeout) {
+                clearTimeout(loadTimeout);
+                loadTimeout = null;
+              }
+              hideLoading();
+              if (fallback) {
+                fallback.classList.remove('visible');
+              }
+              fallbackShown = false;
             }).catch(() => {
-              if (playAttempts > 10 && !videoStarted) {
-                video.load();
-                playAttempts = 0;
+              if (!fallbackShown && attempts > 2) {
+                showFallback();
+              }
+              attempts++;
+              if (attempts > maxAttempts) {
+                showFallback();
+                if (retryInterval) {
+                  clearInterval(retryInterval);
+                  retryInterval = null;
+                }
               }
             });
           }
         }
 
-        playInterval = setInterval(tryPlay, 100);
-        video.addEventListener('canplaythrough', function() { if (!videoStarted) tryPlay(); });
-        video.addEventListener('loadeddata', function() { if (!videoStarted) tryPlay(); });
-        video.addEventListener('error', function() { if (!videoStarted) { video.load(); } });
+        // Carrega o vídeo com fetch e cache
+        async function loadVideoWithCache() {
+          try {
+            if (loadingScreen) {
+              loadingScreen.classList.remove('hidden');
+            }
 
-        setTimeout(() => {
-          if (!videoStarted) {
+            // Tenta carregar com fetch
+            const response = await fetch(videoUrl, {
+              cache: 'force-cache',
+              headers: {
+                'Range': 'bytes=0-'
+              }
+            });
+
+            if (!response.ok) {
+              throw new Error('Falha ao carregar vídeo');
+            }
+
+            const blob = await response.blob();
+            const blobUrl = URL.createObjectURL(blob);
+            
+            video.src = blobUrl;
             video.load();
-            for (let i = 0; i < 20; i++) { setTimeout(tryPlay, i * 100); }
-          }
-        }, 5000);
 
+            // Eventos para iniciar
+            video.addEventListener('loadeddata', function onLoaded() {
+              startVideo();
+              video.removeEventListener('loadeddata', onLoaded);
+            });
+
+            video.addEventListener('canplaythrough', function onCanPlay() {
+              startVideo();
+              video.removeEventListener('canplaythrough', onCanPlay);
+            });
+
+            // Se o vídeo já estiver carregado
+            if (video.readyState >= 3) {
+              startVideo();
+            }
+
+            // Fallback: se não carregar em 2 segundos (vídeo leve)
+            loadTimeout = setTimeout(() => {
+              if (!videoStarted) {
+                showFallback();
+                // Tenta carregar diretamente
+                video.src = videoUrl;
+                video.load();
+                setTimeout(startVideo, 200);
+              }
+            }, 2000);
+
+          } catch (error) {
+            console.warn('Erro no fetch, usando fallback direto:', error);
+            // Fallback: carrega diretamente
+            video.src = videoUrl;
+            video.load();
+            
+            video.addEventListener('loadeddata', function onLoaded() {
+              startVideo();
+              video.removeEventListener('loadeddata', onLoaded);
+            });
+            
+            video.addEventListener('canplaythrough', function onCanPlay() {
+              startVideo();
+              video.removeEventListener('canplaythrough', onCanPlay);
+            });
+            
+            setTimeout(startVideo, 300);
+          }
+        }
+
+        // Evento de erro
+        video.addEventListener('error', function(e) {
+          console.warn('Erro no vídeo:', e);
+          if (!videoStarted) {
+            showFallback();
+            if (!video.src || video.src === '') {
+              video.src = videoUrl;
+              video.load();
+            }
+            setTimeout(startVideo, 500);
+          }
+        });
+
+        // Quando começar a tocar
+        video.addEventListener('playing', function() {
+          if (!videoStarted) {
+            videoStarted = true;
+            if (retryInterval) {
+              clearInterval(retryInterval);
+              retryInterval = null;
+            }
+            if (loadTimeout) {
+              clearTimeout(loadTimeout);
+              loadTimeout = null;
+            }
+            hideLoading();
+            if (fallback) {
+              fallback.classList.remove('visible');
+            }
+            fallbackShown = false;
+          }
+        });
+
+        // Loop infinito
+        video.addEventListener('ended', function() {
+          if (videoStarted) {
+            this.currentTime = 0;
+            this.play().catch(() => {});
+          }
+        });
+
+        // Retry a cada 300ms (mais rápido por ser leve)
+        retryInterval = setInterval(() => {
+          if (!videoStarted) {
+            startVideo();
+          } else if (retryInterval) {
+            clearInterval(retryInterval);
+            retryInterval = null;
+          }
+        }, 300);
+
+        // Fallback: se não começar em 3 segundos
         setTimeout(() => {
           if (!videoStarted) {
-            if (loadingIndicator) loadingIndicator.classList.remove('show');
-            if (fallback) fallback.classList.remove('hidden');
+            showFallback();
+            if (!video.src || video.src === '') {
+              video.src = videoUrl;
+              video.load();
+            }
+            startVideo();
           }
-        }, 8000);
+        }, 3000);
 
-        window.addEventListener('beforeunload', function() { if (playInterval) clearInterval(playInterval); });
+        // Inicia o carregamento
+        loadVideoWithCache();
+
+        // Limpeza
+        window.addEventListener('beforeunload', function() {
+          if (retryInterval) {
+            clearInterval(retryInterval);
+            retryInterval = null;
+          }
+          if (loadTimeout) {
+            clearTimeout(loadTimeout);
+            loadTimeout = null;
+          }
+          if (video.src && video.src.startsWith('blob:')) {
+            URL.revokeObjectURL(video.src);
+          }
+        });
       })();
 
       // ============================================================
-      // 1. FEEDBACKS
+      // 1. FEEDBACKS - COM CURSOS CORRETOS
       // ============================================================
+
+      const avatarUrls = [
+        'https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Islamico.png?raw=true',
+        'https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Jovem%20com%20pele%20branca%20com%20terno%20vere%20oliva.png?raw=true',
+        'https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Jovem%20com%20terno%20social.png?raw=true',
+        'https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Jovem%20latino%20com%20camisa%20social.png?raw=true',
+        'https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Jovem%20mulher%20pele%20branca%20casual.png?raw=true',
+        'https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Jovem%20negra%20com%20terno%20marfim.png?raw=true',
+        'https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Jovem%20negro%20com%20terno%20social.png?raw=true',
+        'https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Jovem%20negro%20com%20terno%20traspassado.png?raw=true',
+        'https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/jovem%20negro%20com%20dured%20e%20terno%20marrom%20escuro.png?raw=true',
+        'https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/latina.png?raw=true'
+      ];
+
       const feedbacksData = {
-        pt: [
-          { nome: "Ana Silva", emoji: "👩‍💻", curso: "Engenharia Informática", comentario: "O centro de recursos tem equipamentos incríveis! A internet é super rápida e o ambiente é muito acolhedor.", estrelas: 5, cor: "blue" },
-          { nome: "João Mendes", emoji: "👨‍🎓", curso: "Gestão de Empresas", comentario: "Excelente espaço para estudar e pesquisar. Os computadores são modernos e o suporte técnico é top!", estrelas: 5, cor: "green" },
-          { nome: "Maria Santos", emoji: "👩‍🏫", curso: "Ciências da Educação", comentario: "A biblioteca digital tem um acervo fantástico. Consigo acessar tudo que preciso para minhas pesquisas.", estrelas: 4, cor: "pink" },
-          { nome: "Carlos Ferreira", emoji: "👨‍💻", curso: "Sistemas de Informação", comentario: "Melhor centro de recursos que já visitei. Tecnologia de ponta e equipe muito atenciosa.", estrelas: 5, cor: "orange" },
-          { nome: "Patrícia Lima", emoji: "👩‍🔬", curso: "Biologia", comentario: "Adoro o ambiente colaborativo. Sempre encontro outros estudantes para trocar ideias e aprender juntos.", estrelas: 4, cor: "purple" },
-          { nome: "Ricardo Costa", emoji: "👨‍🏫", curso: "Matemática", comentario: "O suporte técnico é excelente! Sempre que preciso de ajuda, a equipe está pronta para auxiliar.", estrelas: 5, cor: "cyan" },
-          { nome: "Fernanda Dias", emoji: "👩‍🎨", curso: "Design Gráfico", comentario: "Os computadores têm configurações incríveis para design. O centro é um verdadeiro diferencial para nós alunos.", estrelas: 5, cor: "red" },
-          { nome: "Pedro Oliveira", emoji: "👨‍💻", curso: "Engenharia Civil", comentario: "Espaço moderno, bem equipado e com excelente infraestrutura. Recomendo a todos os alunos.", estrelas: 4, cor: "indigo" },
-          { nome: "Sofia Rodrigues", emoji: "👩‍⚕️", curso: "Enfermagem", comentario: "Acesso à internet de alta velocidade e muitos recursos digitais disponíveis. Perfeito para estudos!", estrelas: 5, cor: "teal" },
-          { nome: "Miguel Santos", emoji: "👨‍🎓", curso: "Economia", comentario: "O centro de recursos é um ponto de encontro essencial para nós alunos. Ambiente inspirador e produtivo.", estrelas: 4, cor: "amber" },
-          { nome: "Carla Vieira", emoji: "🧑‍🏫", curso: "Letras", comentario: "Os recursos digitais disponíveis são incríveis! Consegui fazer toda minha pesquisa sem sair do centro.", estrelas: 5, cor: "rose" },
-          { nome: "Rui Martins", emoji: "👨‍🔬", curso: "Engenharia Química", comentario: "Laboratórios bem equipados e ambiente muito profissional. Ótimo para desenvolver projetos.", estrelas: 5, cor: "violet" },
-          { nome: "Tânia Mendes", emoji: "👩‍💼", curso: "Administração", comentario: "Ótimo local para estudar em grupo. As salas são confortáveis e bem equipadas.", estrelas: 4, cor: "emerald" },
-          { nome: "André Gonçalves", emoji: "🧑‍💻", curso: "Ciência de Dados", comentario: "Os computadores são muito rápidos e a conexão estável. Perfeito para rodar meus algoritmos.", estrelas: 5, cor: "cyan" },
-          { nome: "Mariana Costa", emoji: "👩‍🎓", curso: "Psicologia", comentario: "Ambiente tranquilo e inspirador. Ótimo para leitura e concentração nos estudos.", estrelas: 4, cor: "pink" }
-        ],
-        en: [
-          { nome: "Ana Silva", emoji: "👩‍💻", curso: "Computer Engineering", comentario: "The resource center has amazing equipment! The internet is super fast and the environment is very welcoming.", estrelas: 5, cor: "blue" },
-          { nome: "João Mendes", emoji: "👨‍🎓", curso: "Business Management", comentario: "Great space to study and research. The computers are modern and the technical support is top-notch!", estrelas: 5, cor: "green" },
-          { nome: "Maria Santos", emoji: "👩‍🏫", curso: "Education Sciences", comentario: "The digital library has a fantastic collection. I can access everything I need for my research.", estrelas: 4, cor: "pink" },
-          { nome: "Carlos Ferreira", emoji: "👨‍💻", curso: "Information Systems", comentario: "Best resource center I've ever visited. Cutting-edge technology and very attentive staff.", estrelas: 5, cor: "orange" },
-          { nome: "Patrícia Lima", emoji: "👩‍🔬", curso: "Biology", comentario: "I love the collaborative environment. I always find other students to exchange ideas and learn together.", estrelas: 4, cor: "purple" },
-          { nome: "Ricardo Costa", emoji: "👨‍🏫", curso: "Mathematics", comentario: "Technical support is excellent! Whenever I need help, the team is ready to assist.", estrelas: 5, cor: "cyan" },
-          { nome: "Fernanda Dias", emoji: "👩‍🎨", curso: "Graphic Design", comentario: "The computers have incredible configurations for design. The center is a true differentiator for us students.", estrelas: 5, cor: "red" },
-          { nome: "Pedro Oliveira", emoji: "👨‍💻", curso: "Civil Engineering", comentario: "Modern space, well-equipped and with excellent infrastructure. I recommend it to all students.", estrelas: 4, cor: "indigo" },
-          { nome: "Sofia Rodrigues", emoji: "👩‍⚕️", curso: "Nursing", comentario: "High-speed internet access and many digital resources available. Perfect for studies!", estrelas: 5, cor: "teal" },
-          { nome: "Miguel Santos", emoji: "👨‍🎓", curso: "Economics", comentario: "The resource center is an essential meeting point for us students. Inspiring and productive environment.", estrelas: 4, cor: "amber" },
-          { nome: "Carla Vieira", emoji: "🧑‍🏫", curso: "Literature", comentario: "The digital resources available are incredible! I was able to do all my research without leaving the center.", estrelas: 5, cor: "rose" },
-          { nome: "Rui Martins", emoji: "👨‍🔬", curso: "Chemical Engineering", comentario: "Well-equipped labs and a very professional environment. Great for developing projects.", estrelas: 5, cor: "violet" },
-          { nome: "Tânia Mendes", emoji: "👩‍💼", curso: "Administration", comentario: "Great place for group study. The rooms are comfortable and well-equipped.", estrelas: 4, cor: "emerald" },
-          { nome: "André Gonçalves", emoji: "🧑‍💻", curso: "Data Science", comentario: "The computers are very fast and the connection is stable. Perfect for running my algorithms.", estrelas: 5, cor: "cyan" },
-          { nome: "Mariana Costa", emoji: "👩‍🎓", curso: "Psychology", comentario: "Peaceful and inspiring environment. Great for reading and concentration in studies.", estrelas: 4, cor: "pink" }
-        ]
+        pt: [{
+          nome: "Rodrigues João Siquisse",
+          curso: "Engenharia Informática",
+          comentario: "⭐⭐⭐⭐⭐ O Centro de Recursos de Maputo é simplesmente fantástico! Como estudante de Engenharia Informática, encontrei aqui laboratórios com computadores de última geração, internet de alta velocidade e um ambiente super colaborativo. A equipe técnica está sempre disponível para ajudar, e a biblioteca digital tem recursos essenciais para minhas pesquisas e projetos. Recomendo a todos os estudantes da UnISCED! 🚀💻",
+          estrelas: 5,
+          cor: "blue",
+          avatarIndex: 7,
+          fixo: true
+        }, {
+          nome: "Abdul Rahim",
+          curso: "Gestão de Sistemas de Informação",
+          comentario: "Excelente infraestrutura para pesquisa. Os recursos digitais são muito úteis para meus estudos em Gestão de Sistemas de Informação.",
+          estrelas: 5,
+          cor: "blue",
+          avatarIndex: 0
+        }, {
+          nome: "Miguel Oliveira",
+          curso: "Gestão Ambiental",
+          comentario: "Espaço incrível e bem equipado. A conexão com a natureza nas áreas externas inspira meus estudos em Gestão Ambiental.",
+          estrelas: 5,
+          cor: "green",
+          avatarIndex: 1
+        }, {
+          nome: "André Santos",
+          curso: "Gestão de Empresas",
+          comentario: "Ótimo ambiente para estudar e pesquisar. A biblioteca tem materiais muito completos para minha graduação em Gestão de Empresas.",
+          estrelas: 4,
+          cor: "orange",
+          avatarIndex: 2
+        }, {
+          nome: "Carlos Garcia",
+          curso: "Comunicação Aplicada ao Jornalismo e Marketing",
+          comentario: "O centro tem estúdios multimídia incríveis! Perfeito para meus projetos em Comunicação e Marketing.",
+          estrelas: 5,
+          cor: "purple",
+          avatarIndex: 3
+        }, {
+          nome: "Sofia Lima",
+          curso: "Ensino de Biologia",
+          comentario: "Adoro o ambiente! Os recursos didáticos disponíveis são excelentes para minha formação em Ensino de Biologia. Laboratórios bem equipados!",
+          estrelas: 5,
+          cor: "pink",
+          avatarIndex: 4
+        }, {
+          nome: "Amina Correia",
+          curso: "Gestão de Sistemas de Informação",
+          comentario: "Excelentes softwares e infraestrutura disponíveis. O espaço é inspirador para criar projetos inovadores na área de Sistemas de Informação.",
+          estrelas: 5,
+          cor: "emerald",
+          avatarIndex: 5
+        }, {
+          nome: "Rafael Mendes",
+          curso: "Contabilidade e Auditoria",
+          comentario: "Recursos fantásticos para análise de dados financeiros. A internet de alta velocidade é essencial para meu trabalho.",
+          estrelas: 4,
+          cor: "indigo",
+          avatarIndex: 6
+        }, {
+          nome: "Djaló Ferreira",
+          curso: "Exploração Florestal e Processamento de Madeira",
+          comentario: "O centro tem recursos incríveis para pesquisas na área florestal. Ambiente muito profissional e acolhedor.",
+          estrelas: 5,
+          cor: "rose",
+          avatarIndex: 8
+        }, {
+          nome: "Valentina Ruiz",
+          curso: "Gestão de Turismo",
+          comentario: "A infraestrutura do centro é excelente para pesquisas na área de turismo. Ótimo espaço para estudos em grupo.",
+          estrelas: 5,
+          cor: "violet",
+          avatarIndex: 9
+        }],
+        en: [{
+          nome: "Rodrigues João Siquisse",
+          curso: "Computer Engineering",
+          comentario: "⭐⭐⭐⭐⭐ The Maputo Resource Center is simply fantastic! As a Computer Engineering student, I found here state-of-the-art computer labs, high-speed internet and a super collaborative environment. The technical team is always available to help, and the digital library has essential resources for my research and projects. I recommend it to all UnISCED students! 🚀💻",
+          estrelas: 5,
+          cor: "blue",
+          avatarIndex: 7,
+          fixo: true
+        }, {
+          nome: "Abdul Rahim",
+          curso: "Information Systems Management",
+          comentario: "Excellent infrastructure for research. The digital resources are very useful for my Information Systems Management studies.",
+          estrelas: 5,
+          cor: "blue",
+          avatarIndex: 0
+        }, {
+          nome: "Miguel Oliveira",
+          curso: "Environmental Management",
+          comentario: "Amazing and well-equipped space. The connection with nature in the outdoor areas inspires my Environmental Management studies.",
+          estrelas: 5,
+          cor: "green",
+          avatarIndex: 1
+        }, {
+          nome: "André Santos",
+          curso: "Business Management",
+          comentario: "Great environment for studying and researching. The library has very complete materials for my Business Management degree.",
+          estrelas: 4,
+          cor: "orange",
+          avatarIndex: 2
+        }, {
+          nome: "Carlos Garcia",
+          curso: "Applied Communication to Journalism and Marketing",
+          comentario: "The center has incredible multimedia studios! Perfect for my Communication and Marketing projects.",
+          estrelas: 5,
+          cor: "purple",
+          avatarIndex: 3
+        }, {
+          nome: "Sofia Lima",
+          curso: "Biology Teaching",
+          comentario: "I love the environment! The teaching resources available are excellent for my Biology Teaching degree. Well-equipped labs!",
+          estrelas: 5,
+          cor: "pink",
+          avatarIndex: 4
+        }, {
+          nome: "Amina Correia",
+          curso: "Information Systems Management",
+          comentario: "Excellent software and infrastructure available. The space is inspiring for creating innovative projects in Information Systems.",
+          estrelas: 5,
+          cor: "emerald",
+          avatarIndex: 5
+        }, {
+          nome: "Rafael Mendes",
+          curso: "Accounting and Auditing",
+          comentario: "Fantastic resources for financial data analysis. High-speed internet is essential for my work.",
+          estrelas: 4,
+          cor: "indigo",
+          avatarIndex: 6
+        }, {
+          nome: "Djaló Ferreira",
+          curso: "Forest Exploitation and Wood Processing",
+          comentario: "The center has incredible resources for forestry research. Very professional and welcoming environment.",
+          estrelas: 5,
+          cor: "rose",
+          avatarIndex: 8
+        }, {
+          nome: "Valentina Ruiz",
+          curso: "Tourism Management",
+          comentario: "The center's infrastructure is excellent for tourism research. Great space for group studies.",
+          estrelas: 5,
+          cor: "violet",
+          avatarIndex: 9
+        }]
       };
 
       let lang = "pt";
@@ -1266,8 +1576,11 @@
       }
 
       function getRandomFeedbacks(data, count = 8) {
-        const shuffled = shuffleArray([...data]);
-        return shuffled.slice(0, count);
+        const fixedItem = data.find(item => item.fixo === true);
+        const otherItems = data.filter(item => item.fixo !== true);
+        const shuffled = shuffleArray([...otherItems]);
+        const selected = shuffled.slice(0, count - 1);
+        return fixedItem ? [fixedItem, ...selected] : selected;
       }
 
       function renderFeedbacks(langCode) {
@@ -1281,12 +1594,15 @@
           const starFull = '★'.repeat(fb.estrelas);
           const starEmpty = '☆'.repeat(5 - fb.estrelas);
           const corClass = fb.cor || 'blue';
+          const avatarUrl = avatarUrls[fb.avatarIndex] || avatarUrls[0];
+          const isFixed = fb.fixo === true;
           card.innerHTML = `
             <div class="flex items-start gap-3">
-              <div class="avatar-emoji ${corClass}">${fb.emoji}</div>
+              <img src="${avatarUrl}" alt="${fb.nome}" class="avatar-img ${corClass}" loading="lazy" />
               <div class="flex-1 min-w-0">
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 flex-wrap">
                   <div class="font-bold text-gray-800 text-sm">${fb.nome}</div>
+                  ${isFixed ? '<span class="badge-destaque">⭐ Destaque</span>' : ''}
                 </div>
                 <div class="text-xs text-gray-500">${fb.curso}</div>
                 <div class="text-sm text-yellow-500 mt-1">${starFull}${starEmpty}</div>
@@ -1298,7 +1614,7 @@
         });
       }
 
-      function addNewFeedback(nome, curso, comentario, estrelas, emoji) {
+      function addNewFeedback(nome, curso, comentario, estrelas) {
         const container = document.getElementById('feedbacks-container');
         const card = document.createElement('div');
         card.className = 'feedback-card p-5 rounded-xl border border-white/50 shadow-sm card-glass';
@@ -1306,9 +1622,10 @@
         const starEmpty = '☆'.repeat(5 - estrelas);
         const cores = ['blue', 'green', 'pink', 'orange', 'purple', 'cyan', 'red', 'indigo', 'teal', 'amber', 'rose', 'violet', 'emerald'];
         const corClass = cores[Math.floor(Math.random() * cores.length)];
+        const avatarUrl = avatarUrls[Math.floor(Math.random() * avatarUrls.length)];
         card.innerHTML = `
           <div class="flex items-start gap-3">
-            <div class="avatar-emoji ${corClass}">${emoji || '👤'}</div>
+            <img src="${avatarUrl}" alt="${nome}" class="avatar-img ${corClass}" loading="lazy" />
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-2">
                 <div class="font-bold text-gray-800 text-sm">${nome}</div>
@@ -1320,10 +1637,18 @@
             </div>
           </div>
         `;
-        container.insertBefore(card, container.firstChild);
+        const firstChild = container.firstChild;
+        if (firstChild) {
+          container.insertBefore(card, firstChild.nextSibling);
+        } else {
+          container.appendChild(card);
+        }
         setTimeout(() => { const badge = card.querySelector('.badge-new'); if (badge) badge.remove(); }, 5000);
       }
 
+      // ============================================================
+      // 2. SISTEMA DE ESTRELAS
+      // ============================================================
       document.querySelectorAll('.star-select').forEach(el => {
         el.addEventListener('click', function() {
           const val = parseInt(this.dataset.value);
@@ -1355,6 +1680,9 @@
         star.style.color = index < 5 ? '#f59e0b' : '#d1d5db';
       });
 
+      // ============================================================
+      // 3. ALERTA PERSONALIZADO
+      // ============================================================
       let alertTimeout = null;
 
       function showCustomAlert(icon, title, message, isSuccess = true) {
@@ -1372,6 +1700,9 @@
         alertTimeout = setTimeout(() => { alertEl.classList.remove('show'); }, 4000);
       }
 
+      // ============================================================
+      // 4. FORMULÁRIO DE FEEDBACK
+      // ============================================================
       document.getElementById('feedback-form').addEventListener('submit', function(e) {
         e.preventDefault();
         const nome = document.getElementById('input-nome').value.trim();
@@ -1389,11 +1720,9 @@
         setTimeout(() => {
           btn.innerHTML = originalText;
           btn.disabled = false;
-          const emojis = ['👤', '😊', '🌟', '🎓', '📚', '💡', '🚀', '✨', '👋', '😄'];
-          const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
           const cursos = ['Estudante', 'Aluno', 'Bolsista', 'Pesquisador', 'Monitor'];
           const cursoAleatorio = cursos[Math.floor(Math.random() * cursos.length)];
-          addNewFeedback(nome, cursoAleatorio, comentario, estrelas, randomEmoji);
+          addNewFeedback(nome, cursoAleatorio, comentario, estrelas);
           showCustomAlert('🎉', 'Feedback enviado!', 'Seu comentário apareceu na lista acima!');
           document.getElementById('input-nome').value = '';
           document.getElementById('input-email').value = '';
@@ -1407,7 +1736,9 @@
         }, 1500);
       });
 
-      // ===== NAVBAR SCROLL =====
+      // ============================================================
+      // 5. NAVBAR SCROLL
+      // ============================================================
       const navbar = document.getElementById('navbar');
       window.addEventListener('scroll', () => {
         if (window.scrollY > 100) {
@@ -1417,7 +1748,9 @@
         }
       });
 
-      // ===== BOTÃO VOLTAR AO TOPO =====
+      // ============================================================
+      // 6. BOTÃO VOLTAR AO TOPO
+      // ============================================================
       const btnTop = document.getElementById('btn-top');
       window.addEventListener('scroll', () => {
         if (window.scrollY > 300) {
@@ -1427,7 +1760,9 @@
         }
       });
 
-      // ===== LEITOR =====
+      // ============================================================
+      // 7. LEITOR DE TELA
+      // ============================================================
       let speechSynthesisUtterance = null;
       let isSpeaking = false;
       const readButton = document.getElementById("accessibility-reader-btn");
@@ -1506,7 +1841,9 @@
       if (readButton) readButton.addEventListener("click", readMainContent);
       window.addEventListener("beforeunload", () => { if (window.speechSynthesis) window.speechSynthesis.cancel(); });
 
-      // ===== DARK MODE =====
+      // ============================================================
+      // 8. DARK MODE
+      // ============================================================
       let dark = false;
 
       function toggleTheme() {
@@ -1518,7 +1855,9 @@
       }
       document.getElementById("theme-toggle")?.addEventListener("click", toggleTheme);
 
-      // ===== SCROLL =====
+      // ============================================================
+      // 9. SCROLL DA NAVBAR
+      // ============================================================
       let lastScroll = 0;
       window.addEventListener("scroll", () => {
         const nav = document.getElementById("nav-container");
@@ -1530,7 +1869,9 @@
         lastScroll = scrollY;
       });
 
-      // ===== REVEAL =====
+      // ============================================================
+      // 10. REVEAL
+      // ============================================================
       const reveals = document.querySelectorAll(".reveal");
 
       function checkReveal() {
@@ -1542,7 +1883,9 @@
       window.addEventListener("load", checkReveal);
       window.addEventListener("scroll", checkReveal);
 
-      // ===== TRADUÇÃO COMPLETA =====
+      // ============================================================
+      // 11. TRADUÇÃO
+      // ============================================================
       const transl = {
         pt: {
           inicio: "Início",
@@ -1694,6 +2037,9 @@
 
       document.getElementById("btn-idioma").addEventListener("click", toggleLanguage);
 
+      // ============================================================
+      // 12. INICIALIZAÇÃO
+      // ============================================================
       renderFeedbacks('pt');
       updateLanguage('pt');
     </script>
