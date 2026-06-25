@@ -63,61 +63,6 @@
         will-change: transform;
       }
 
-      /* LOADING SCREEN */
-      #loading-screen {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: #0a1628;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        z-index: 99999;
-        transition: opacity 0.8s ease, visibility 0.8s ease;
-        opacity: 1;
-        visibility: visible;
-      }
-
-      #loading-screen.hidden {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-      }
-
-      #loading-screen .spinner-big {
-        width: 60px;
-        height: 60px;
-        border: 4px solid rgba(255, 255, 255, 0.1);
-        border-top-color: #60a5fa;
-        border-radius: 50%;
-        animation: spinBig 0.8s linear infinite;
-      }
-
-      #loading-screen .loading-text {
-        color: white;
-        margin-top: 20px;
-        font-size: 1.1rem;
-        font-weight: 500;
-        letter-spacing: 1px;
-        opacity: 0.8;
-      }
-
-      #loading-screen .loading-sub {
-        color: rgba(255, 255, 255, 0.5);
-        font-size: 0.85rem;
-        margin-top: 8px;
-        font-weight: 300;
-      }
-
-      @keyframes spinBig {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-
       .card-glass {
         background: rgba(255, 255, 255, 0.72) !important;
         backdrop-filter: blur(16px) saturate(180%);
@@ -491,9 +436,10 @@
         border-radius: 0;
         will-change: transform;
         background: #0a1628;
+        cursor: pointer;
       }
 
-      .hero-video-wrapper .fallback-image {
+      .hero-video-wrapper .poster-image {
         position: absolute;
         top: 0;
         left: 0;
@@ -501,15 +447,15 @@
         height: 100%;
         object-fit: cover;
         z-index: 1;
-        opacity: 0;
+        opacity: 1;
         transition: opacity 0.8s ease;
       }
 
-      .hero-video-wrapper .fallback-image.visible {
-        opacity: 1;
+      .hero-video-wrapper .poster-image.hidden {
+        opacity: 0;
       }
 
-      .hero-video-wrapper .fallback-overlay {
+      .hero-video-wrapper .overlay-dark {
         position: absolute;
         top: 0;
         left: 0;
@@ -517,6 +463,12 @@
         height: 100%;
         background: rgba(0, 0, 0, 0.4);
         z-index: 2;
+        transition: opacity 0.6s ease;
+      }
+
+      .hero-video-wrapper .overlay-dark.hidden {
+        opacity: 0;
+        pointer-events: none;
       }
 
       .hero-video-wrapper video {
@@ -533,6 +485,104 @@
         background: #0a1628;
       }
 
+      /* BOTÃO DE PLAY ESTILOSO */
+      .play-button {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(16px) saturate(180%);
+        -webkit-backdrop-filter: blur(16px) saturate(180%);
+        border: 2px solid rgba(255, 255, 255, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        animation: pulsePlay 2.5s ease-in-out infinite;
+        box-shadow: 0 0 40px rgba(59, 130, 246, 0.2), inset 0 0 40px rgba(59, 130, 246, 0.05);
+        pointer-events: auto !important;
+      }
+
+      .play-button::before {
+        content: '';
+        position: absolute;
+        inset: -4px;
+        border-radius: 50%;
+        padding: 3px;
+        background: linear-gradient(135deg, rgba(96, 165, 250, 0.3), rgba(34, 211, 238, 0.3));
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+      }
+
+      .play-button:hover {
+        transform: translate(-50%, -50%) scale(1.15);
+        box-shadow: 0 0 60px rgba(59, 130, 246, 0.4), inset 0 0 60px rgba(59, 130, 246, 0.1);
+        border-color: rgba(96, 165, 250, 0.5);
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      .play-button:active {
+        transform: translate(-50%, -50%) scale(0.92);
+      }
+
+      .play-button .fa-play {
+        font-size: 2.8rem;
+        color: white;
+        margin-left: 10px;
+        filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.3));
+        transition: all 0.3s ease;
+      }
+
+      .play-button:hover .fa-play {
+        filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.5));
+        transform: scale(1.05);
+      }
+
+      .play-button .play-text {
+        position: absolute;
+        bottom: -45px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.85rem;
+        font-weight: 500;
+        letter-spacing: 1px;
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+        white-space: nowrap;
+        opacity: 0.8;
+        transition: opacity 0.3s ease;
+      }
+
+      .play-button:hover .play-text {
+        opacity: 1;
+      }
+
+      .play-button.hidden {
+        opacity: 0;
+        pointer-events: none !important;
+        transform: translate(-50%, -50%) scale(0.8);
+      }
+
+      @keyframes pulsePlay {
+        0%,
+        100% {
+          transform: translate(-50%, -50%) scale(1);
+          box-shadow: 0 0 40px rgba(59, 130, 246, 0.2), inset 0 0 40px rgba(59, 130, 246, 0.05);
+        }
+        50% {
+          transform: translate(-50%, -50%) scale(1.06);
+          box-shadow: 0 0 60px rgba(59, 130, 246, 0.35), inset 0 0 50px rgba(59, 130, 246, 0.08);
+        }
+      }
+
       .hero-video-wrapper .hero-overlay {
         position: absolute;
         bottom: 0;
@@ -542,6 +592,7 @@
         background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
         color: white;
         z-index: 5;
+        pointer-events: none;
       }
 
       .hero-video-wrapper .hero-overlay h1 {
@@ -587,6 +638,7 @@
         letter-spacing: 0.4px;
         animation: badgePulse 3s ease-in-out infinite;
         will-change: transform, box-shadow;
+        pointer-events: none;
       }
 
       @keyframes badgePulse {
@@ -617,6 +669,18 @@
           font-size: 0.7rem;
           padding: 0.4rem 0.8rem;
         }
+        .play-button {
+          width: 75px;
+          height: 75px;
+        }
+        .play-button .fa-play {
+          font-size: 2rem;
+          margin-left: 6px;
+        }
+        .play-button .play-text {
+          font-size: 0.7rem;
+          bottom: -38px;
+        }
       }
 
       @media (max-width: 480px) {
@@ -629,6 +693,18 @@
         }
         .hero-video-wrapper .hero-overlay p {
           font-size: 0.85rem;
+        }
+        .play-button {
+          width: 60px;
+          height: 60px;
+        }
+        .play-button .fa-play {
+          font-size: 1.6rem;
+          margin-left: 5px;
+        }
+        .play-button .play-text {
+          font-size: 0.6rem;
+          bottom: -32px;
         }
       }
 
@@ -907,13 +983,6 @@
     </style>
   </head>
   <body>
-    <!-- LOADING SCREEN -->
-    <div id="loading-screen">
-      <div class="spinner-big"></div>
-      <div class="loading-text">Carregando Centro de Recursos...</div>
-      <div class="loading-sub">Aguarde, o vídeo está sendo preparado</div>
-    </div>
-
     <!-- ALERT PERSONALIZADO -->
     <div id="customAlert" class="custom-alert">
       <div class="alert-icon" id="alertIcon">🎉</div>
@@ -946,10 +1015,19 @@
 
     <!-- HERO VIDEO -->
     <div class="hero-video-wrapper" id="heroVideoWrapper">
-      <img src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Recepcao%20uniced.jpg?raw=true" alt="Centro de Recursos UnISCED" class="fallback-image" id="fallbackImage" />
-      <div class="fallback-overlay"></div>
+      <img src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Recepcao%20uniced.jpg?raw=true" alt="Centro de Recursos UnISCED" class="poster-image" id="posterImage" />
+      <div class="overlay-dark" id="overlayDark"></div>
 
-      <video id="heroVideo" muted loop playsinline preload="auto"></video>
+      <video id="heroVideo" muted loop playsinline preload="auto">
+        <source src="https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/VID_20260625_145432.webm?raw=true" type="video/webm" />
+        Seu navegador não suporta vídeo.
+      </video>
+
+      <!-- BOTÃO DE PLAY ESTILOSO -->
+      <div class="play-button" id="playButton">
+        <i class="fa-solid fa-play"></i>
+        <span class="play-text">Assistir agora</span>
+      </div>
 
       <div class="hero-badge" id="heroBadge">
         <i class="fa-solid fa-play mr-1"></i>
@@ -1173,230 +1251,156 @@
 
     <script>
       // ============================================================
-      // 0. VÍDEO - VERSÃO LEVE (560KB) COM FETCH E CACHE
+      // 0. VÍDEO COM BOTÃO DE PLAY - CORRIGIDO (BUG DO RECARREGAMENTO)
       // ============================================================
       (function() {
         const video = document.getElementById('heroVideo');
-        const loadingScreen = document.getElementById('loading-screen');
-        const fallback = document.getElementById('fallbackImage');
-        
-        let videoStarted = false;
-        let fallbackShown = false;
-        let attempts = 0;
-        const maxAttempts = 15; // Menos tentativas porque o vídeo é leve
-        let retryInterval = null;
-        let loadTimeout = null;
+        const playButton = document.getElementById('playButton');
+        const posterImage = document.getElementById('posterImage');
+        const overlayDark = document.getElementById('overlayDark');
+        const wrapper = document.getElementById('heroVideoWrapper');
+        let isPlaying = false;
+        let isVideoReady = false;
+        let playAttempts = 0;
 
-        // URL do vídeo leve
-        const videoUrl = 'https://github.com/RodrigueJoaossiquisse/Imagens-do-Centro-de-Recusos/blob/main/Video%20leve.mp4?raw=true';
+        // FUNÇÃO PARA RESETAR O VÍDEO
+        function resetVideo() {
+          isPlaying = false;
+          isVideoReady = false;
+          playAttempts = 0;
+          
+          // Mostra o botão e o overlay
+          playButton.classList.remove('hidden');
+          playButton.style.display = 'flex';
+          playButton.style.pointerEvents = 'auto';
+          playButton.style.opacity = '1';
+          overlayDark.classList.remove('hidden');
+          
+          // Mostra o poster
+          posterImage.classList.remove('hidden');
+          
+          // Pausa e reseta o vídeo
+          video.pause();
+          video.currentTime = 0;
+          
+          // Recarrega o vídeo para limpar o cache
+          video.load();
+        }
 
-        function showFallback() {
-          if (fallbackShown) return;
-          fallbackShown = true;
-          if (fallback) {
-            fallback.classList.add('visible');
+        // FUNÇÃO PARA TOCAR O VÍDEO
+        function playVideo() {
+          if (isPlaying) {
+            return;
           }
-          setTimeout(() => {
-            if (loadingScreen) {
-              loadingScreen.classList.add('hidden');
+
+          // Se o vídeo não estiver pronto, tenta carregar
+          if (!isVideoReady) {
+            if (playAttempts < 10) {
+              playAttempts++;
+              video.load();
+              setTimeout(playVideo, 300);
             }
-          }, 300);
-        }
-
-        function hideLoading() {
-          if (loadingScreen) {
-            loadingScreen.classList.add('hidden');
+            return;
           }
-        }
-
-        function startVideo() {
-          if (videoStarted) return;
           
           const promise = video.play();
           if (promise !== undefined) {
             promise.then(() => {
-              videoStarted = true;
-              if (retryInterval) {
-                clearInterval(retryInterval);
-                retryInterval = null;
-              }
-              if (loadTimeout) {
-                clearTimeout(loadTimeout);
-                loadTimeout = null;
-              }
-              hideLoading();
-              if (fallback) {
-                fallback.classList.remove('visible');
-              }
-              fallbackShown = false;
-            }).catch(() => {
-              if (!fallbackShown && attempts > 2) {
-                showFallback();
-              }
-              attempts++;
-              if (attempts > maxAttempts) {
-                showFallback();
-                if (retryInterval) {
-                  clearInterval(retryInterval);
-                  retryInterval = null;
-                }
-              }
-            });
-          }
-        }
-
-        // Carrega o vídeo com fetch e cache
-        async function loadVideoWithCache() {
-          try {
-            if (loadingScreen) {
-              loadingScreen.classList.remove('hidden');
-            }
-
-            // Tenta carregar com fetch
-            const response = await fetch(videoUrl, {
-              cache: 'force-cache',
-              headers: {
-                'Range': 'bytes=0-'
-              }
-            });
-
-            if (!response.ok) {
-              throw new Error('Falha ao carregar vídeo');
-            }
-
-            const blob = await response.blob();
-            const blobUrl = URL.createObjectURL(blob);
-            
-            video.src = blobUrl;
-            video.load();
-
-            // Eventos para iniciar
-            video.addEventListener('loadeddata', function onLoaded() {
-              startVideo();
-              video.removeEventListener('loadeddata', onLoaded);
-            });
-
-            video.addEventListener('canplaythrough', function onCanPlay() {
-              startVideo();
-              video.removeEventListener('canplaythrough', onCanPlay);
-            });
-
-            // Se o vídeo já estiver carregado
-            if (video.readyState >= 3) {
-              startVideo();
-            }
-
-            // Fallback: se não carregar em 2 segundos (vídeo leve)
-            loadTimeout = setTimeout(() => {
-              if (!videoStarted) {
-                showFallback();
-                // Tenta carregar diretamente
-                video.src = videoUrl;
-                video.load();
-                setTimeout(startVideo, 200);
-              }
-            }, 2000);
-
-          } catch (error) {
-            console.warn('Erro no fetch, usando fallback direto:', error);
-            // Fallback: carrega diretamente
-            video.src = videoUrl;
-            video.load();
-            
-            video.addEventListener('loadeddata', function onLoaded() {
-              startVideo();
-              video.removeEventListener('loadeddata', onLoaded);
-            });
-            
-            video.addEventListener('canplaythrough', function onCanPlay() {
-              startVideo();
-              video.removeEventListener('canplaythrough', onCanPlay);
-            });
-            
-            setTimeout(startVideo, 300);
-          }
-        }
-
-        // Evento de erro
-        video.addEventListener('error', function(e) {
-          console.warn('Erro no vídeo:', e);
-          if (!videoStarted) {
-            showFallback();
-            if (!video.src || video.src === '') {
-              video.src = videoUrl;
+              isPlaying = true;
+              // Esconde o botão com animação
+              playButton.classList.add('hidden');
+              playButton.style.display = 'none';
+              overlayDark.classList.add('hidden');
+              setTimeout(() => {
+                posterImage.classList.add('hidden');
+              }, 800);
+            }).catch((error) => {
+              console.warn('Erro ao reproduzir:', error);
+              // Tenta recarregar o vídeo
               video.load();
+              setTimeout(playVideo, 500);
+            });
+          }
+        }
+
+        // INICIALIZA O VÍDEO (chamado a cada carregamento)
+        function initVideo() {
+          // Reseta tudo
+          resetVideo();
+          
+          // Aguarda o vídeo ficar pronto
+          video.addEventListener('canplaythrough', function onReady() {
+            isVideoReady = true;
+            playButton.style.pointerEvents = 'auto';
+            video.removeEventListener('canplaythrough', onReady);
+          });
+
+          // Se o vídeo já estiver pronto
+          if (video.readyState >= 3) {
+            isVideoReady = true;
+            playButton.style.pointerEvents = 'auto';
+          }
+
+          // Força o carregamento
+          video.load();
+        }
+
+        // EVENTO DE CLIQUE NO BOTÃO
+        playButton.addEventListener('click', function(e) {
+          e.stopPropagation();
+          e.preventDefault();
+          playVideo();
+        });
+
+        // EVENTO DE CLIQUE NO WRAPPER (clica no vídeo)
+        wrapper.addEventListener('click', function(e) {
+          // Se clicou no botão, não faz nada (já tratado acima)
+          if (e.target.closest('.play-button')) return;
+          
+          if (!isPlaying) {
+            playVideo();
+          } else {
+            // Toggle play/pause
+            if (video.paused) {
+              video.play().catch(() => {});
+            } else {
+              video.pause();
             }
-            setTimeout(startVideo, 500);
           }
         });
 
-        // Quando começar a tocar
+        // QUANDO O VÍDEO COMEÇAR A TOCAR (evento de segurança)
         video.addEventListener('playing', function() {
-          if (!videoStarted) {
-            videoStarted = true;
-            if (retryInterval) {
-              clearInterval(retryInterval);
-              retryInterval = null;
-            }
-            if (loadTimeout) {
-              clearTimeout(loadTimeout);
-              loadTimeout = null;
-            }
-            hideLoading();
-            if (fallback) {
-              fallback.classList.remove('visible');
-            }
-            fallbackShown = false;
+          if (!isPlaying) {
+            isPlaying = true;
+            playButton.classList.add('hidden');
+            playButton.style.display = 'none';
+            overlayDark.classList.add('hidden');
+            setTimeout(() => {
+              posterImage.classList.add('hidden');
+            }, 800);
           }
         });
 
-        // Loop infinito
+        // LOOP INFINITO
         video.addEventListener('ended', function() {
-          if (videoStarted) {
+          if (isPlaying) {
             this.currentTime = 0;
             this.play().catch(() => {});
           }
         });
 
-        // Retry a cada 300ms (mais rápido por ser leve)
-        retryInterval = setInterval(() => {
-          if (!videoStarted) {
-            startVideo();
-          } else if (retryInterval) {
-            clearInterval(retryInterval);
-            retryInterval = null;
-          }
-        }, 300);
-
-        // Fallback: se não começar em 3 segundos
-        setTimeout(() => {
-          if (!videoStarted) {
-            showFallback();
-            if (!video.src || video.src === '') {
-              video.src = videoUrl;
-              video.load();
-            }
-            startVideo();
-          }
-        }, 3000);
-
-        // Inicia o carregamento
-        loadVideoWithCache();
-
-        // Limpeza
+        // LIMPEZA ANTES DE FECHAR A PÁGINA
         window.addEventListener('beforeunload', function() {
-          if (retryInterval) {
-            clearInterval(retryInterval);
-            retryInterval = null;
-          }
-          if (loadTimeout) {
-            clearTimeout(loadTimeout);
-            loadTimeout = null;
-          }
-          if (video.src && video.src.startsWith('blob:')) {
-            URL.revokeObjectURL(video.src);
-          }
+          video.pause();
+          video.removeAttribute('src');
+          video.load();
         });
+
+        // INICIALIZA O VÍDEO
+        initVideo();
+
+        console.log('🎬 Vídeo carregado! Clique no botão para assistir.');
       })();
 
       // ============================================================
