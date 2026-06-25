@@ -1724,8 +1724,8 @@
           document.getElementById('campaign-skeleton').style.display = 'none';
           document.getElementById('courses-skeleton').style.display = 'none';
           
-          // Se já escolheu cookies antes, inicia contadores
-          if (sessionStorage.getItem('cookieChoice')) {
+          // Se já escolheu cookies antes (localStorage), inicia contadores
+          if (localStorage.getItem('cookieChoice')) {
             setTimeout(iniciarContadores, 4000);
           } else {
             setTimeout(showCookieBanner, 2500);
@@ -1918,7 +1918,8 @@
         typewriter(heroTitle, textoOriginal, 40);
         setTimeout(checkReveal, 300);
         
-        if (sessionStorage.getItem('cookieChoice')) {
+        // 🔥 VERIFICA O localStorage PARA COOKIES
+        if (localStorage.getItem('cookieChoice')) {
           setTimeout(iniciarContadores, 4000);
         } else {
           setTimeout(showCookieBanner, 2500);
@@ -2009,11 +2010,11 @@
       });
 
       // ============================================================
-      // 6. COOKIE
+      // 6. COOKIE - AGORA COM localStorage (NUNCA MAIS APARECE!)
       // ============================================================
       function aceitarCookies() {
         cookieInteragiu = true;
-        sessionStorage.setItem('cookieChoice', 'accepted');
+        localStorage.setItem('cookieChoice', 'accepted'); // 🔥 localStorage
         document.getElementById('cookie-banner').classList.remove('show');
         setTimeout(iniciarContadores, 4000);
         mostrarCookieAlert('aceitar');
@@ -2021,7 +2022,7 @@
 
       function personalizarCookies() {
         cookieInteragiu = true;
-        sessionStorage.setItem('cookieChoice', 'customized');
+        localStorage.setItem('cookieChoice', 'customized'); // 🔥 localStorage
         document.getElementById('cookie-banner').classList.remove('show');
         setTimeout(iniciarContadores, 4000);
         mostrarCookieAlert('personalizar');
@@ -2029,7 +2030,7 @@
 
       function recusarCookies() {
         cookieInteragiu = true;
-        sessionStorage.setItem('cookieChoice', 'declined');
+        localStorage.setItem('cookieChoice', 'declined'); // 🔥 localStorage
         document.getElementById('cookie-banner').classList.remove('show');
         setTimeout(iniciarContadores, 4000);
         mostrarCookieAlert('recusar');
@@ -2059,8 +2060,9 @@
         document.getElementById('cookie-alert-modal').classList.remove('open');
       }
 
+      // 🔥 SÓ MOSTRA O BANNER SE NUNCA ESCOLHEU ANTES (localStorage)
       function showCookieBanner() {
-        if (!cookieInteragiu && !sessionStorage.getItem('cookieChoice')) {
+        if (!cookieInteragiu && !localStorage.getItem('cookieChoice')) {
           document.getElementById('cookie-banner').classList.add('show');
         }
       }

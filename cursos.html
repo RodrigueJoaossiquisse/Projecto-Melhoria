@@ -8,51 +8,95 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { font-family: 'Inter', system-ui, sans-serif; }
+        * { font-family: 'Inter', system-ui, sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
         
-        /* FUNDO LÍQUIDO SUAVE */
+        /* ===== FUNDO LÍQUIDO SUPREMO ===== */
         body {
-            background: linear-gradient(-45deg, #e0f2fe, #fae8ff, #fef3c7, #d1fae5);
+            background: linear-gradient(-45deg, #dbeafe, #ede9fe, #fce7f3, #d1fae5, #fef3c7);
             background-size: 400% 400%;
-            animation: liquidMove 15s ease infinite;
-            transition: background 0.5s ease;
+            animation: liquidMove 18s ease infinite;
+            transition: background 0.8s ease;
+            min-height: 100vh;
+            position: relative;
         }
         
-        body.dark {
-            background: linear-gradient(-45deg, #1e293b, #0f172a, #1e1b4b, #0c4a6e);
-            background-size: 400% 400%;
-            animation: liquidMove 15s ease infinite;
-        }
-        
-        @keyframes liquidMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        /* Camada de vidro sobre o fundo */
         body::before {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 100%);
+            inset: 0;
+            background: 
+                radial-gradient(ellipse at 10% 20%, rgba(56, 189, 248, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 90% 80%, rgba(168, 85, 247, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(251, 191, 36, 0.05) 0%, transparent 60%);
             pointer-events: none;
             z-index: 0;
         }
         
-        /* Cards com vidro */
+        body.dark {
+            background: linear-gradient(-45deg, #0f172a, #1e1b4b, #0c4a6e, #1e293b, #0f172a);
+            background-size: 400% 400%;
+            animation: liquidMove 18s ease infinite;
+        }
+        
+        body.dark::before {
+            background: 
+                radial-gradient(ellipse at 10% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 90% 80%, rgba(168, 85, 247, 0.06) 0%, transparent 50%);
+        }
+        
+        @keyframes liquidMove {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 50% 0%; }
+            50% { background-position: 100% 50%; }
+            75% { background-position: 50% 100%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ===== PARTICULAS FLUTUANTES ===== */
+        .particle {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.4;
+            z-index: 0;
+            animation: floatParticle 20s ease-in-out infinite;
+        }
+        .particle:nth-child(1) { width: 300px; height: 300px; background: radial-gradient(circle, rgba(56,189,248,0.08), transparent); top: -10%; left: -5%; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 400px; height: 400px; background: radial-gradient(circle, rgba(168,85,247,0.06), transparent); bottom: -15%; right: -10%; animation-delay: -5s; }
+        .particle:nth-child(3) { width: 250px; height: 250px; background: radial-gradient(circle, rgba(251,191,36,0.05), transparent); top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -10s; }
+        
+        @keyframes floatParticle {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -40px) scale(1.1); }
+            50% { transform: translate(-20px, 20px) scale(0.9); }
+            75% { transform: translate(40px, 30px) scale(1.05); }
+        }
+
+        /* ===== CARDS GLASS PREMIUM ===== */
         .card-glass {
-            background: rgba(255, 255, 255, 0.85) !important;
-            backdrop-filter: blur(2px);
+            background: rgba(255, 255, 255, 0.75) !important;
+            backdrop-filter: blur(16px) saturate(1.4);
+            -webkit-backdrop-filter: blur(16px) saturate(1.4);
             border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .card-glass:hover {
+            transform: translateY(-10px) scale(1.01);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+            border-color: rgba(59, 130, 246, 0.3);
         }
         
         body.dark .card-glass {
-            background: rgba(30, 41, 59, 0.85) !important;
-            border-color: rgba(255, 255, 255, 0.1);
+            background: rgba(30, 41, 59, 0.7) !important;
+            border-color: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        body.dark .card-glass:hover {
+            border-color: rgba(59, 130, 246, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
         }
         
         body.dark .card-glass .text-gray-700,
@@ -61,15 +105,27 @@
             color: #e2e8f0 !important;
         }
         
-        /* Navbar glass */
+        body.dark .card-glass .text-gray-400 {
+            color: #94a3b8 !important;
+        }
+        
+        /* ===== NAVBAR GLASS ===== */
         #navbar {
             background: rgba(255, 255, 255, 0.7) !important;
-            backdrop-filter: blur(12px);
-            transition: all 0.3s ease;
+            backdrop-filter: blur(20px) saturate(1.4);
+            -webkit-backdrop-filter: blur(20px) saturate(1.4);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        #navbar:hover {
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
         }
         
         body.dark #navbar {
             background: rgba(15, 23, 42, 0.8) !important;
+            border-color: rgba(255, 255, 255, 0.06);
         }
         
         body.dark #navbar .text-gray-700,
@@ -77,16 +133,19 @@
             color: #cbd5e1 !important;
         }
         
-        /* Rodapé glass */
+        .nav-hidden { transform: translateY(-150%) scale(0.95); transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+        /* ===== RODAPÉ GLASS ===== */
         .footer-glass {
-            background: rgba(255, 255, 255, 0.75) !important;
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.6) !important;
+            backdrop-filter: blur(16px) saturate(1.4);
+            -webkit-backdrop-filter: blur(16px) saturate(1.4);
             border-top: 1px solid rgba(255, 255, 255, 0.4);
         }
         
         body.dark .footer-glass {
-            background: rgba(15, 23, 42, 0.8) !important;
-            border-top-color: rgba(255, 255, 255, 0.1);
+            background: rgba(15, 23, 42, 0.7) !important;
+            border-top-color: rgba(255, 255, 255, 0.06);
         }
         
         body.dark .footer-glass .text-gray-700,
@@ -98,282 +157,487 @@
         body.dark .footer-glass .text-blue-700 {
             color: #60a5fa !important;
         }
-        
-        /* Navbar hide */
-        .nav-hidden { transform: translateY(-120%); transition: transform 0.4s ease; }
-        
-        /* Efeito reveal */
-        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-        
-        /* Botão de tema */
-        .theme-btn { transition: all 0.2s ease; }
-        .theme-btn:hover { transform: scale(1.05) rotate(8deg); }
-        
-        /* Slider */
-        .slide { display: none; opacity: 0; transition: opacity 0.5s ease-in-out; }
-        .slide.active { display: block; opacity: 1; }
-        
-        /* Cards hover */
-        .course-card { transition: all 0.3s ease; }
-        .course-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -12px rgba(0,0,0,0.15); }
-        
-        /* WhatsApp */
-        .whatsapp-btn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .whatsapp-btn:hover { transform: scale(1.1); box-shadow: 0 10px 25px -5px rgba(34, 197, 94, 0.4); }
-        
-        /* Bolhas de água */
-        .nav-bubble { position: relative; overflow: visible; }
-        .nav-bubble .bubble-particle {
-            position: absolute;
-            background: radial-gradient(circle, rgba(56, 189, 248, 0.6), rgba(6, 182, 212, 0.3));
-            border-radius: 50%;
-            pointer-events: none;
+
+        /* ===== REVEAL ANIMATION ===== */
+        .reveal {
             opacity: 0;
-            transition: all 0.5s ease-out;
-            z-index: 2;
+            transform: translateY(40px) scale(0.98);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .nav-bubble:hover .bubble-particle { animation: floatBubble 1.2s ease-out forwards; }
-        @keyframes floatBubble {
-            0% { transform: scale(0) translate(0, 0); opacity: 0; }
-            20% { opacity: 0.6; }
-            100% { transform: scale(1.5) translate(var(--tx, 30px), var(--ty, -40px)); opacity: 0; }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
         }
-        .nav-liquid { position: relative; transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
-        .nav-liquid:hover { transform: translateY(-2px); }
-        .nav-liquid:hover .liquid-shine { opacity: 1; transform: translateX(100%); }
-        .liquid-shine {
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+        .reveal-delay-5 { transition-delay: 0.5s; }
+        .reveal-delay-6 { transition-delay: 0.6s; }
+
+        /* ===== THEME TOGGLE ===== */
+        .theme-btn {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .theme-btn:hover {
+            transform: scale(1.1) rotate(12deg);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ===== SLIDER PREMIUM ===== */
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+        
+        .slider-container {
+            position: relative;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+        
+        .slider-container .slide img {
+            transition: transform 8s ease;
+        }
+        .slider-container .slide.active img {
+            transform: scale(1.05);
+        }
+        
+        .slider-gradient {
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+        }
+        
+        .slider-btn {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        .slider-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .slide-dot {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .slide-dot.active {
+            background: white !important;
+            transform: scale(1.3);
+            box-shadow: 0 0 20px rgba(255,255,255,0.3);
+        }
+
+        /* ===== COURSE CARD ===== */
+        .course-card {
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .course-card:hover::before {
+            opacity: 1;
+        }
+        .course-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+        }
+        .course-card img {
+            transition: transform 0.8s ease;
+        }
+        .course-card:hover img {
+            transform: scale(1.06);
+        }
+
+        /* ===== BADGE GLOW ===== */
+        .badge-glow {
+            position: relative;
+            overflow: visible;
+        }
+        .badge-glow::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 9999px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+        .badge-glow:hover::after {
+            opacity: 0.3;
+        }
+
+        /* ===== WHATSAPP BTN ===== */
+        .whatsapp-btn {
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 8px 30px rgba(34, 197, 94, 0.3);
+        }
+        .whatsapp-btn:hover {
+            transform: scale(1.1) rotate(-3deg);
+            box-shadow: 0 15px 40px rgba(34, 197, 94, 0.4);
+        }
+
+        /* ===== ACCESSIBILITY READER ===== */
+        .accessibility-reader {
+            position: fixed;
+            bottom: 120px;
+            right: 20px;
+            background: rgba(30, 58, 138, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: white;
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .accessibility-reader:hover {
+            transform: scale(1.06);
+            box-shadow: 0 15px 40px rgba(30, 58, 138, 0.3);
+        }
+        .accessibility-reader.speaking {
+            background: rgba(14, 126, 110, 0.95);
+            animation: pulseGlow 1.5s infinite;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(14, 126, 110, 0.5); }
+            50% { box-shadow: 0 0 0 15px rgba(14, 126, 110, 0); }
+        }
+
+        /* ===== TOP BTN ===== */
+        #btn-top {
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 8px 25px rgba(30, 58, 138, 0.25);
+        }
+        #btn-top:hover {
+            transform: scale(1.1) translateY(-3px);
+            box-shadow: 0 15px 35px rgba(30, 58, 138, 0.35);
+        }
+
+        /* ===== TÍTULOS COM GLOW ===== */
+        .title-glow {
+            position: relative;
+            display: inline-block;
+        }
+        .title-glow::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 4px;
+            animation: titleLine 3s ease-in-out infinite;
+        }
+        @keyframes titleLine {
+            0%, 100% { width: 60px; opacity: 0.6; }
+            50% { width: 120px; opacity: 1; }
+        }
+        
+        body.dark .title-glow {
+            color: #e2e8f0 !important;
+        }
+
+        /* ===== PDF LINK ===== */
+        .pdf-link {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .pdf-link::before {
+            content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: all 0.6s ease;
-            opacity: 0;
-            pointer-events: none;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s ease;
         }
-        
-        /* Link do PDF */
-        .pdf-link {
-            transition: all 0.2s ease;
+        .pdf-link:hover::before {
+            left: 100%;
         }
         .pdf-link:hover {
-            background-color: #1e40af !important;
-            transform: scale(1.02);
+            transform: scale(1.04);
         }
 
-        /* Botão leitor acessível */
-        .accessibility-reader {
-            position: fixed;
-            bottom: 120px;
-            right: 20px;
-            background: #1e3a8a;
-            color: white;
-            border-radius: 50px;
-            padding: 12px 18px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2);
-            z-index: 1000;
-            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            backdrop-filter: blur(4px);
-            background-color: rgba(30, 58, 138, 0.9);
-        }
-        .accessibility-reader:hover {
-            transform: scale(1.05);
-            background-color: #0f2b6d;
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
-        }
-        .accessibility-reader:active {
-            transform: scale(0.98);
-        }
-        .accessibility-reader.speaking {
-            background-color: #0e7e6e;
-            animation: pulse-glow 1.2s infinite;
-        }
-        @keyframes pulse-glow {
-            0% { box-shadow: 0 0 0 0 rgba(14, 126, 110, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(14, 126, 110, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(14, 126, 110, 0); }
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .accessibility-reader { bottom: 100px; right: 16px; padding: 10px 14px; font-size: 0.75rem; }
+            .accessibility-reader span { display: none; }
+            .whatsapp-btn { padding: 14px; }
+            .whatsapp-btn span { display: none; }
+            .slider-container { height: 400px !important; }
+            #navbar { margin: 0 4px; }
         }
         
-        @media (max-width: 640px) {
-            .accessibility-reader { bottom: 100px; right: 16px; padding: 10px 14px; font-size: 0.8rem; }
+        @media (min-width: 768px) {
+            .slider-container { height: 520px !important; }
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR COM BOLHAS -->
+    <!-- ===== PARTÍCULAS DE FUNDO ===== -->
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+
+    <!-- ===== NAVBAR ===== -->
     <div id="nav-container" class="fixed top-4 left-0 right-0 z-50 flex justify-center px-4">
-        <nav id="navbar" class="w-full max-w-5xl rounded-2xl shadow-lg nav-liquid">
+        <nav id="navbar" class="w-full max-w-5xl rounded-2xl shadow-lg">
             <div class="px-6 py-3 relative">
                 <div class="flex justify-between items-center">
-                    <a href="index.html" class="text-2xl font-extrabold text-blue-800 tracking-tight hover:scale-105 transition nav-bubble" style="position: relative; display: inline-block;">
+                    <a href="index.html" class="text-2xl font-extrabold text-blue-800 tracking-tight hover:scale-105 transition flex items-center gap-1">
                         Un<span class="text-cyan-600">ISCED</span>
-                        <div class="bubble-particle" style="position: absolute; width: 8px; height: 8px; top: 10%; left: 20%; --tx: -20px; --ty: -30px;"></div>
-                        <div class="bubble-particle" style="position: absolute; width: 12px; height: 12px; top: 60%; left: 80%; --tx: 40px; --ty: -50px;"></div>
+                        <span class="text-[10px] font-medium text-gray-400 ml-1 hidden sm:inline">· Cursos</span>
                     </a>
                     
-                    <div class="hidden md:flex items-center gap-6">
-                        <button id="theme-toggle" class="theme-btn p-2 bg-white/50 rounded-full text-gray-800 w-9 h-9 flex items-center justify-center">
+                    <div class="hidden md:flex items-center gap-4">
+                        <button id="theme-toggle" class="theme-btn p-2 bg-white/40 backdrop-blur-sm rounded-full text-gray-800 w-9 h-9 flex items-center justify-center border border-white/30">
                             <i id="theme-icon" class="fa-solid fa-moon text-sm"></i>
                         </button>
-                        <button id="btn-idioma" class="font-bold text-blue-700 uppercase text-sm border border-blue-200 px-3 py-1.5 rounded-full hover:bg-blue-50/50 transition">PT</button>
-                        <a href="index.html" id="link-inicio" class="text-gray-700 hover:text-blue-700 font-semibold transition">Início</a>
-                        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-md hover:bg-blue-700 transition">Editais 2026</a>
+                        <button id="btn-idioma" class="font-bold text-blue-700 uppercase text-sm border border-blue-200/50 px-3 py-1.5 rounded-full hover:bg-white/50 transition backdrop-blur-sm">PT</button>
+                        <a href="index.html" id="link-inicio" class="text-gray-700 hover:text-blue-700 font-semibold transition px-2 py-1 rounded-lg hover:bg-white/30">Início</a>
+                        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-5 py-2 rounded-full text-sm font-bold shadow-md hover:shadow-lg transition hover:scale-105">Editais 2026</a>
                     </div>
                     
-                    <div class="md:hidden flex items-center gap-3">
-                        <button id="theme-toggle-mobile" class="theme-btn p-2 bg-white/50 rounded-full text-gray-800 w-8 h-8 flex items-center justify-center">
+                    <div class="md:hidden flex items-center gap-2">
+                        <button id="theme-toggle-mobile" class="theme-btn p-2 bg-white/40 backdrop-blur-sm rounded-full text-gray-800 w-8 h-8 flex items-center justify-center border border-white/30">
                             <i id="theme-icon-mobile" class="fa-solid fa-moon text-xs"></i>
                         </button>
-                        <button id="btn-idioma-mobile" class="font-bold text-blue-700 uppercase text-xs border border-blue-200 px-2 py-1 rounded-full">PT</button>
-                        <button id="menu-hamburger" class="text-gray-700 p-1">
+                        <button id="btn-idioma-mobile" class="font-bold text-blue-700 uppercase text-xs border border-blue-200/50 px-2 py-1 rounded-full backdrop-blur-sm">PT</button>
+                        <button id="menu-hamburger" class="text-gray-700 p-1.5 hover:bg-white/30 rounded-lg transition">
                             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                         </button>
                     </div>
                 </div>
-                <div class="liquid-shine"></div>
             </div>
         </nav>
         
         <!-- MENU MOBILE -->
-        <div id="mobile-menu" class="hidden absolute top-16 left-4 right-4 bg-white/95 backdrop-blur-md rounded-2xl shadow-lg border border-white/30 mt-2">
+        <div id="mobile-menu" class="hidden absolute top-16 left-4 right-4 bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl border border-white/30 mt-2">
             <div class="px-4 py-4 space-y-3">
-                <a href="index.html" id="mobile-link-inicio" class="flex items-center gap-3 text-gray-700 font-semibold py-2 px-3 rounded-xl hover:bg-blue-50 transition">Início</a>
-                <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" id="mobile-editais" class="flex items-center gap-3 text-white bg-blue-600 font-semibold py-2 px-3 rounded-xl transition justify-center">Editais 2026</a>
+                <a href="index.html" id="mobile-link-inicio" class="flex items-center gap-3 text-gray-700 font-semibold py-2.5 px-3 rounded-xl hover:bg-blue-50/70 transition">Início</a>
+                <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" id="mobile-editais" class="flex items-center gap-3 text-white bg-gradient-to-r from-blue-600 to-blue-700 font-semibold py-2.5 px-3 rounded-xl transition justify-center">Editais 2026</a>
             </div>
         </div>
     </div>
 
+    <!-- ===== MAIN ===== -->
     <main class="max-w-7xl mx-auto px-4 pt-32 pb-16 relative z-10" id="main-content">
         
-        <!-- MESTRADOS - SLIDER -->
+        <!-- ===== MESTRADOS - SLIDER ===== -->
         <section class="mb-24 reveal">
-            <h2 id="master_title" class="text-4xl md:text-5xl font-black text-center mb-12 text-gray-800">Programas de Mestrado</h2>
-            <div class="relative w-full h-[500px] rounded-3xl overflow-hidden shadow-2xl">
+            <h2 id="master_title" class="text-4xl md:text-5xl font-black text-center mb-4 text-gray-800 title-glow">Programas de Mestrado</h2>
+            <p class="text-center text-gray-500 text-sm mb-10 max-w-2xl mx-auto">Formação avançada para profissionais que buscam excelência e especialização</p>
+            
+            <div class="slider-container w-full h-[440px] md:h-[520px] rounded-3xl overflow-hidden shadow-2xl">
                 <!-- Slide 1 - Gestão -->
                 <div class="slide active absolute inset-0">
                     <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Mestrado em Gestão">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
-                    <div class="absolute bottom-8 left-8 right-8 text-white">
-                        <div class="flex items-center gap-2 mb-3"><span class="bg-blue-600 text-xs px-3 py-1 rounded-full">Mestrado</span><span class="bg-amber-500 text-xs px-3 py-1 rounded-full"><i class="fa-regular fa-clock mr-1"></i> 2 Anos</span></div>
-                        <h3 id="m_gestao_title" class="text-3xl font-black">Mestrado em Gestão</h3>
-                        <p id="m_gestao_desc" class="text-sm text-white/80 mt-2 max-w-2xl">Formação avançada em gestão estratégica, liderança organizacional e inovação.</p>
-                        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="pdf-link inline-block mt-4 bg-white text-gray-900 px-5 py-2 rounded-full text-sm font-bold hover:bg-gray-100 transition">Saiba mais →</a>
+                    <div class="absolute inset-0 slider-gradient"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 md:p-10 text-white">
+                        <div class="flex items-center gap-2 mb-3 flex-wrap">
+                            <span class="bg-blue-600/90 backdrop-blur-sm text-xs px-3 py-1.5 rounded-full font-semibold border border-white/20">🎓 Mestrado</span>
+                            <span class="bg-amber-500/90 backdrop-blur-sm text-xs px-3 py-1.5 rounded-full font-semibold border border-white/20"><i class="fa-regular fa-clock mr-1"></i> 2 Anos</span>
+                            <span class="bg-emerald-500/90 backdrop-blur-sm text-xs px-3 py-1.5 rounded-full font-semibold border border-white/20"><i class="fa-regular fa-star mr-1"></i> Top 10</span>
+                        </div>
+                        <h3 id="m_gestao_title" class="text-2xl md:text-4xl font-black">Mestrado em Gestão</h3>
+                        <p id="m_gestao_desc" class="text-sm md:text-base text-white/80 mt-2 max-w-2xl">Formação avançada em gestão estratégica, liderança organizacional e inovação.</p>
+                        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="pdf-link inline-block mt-4 bg-white/95 text-gray-900 px-6 py-2.5 rounded-full text-sm font-bold hover:bg-white transition shadow-lg">📄 Saiba mais →</a>
                     </div>
                 </div>
+                
                 <!-- Slide 2 - Direito -->
                 <div class="slide absolute inset-0">
                     <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Mestrado em Direito Fiscal">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
-                    <div class="absolute bottom-8 left-8 right-8 text-white">
-                        <div class="flex items-center gap-2 mb-3"><span class="bg-blue-600 text-xs px-3 py-1 rounded-full">Mestrado</span><span class="bg-amber-500 text-xs px-3 py-1 rounded-full"><i class="fa-regular fa-clock mr-1"></i> 2 Anos</span></div>
-                        <h3 id="m_direito_title" class="text-3xl font-black">Mestrado em Direito Fiscal</h3>
-                        <p id="m_direito_desc" class="text-sm text-white/80 mt-2 max-w-2xl">Especialização em direito tributário, aduaneiro e governança fiscal.</p>
-                        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="pdf-link inline-block mt-4 bg-white text-gray-900 px-5 py-2 rounded-full text-sm font-bold hover:bg-gray-100 transition">Saiba mais →</a>
+                    <div class="absolute inset-0 slider-gradient"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 md:p-10 text-white">
+                        <div class="flex items-center gap-2 mb-3 flex-wrap">
+                            <span class="bg-blue-600/90 backdrop-blur-sm text-xs px-3 py-1.5 rounded-full font-semibold border border-white/20">⚖️ Mestrado</span>
+                            <span class="bg-amber-500/90 backdrop-blur-sm text-xs px-3 py-1.5 rounded-full font-semibold border border-white/20"><i class="fa-regular fa-clock mr-1"></i> 2 Anos</span>
+                            <span class="bg-violet-500/90 backdrop-blur-sm text-xs px-3 py-1.5 rounded-full font-semibold border border-white/20"><i class="fa-solid fa-fire mr-1"></i> Destaque</span>
+                        </div>
+                        <h3 id="m_direito_title" class="text-2xl md:text-4xl font-black">Mestrado em Direito Fiscal</h3>
+                        <p id="m_direito_desc" class="text-sm md:text-base text-white/80 mt-2 max-w-2xl">Especialização em direito tributário, aduaneiro e governança fiscal.</p>
+                        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="pdf-link inline-block mt-4 bg-white/95 text-gray-900 px-6 py-2.5 rounded-full text-sm font-bold hover:bg-white transition shadow-lg">📄 Saiba mais →</a>
                     </div>
                 </div>
+                
                 <!-- Slide 3 - Saúde -->
                 <div class="slide absolute inset-0">
                     <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Mestrado em Saúde Pública">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
-                    <div class="absolute bottom-8 left-8 right-8 text-white">
-                        <div class="flex items-center gap-2 mb-3"><span class="bg-blue-600 text-xs px-3 py-1 rounded-full">Mestrado</span><span class="bg-amber-500 text-xs px-3 py-1 rounded-full"><i class="fa-regular fa-clock mr-1"></i> 2 Anos</span></div>
-                        <h3 id="m_saude_title" class="text-3xl font-black">Mestrado em Saúde Pública</h3>
-                        <p id="m_saude_desc" class="text-sm text-white/80 mt-2 max-w-2xl">Gestão de sistemas de saúde, epidemiologia e políticas públicas.</p>
-                        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="pdf-link inline-block mt-4 bg-white text-gray-900 px-5 py-2 rounded-full text-sm font-bold hover:bg-gray-100 transition">Saiba mais →</a>
+                    <div class="absolute inset-0 slider-gradient"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 md:p-10 text-white">
+                        <div class="flex items-center gap-2 mb-3 flex-wrap">
+                            <span class="bg-blue-600/90 backdrop-blur-sm text-xs px-3 py-1.5 rounded-full font-semibold border border-white/20">🏥 Mestrado</span>
+                            <span class="bg-amber-500/90 backdrop-blur-sm text-xs px-3 py-1.5 rounded-full font-semibold border border-white/20"><i class="fa-regular fa-clock mr-1"></i> 2 Anos</span>
+                            <span class="bg-rose-500/90 backdrop-blur-sm text-xs px-3 py-1.5 rounded-full font-semibold border border-white/20"><i class="fa-solid fa-heart-pulse mr-1"></i> Saúde</span>
+                        </div>
+                        <h3 id="m_saude_title" class="text-2xl md:text-4xl font-black">Mestrado em Saúde Pública</h3>
+                        <p id="m_saude_desc" class="text-sm md:text-base text-white/80 mt-2 max-w-2xl">Gestão de sistemas de saúde, epidemiologia e políticas públicas.</p>
+                        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="pdf-link inline-block mt-4 bg-white/95 text-gray-900 px-6 py-2.5 rounded-full text-sm font-bold hover:bg-white transition shadow-lg">📄 Saiba mais →</a>
                     </div>
                 </div>
                 
-                <button onclick="plusSlides(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/30 backdrop-blur-sm p-3 rounded-full hover:bg-white/50 transition"><i class="fa-solid fa-chevron-left text-white"></i></button>
-                <button onclick="plusSlides(1)" class="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/30 backdrop-blur-sm p-3 rounded-full hover:bg-white/50 transition"><i class="fa-solid fa-chevron-right text-white"></i></button>
+                <!-- Controles -->
+                <button onclick="plusSlides(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 z-20 slider-btn p-3 rounded-full text-white">
+                    <i class="fa-solid fa-chevron-left text-lg"></i>
+                </button>
+                <button onclick="plusSlides(1)" class="absolute right-4 top-1/2 -translate-y-1/2 z-20 slider-btn p-3 rounded-full text-white">
+                    <i class="fa-solid fa-chevron-right text-lg"></i>
+                </button>
                 
                 <!-- Indicadores -->
                 <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-                    <span class="slide-dot w-2 h-2 rounded-full bg-white/50 cursor-pointer" onclick="currentSlide(0)"></span>
-                    <span class="slide-dot w-2 h-2 rounded-full bg-white/50 cursor-pointer" onclick="currentSlide(1)"></span>
-                    <span class="slide-dot w-2 h-2 rounded-full bg-white/50 cursor-pointer" onclick="currentSlide(2)"></span>
+                    <span class="slide-dot w-2.5 h-2.5 rounded-full bg-white/40 cursor-pointer active" onclick="currentSlide(0)"></span>
+                    <span class="slide-dot w-2.5 h-2.5 rounded-full bg-white/40 cursor-pointer" onclick="currentSlide(1)"></span>
+                    <span class="slide-dot w-2.5 h-2.5 rounded-full bg-white/40 cursor-pointer" onclick="currentSlide(2)"></span>
                 </div>
             </div>
         </section>
 
-        <!-- LICENCIATURAS -->
+        <!-- ===== LICENCIATURAS ===== -->
         <section class="reveal">
-            <h2 id="bach_title" class="text-4xl md:text-5xl font-black text-center mb-12 text-gray-800">Programas de Licenciatura</h2>
+            <h2 id="bach_title" class="text-4xl md:text-5xl font-black text-center mb-4 text-gray-800 title-glow">Programas de Licenciatura</h2>
+            <p class="text-center text-gray-500 text-sm mb-10 max-w-2xl mx-auto">Formação completa para construir uma carreira sólida e fazer a diferença no mundo</p>
+            
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Curso 1 - Saúde -->
-                <div class="card-glass rounded-2xl overflow-hidden shadow-sm course-card reveal">
-                    <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=400" class="w-full h-48 object-cover" alt="Ciências da Saúde">
+                <div class="card-glass rounded-2xl overflow-hidden shadow-sm course-card reveal reveal-delay-1">
+                    <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=400" class="w-full h-52 object-cover" alt="Ciências da Saúde">
                     <div class="p-5">
-                        <div class="flex items-center justify-between mb-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">Licenciatura</span><span class="text-gray-400 text-xs"><i class="fa-regular fa-clock mr-1"></i> 4 Anos</span></div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="bg-blue-100/80 text-blue-700 text-xs px-3 py-1 rounded-full font-bold backdrop-blur-sm">Licenciatura</span>
+                            <span class="text-gray-400 text-xs"><i class="fa-regular fa-clock mr-1"></i> 4 Anos</span>
+                        </div>
                         <h3 id="bach_saude_title" class="text-xl font-black text-gray-800">Ciências da Saúde</h3>
-                        <p id="bach_saude_desc" class="text-sm text-gray-600 mt-1">Nutrição, Psicologia, Enfermagem e áreas afins.</p>
-                        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="inline-block mt-4 text-blue-600 text-sm font-semibold hover:text-blue-800 transition">Ver detalhes <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                        <p id="bach_saude_desc" class="text-sm text-gray-600 mt-1 leading-relaxed">Nutrição, Psicologia, Enfermagem e áreas afins.</p>
+                        <div class="mt-4 flex items-center justify-between">
+                            <span class="text-xs text-gray-400">🔬 Laboratórios</span>
+                            <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="text-blue-600 text-sm font-semibold hover:text-blue-800 transition flex items-center gap-1">Ver <i class="fa-solid fa-arrow-right text-xs"></i></a>
+                        </div>
                     </div>
                 </div>
+                
                 <!-- Curso 2 - Educação -->
-                <div class="card-glass rounded-2xl overflow-hidden shadow-sm course-card reveal">
-                    <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=400" class="w-full h-48 object-cover" alt="Ciências da Educação">
+                <div class="card-glass rounded-2xl overflow-hidden shadow-sm course-card reveal reveal-delay-2">
+                    <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=400" class="w-full h-52 object-cover" alt="Ciências da Educação">
                     <div class="p-5">
-                        <div class="flex items-center justify-between mb-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">Licenciatura</span><span class="text-gray-400 text-xs"><i class="fa-regular fa-clock mr-1"></i> 4 Anos</span></div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="bg-blue-100/80 text-blue-700 text-xs px-3 py-1 rounded-full font-bold backdrop-blur-sm">Licenciatura</span>
+                            <span class="text-gray-400 text-xs"><i class="fa-regular fa-clock mr-1"></i> 4 Anos</span>
+                        </div>
                         <h3 id="bach_educacao_title" class="text-xl font-black text-gray-800">Ciências da Educação</h3>
-                        <p id="bach_educacao_desc" class="text-sm text-gray-600 mt-1">Biologia, Matemática, Pedagogia e Formação de Professores.</p>
-                        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="inline-block mt-4 text-blue-600 text-sm font-semibold hover:text-blue-800 transition">Ver detalhes <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                        <p id="bach_educacao_desc" class="text-sm text-gray-600 mt-1 leading-relaxed">Biologia, Matemática, Pedagogia e Formação de Professores.</p>
+                        <div class="mt-4 flex items-center justify-between">
+                            <span class="text-xs text-gray-400">📚 Educação</span>
+                            <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="text-blue-600 text-sm font-semibold hover:text-blue-800 transition flex items-center gap-1">Ver <i class="fa-solid fa-arrow-right text-xs"></i></a>
+                        </div>
                     </div>
                 </div>
+                
                 <!-- Curso 3 - Direito -->
-                <div class="card-glass rounded-2xl overflow-hidden shadow-sm course-card reveal">
-                    <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=400" class="w-full h-48 object-cover" alt="Ciências Jurídicas">
+                <div class="card-glass rounded-2xl overflow-hidden shadow-sm course-card reveal reveal-delay-3">
+                    <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=400" class="w-full h-52 object-cover" alt="Ciências Jurídicas">
                     <div class="p-5">
-                        <div class="flex items-center justify-between mb-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">Licenciatura</span><span class="text-gray-400 text-xs"><i class="fa-regular fa-clock mr-1"></i> 4 Anos</span></div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="bg-blue-100/80 text-blue-700 text-xs px-3 py-1 rounded-full font-bold backdrop-blur-sm">Licenciatura</span>
+                            <span class="text-gray-400 text-xs"><i class="fa-regular fa-clock mr-1"></i> 4 Anos</span>
+                        </div>
                         <h3 id="bach_direito_title" class="text-xl font-black text-gray-800">Ciências Jurídicas</h3>
-                        <p id="bach_direito_desc" class="text-sm text-gray-600 mt-1">Direito, Legislação, Prática Jurídica e Advocacia.</p>
-                        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="inline-block mt-4 text-blue-600 text-sm font-semibold hover:text-blue-800 transition">Ver detalhes <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                        <p id="bach_direito_desc" class="text-sm text-gray-600 mt-1 leading-relaxed">Direito, Legislação, Prática Jurídica e Advocacia.</p>
+                        <div class="mt-4 flex items-center justify-between">
+                            <span class="text-xs text-gray-400">⚖️ Destaque</span>
+                            <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="text-blue-600 text-sm font-semibold hover:text-blue-800 transition flex items-center gap-1">Ver <i class="fa-solid fa-arrow-right text-xs"></i></a>
+                        </div>
                     </div>
                 </div>
+                
                 <!-- Curso 4 - Gestão -->
-                <div class="card-glass rounded-2xl overflow-hidden shadow-sm course-card reveal">
-                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400" class="w-full h-48 object-cover" alt="Gestão e Negócios">
+                <div class="card-glass rounded-2xl overflow-hidden shadow-sm course-card reveal reveal-delay-4">
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400" class="w-full h-52 object-cover" alt="Gestão e Negócios">
                     <div class="p-5">
-                        <div class="flex items-center justify-between mb-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">Licenciatura</span><span class="text-gray-400 text-xs"><i class="fa-regular fa-clock mr-1"></i> 4 Anos</span></div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="bg-blue-100/80 text-blue-700 text-xs px-3 py-1 rounded-full font-bold backdrop-blur-sm">Licenciatura</span>
+                            <span class="text-gray-400 text-xs"><i class="fa-regular fa-clock mr-1"></i> 4 Anos</span>
+                        </div>
                         <h3 id="bach_gestao_title" class="text-xl font-black text-gray-800">Gestão e Negócios</h3>
-                        <p id="bach_gestao_desc" class="text-sm text-gray-600 mt-1">Contabilidade, Recursos Humanos, Administração e Empreendedorismo.</p>
-                        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="inline-block mt-4 text-blue-600 text-sm font-semibold hover:text-blue-800 transition">Ver detalhes <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                        <p id="bach_gestao_desc" class="text-sm text-gray-600 mt-1 leading-relaxed">Contabilidade, Recursos Humanos, Administração e Empreendedorismo.</p>
+                        <div class="mt-4 flex items-center justify-between">
+                            <span class="text-xs text-gray-400">💼 Mercado</span>
+                            <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="text-blue-600 text-sm font-semibold hover:text-blue-800 transition flex items-center gap-1">Ver <i class="fa-solid fa-arrow-right text-xs"></i></a>
+                        </div>
                     </div>
                 </div>
+                
                 <!-- Curso 5 - Engenharias -->
-                <div class="card-glass rounded-2xl overflow-hidden shadow-sm course-card reveal">
-                    <img src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?w=400" class="w-full h-48 object-cover" alt="Engenharias">
+                <div class="card-glass rounded-2xl overflow-hidden shadow-sm course-card reveal reveal-delay-5">
+                    <img src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?w=400" class="w-full h-52 object-cover" alt="Engenharias">
                     <div class="p-5">
-                        <div class="flex items-center justify-between mb-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">Licenciatura</span><span class="text-gray-400 text-xs"><i class="fa-regular fa-clock mr-1"></i> 4 Anos</span></div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="bg-blue-100/80 text-blue-700 text-xs px-3 py-1 rounded-full font-bold backdrop-blur-sm">Licenciatura</span>
+                            <span class="text-gray-400 text-xs"><i class="fa-regular fa-clock mr-1"></i> 4 Anos</span>
+                        </div>
                         <h3 id="bach_engenharia_title" class="text-xl font-black text-gray-800">Engenharias</h3>
-                        <p id="bach_engenharia_desc" class="text-sm text-gray-600 mt-1">Informática, Agronegócios, Software e Redes.</p>
-                        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="inline-block mt-4 text-blue-600 text-sm font-semibold hover:text-blue-800 transition">Ver detalhes <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                        <p id="bach_engenharia_desc" class="text-sm text-gray-600 mt-1 leading-relaxed">Informática, Agronegócios, Software e Redes.</p>
+                        <div class="mt-4 flex items-center justify-between">
+                            <span class="text-xs text-gray-400">💻 Tech</span>
+                            <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="text-blue-600 text-sm font-semibold hover:text-blue-800 transition flex items-center gap-1">Ver <i class="fa-solid fa-arrow-right text-xs"></i></a>
+                        </div>
                     </div>
                 </div>
+                
                 <!-- Curso 6 - Humanas -->
-                <div class="card-glass rounded-2xl overflow-hidden shadow-sm course-card reveal">
-                    <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=400" class="w-full h-48 object-cover" alt="Ciências Humanas">
+                <div class="card-glass rounded-2xl overflow-hidden shadow-sm course-card reveal reveal-delay-6">
+                    <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=400" class="w-full h-52 object-cover" alt="Ciências Humanas">
                     <div class="p-5">
-                        <div class="flex items-center justify-between mb-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">Licenciatura</span><span class="text-gray-400 text-xs"><i class="fa-regular fa-clock mr-1"></i> 4 Anos</span></div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="bg-blue-100/80 text-blue-700 text-xs px-3 py-1 rounded-full font-bold backdrop-blur-sm">Licenciatura</span>
+                            <span class="text-gray-400 text-xs"><i class="fa-regular fa-clock mr-1"></i> 4 Anos</span>
+                        </div>
                         <h3 id="bach_humanas_title" class="text-xl font-black text-gray-800">Ciências Humanas</h3>
-                        <p id="bach_humanas_desc" class="text-sm text-gray-600 mt-1">Jornalismo, Marketing, Comunicação e Relações Públicas.</p>
-                        <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="inline-block mt-4 text-blue-600 text-sm font-semibold hover:text-blue-800 transition">Ver detalhes <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                        <p id="bach_humanas_desc" class="text-sm text-gray-600 mt-1 leading-relaxed">Jornalismo, Marketing, Comunicação e Relações Públicas.</p>
+                        <div class="mt-4 flex items-center justify-between">
+                            <span class="text-xs text-gray-400">🎙️ Comunicação</span>
+                            <a href="https://unisced.edu.mz/wp-content/uploads/2025/08/EDITAIS_2026.pdf" target="_blank" class="text-blue-600 text-sm font-semibold hover:text-blue-800 transition flex items-center gap-1">Ver <i class="fa-solid fa-arrow-right text-xs"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- RODAPÉ CENTRALIZADO (não será lido pelo leitor) -->
+    <!-- ===== RODAPÉ ===== -->
     <footer class="footer-glass py-8 mt-16" id="footer-rodape">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-6 pb-4 border-b border-white/30">
@@ -396,21 +660,26 @@
         </div>
     </footer>
 
-    <!-- BOTÕES FLUTUANTES -->
-    <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" id="btn-top" class="fixed bottom-24 right-5 bg-blue-700 text-white p-3 rounded-full shadow-lg hidden hover:scale-105 transition z-40"><i class="fa-solid fa-arrow-up"></i></button>
-    <a href="https://wa.me/258840000000?text=Olá!%20Gostaria%20de%20informações%20sobre%20os%20cursos%20da%20UnISCED" target="_blank" class="whatsapp-btn fixed bottom-5 left-5 bg-green-500 text-white p-4 rounded-full shadow-lg z-50 flex items-center gap-2">
+    <!-- ===== BOTÕES FLUTUANTES ===== -->
+    <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" id="btn-top" class="fixed bottom-24 right-5 bg-blue-700 text-white p-3.5 rounded-full shadow-lg hidden hover:scale-105 transition z-40 border border-white/20">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+    
+    <a href="https://wa.me/258840000000?text=Olá!%20Gostaria%20de%20informações%20sobre%20os%20cursos%20da%20UnISCED" target="_blank" class="whatsapp-btn fixed bottom-5 left-5 bg-green-500 text-white p-3.5 rounded-full shadow-lg z-50 flex items-center gap-2 border border-white/20">
         <i class="fa-brands fa-whatsapp text-2xl"></i>
         <span class="hidden md:inline text-sm font-semibold">Fale connosco</span>
     </a>
 
-    <!-- BOTÃO DE ACESSIBILIDADE LEITOR -->
+    <!-- ===== LEITOR DE ACESSIBILIDADE ===== -->
     <button id="accessibility-reader-btn" class="accessibility-reader" aria-label="Ler conteúdo da página">
         <i class="fa-solid fa-ear-listen"></i>
         <span>Ouvir Página</span>
     </button>
 
     <script>
-        // ================== MODO DARK ==================
+        // ============================================================
+        // 1. MODO DARK
+        // ============================================================
         let dark = false;
         function toggleTheme() {
             dark = !dark;
@@ -430,7 +699,9 @@
         document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
         document.getElementById('theme-toggle-mobile')?.addEventListener('click', toggleTheme);
 
-        // ================== MENU HAMBÚRGUER ==================
+        // ============================================================
+        // 2. MENU MOBILE
+        // ============================================================
         const hamburger = document.getElementById('menu-hamburger');
         const mobileMenu = document.getElementById('mobile-menu');
         if (hamburger && mobileMenu) {
@@ -440,7 +711,9 @@
             });
         }
 
-        // ================== SCROLL ==================
+        // ============================================================
+        // 3. SCROLL - NAVBAR HIDE + TOP BTN
+        // ============================================================
         let lastScroll = 0;
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
@@ -452,7 +725,9 @@
             if (btnTop) btnTop.classList.toggle('hidden', scrollY < 300);
         });
 
-        // ================== SLIDER ==================
+        // ============================================================
+        // 4. SLIDER
+        // ============================================================
         let slideIndex = 0;
         const slides = document.getElementsByClassName("slide");
         const dots = document.querySelectorAll('.slide-dot');
@@ -461,16 +736,29 @@
             for (let i = 0; i < slides.length; i++) slides[i].classList.remove('active');
             slideIndex = (n + slides.length) % slides.length;
             slides[slideIndex].classList.add('active');
-            if (dots) dots.forEach((dot, i) => { dot.style.background = i === slideIndex ? 'white' : 'rgba(255,255,255,0.5)'; });
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === slideIndex);
+            });
         }
         
         function plusSlides(n) { showSlides(slideIndex + n); }
         function currentSlide(n) { showSlides(n); }
         
-        // Auto slide a cada 5 segundos
-        setInterval(() => plusSlides(1), 5000);
+        // Auto slide a cada 6 segundos
+        let autoSlide = setInterval(() => plusSlides(1), 6000);
+        
+        // Pausar auto slide no hover
+        const sliderContainer = document.querySelector('.slider-container');
+        if (sliderContainer) {
+            sliderContainer.addEventListener('mouseenter', () => clearInterval(autoSlide));
+            sliderContainer.addEventListener('mouseleave', () => {
+                autoSlide = setInterval(() => plusSlides(1), 6000);
+            });
+        }
 
-        // ================== REVEAL ==================
+        // ============================================================
+        // 5. REVEAL ANIMATION
+        // ============================================================
         const reveals = document.querySelectorAll('.reveal');
         function checkReveal() {
             reveals.forEach(el => {
@@ -480,7 +768,9 @@
         window.addEventListener('load', checkReveal);
         window.addEventListener('scroll', checkReveal);
 
-        // ================== BOTÃO LEITOR DE TELA ==================
+        // ============================================================
+        // 6. LEITOR DE ACESSIBILIDADE
+        // ============================================================
         let speechSynthesisUtterance = null;
         let isSpeaking = false;
         const readButton = document.getElementById('accessibility-reader-btn');
@@ -488,44 +778,29 @@
         
         function getTextFromMainContent() {
             if (!mainContent) return '';
-            // Clona o conteúdo principal para não afetar a interface
             const clone = mainContent.cloneNode(true);
             
-            // Remove elementos que não devem ser lidos (botões de navegação do slider, links de telefone, etc)
             const unwantedSelectors = [
-                'button',                           // botões do slider e outros
-                '.pdf-link',                        // links de PDF (apenas ação)
-                '.slide-dot',                       // indicadores visuais
-                'a[href^="tel:"]',                  // links de telefone
-                '.theme-btn',                       // botões de tema
-                '#btn-idioma', '#btn-idioma-mobile', // botões de idioma
-                '.whatsapp-btn',                    // botão flutuante WhatsApp
-                '#btn-top'                          // botão de voltar ao topo
+                'button', '.pdf-link', '.slide-dot', 'a[href^="tel:"]',
+                '.theme-btn', '#btn-idioma', '#btn-idioma-mobile',
+                '.whatsapp-btn', '#btn-top'
             ];
             
             unwantedSelectors.forEach(selector => {
-                const elementsToRemove = clone.querySelectorAll(selector);
-                elementsToRemove.forEach(el => el.remove());
+                clone.querySelectorAll(selector).forEach(el => el.remove());
             });
             
-            // Remove também os controles do slider manualmente (setas)
             const sliderControls = clone.querySelectorAll('.absolute.left-4, .absolute.right-4');
             sliderControls.forEach(el => el.remove());
             
-            // Obtém todo o texto restante
             let text = clone.innerText || clone.textContent || '';
-            // Limpa espaços excessivos e quebras
             text = text.replace(/\s+/g, ' ').trim();
             return text;
         }
         
         function stopReading() {
-            if (window.speechSynthesis) {
-                window.speechSynthesis.cancel();
-            }
-            if (speechSynthesisUtterance) {
-                speechSynthesisUtterance = null;
-            }
+            if (window.speechSynthesis) window.speechSynthesis.cancel();
+            speechSynthesisUtterance = null;
             isSpeaking = false;
             if (readButton) {
                 readButton.classList.remove('speaking');
@@ -534,10 +809,7 @@
         }
         
         function readMainContent() {
-            if (isSpeaking) {
-                stopReading();
-                return;
-            }
+            if (isSpeaking) { stopReading(); return; }
             
             const fullText = getTextFromMainContent();
             if (!fullText || fullText.length === 0) {
@@ -545,12 +817,9 @@
                 return;
             }
             
-            if (window.speechSynthesis) {
-                window.speechSynthesis.cancel();
-            }
+            if (window.speechSynthesis) window.speechSynthesis.cancel();
             
             const utterance = new SpeechSynthesisUtterance(fullText);
-            // Detecta idioma baseado no botão de idioma atual
             const currentLang = document.getElementById('btn-idioma')?.innerText === 'EN' ? 'en-US' : 'pt-PT';
             utterance.lang = currentLang;
             utterance.rate = 0.9;
@@ -584,13 +853,10 @@
             speechSynthesisUtterance = utterance;
             window.speechSynthesis.speak(utterance);
             
-            // Efeito visual sutil
             if (mainContent) {
                 mainContent.style.transition = 'background-color 0.2s';
                 mainContent.style.backgroundColor = 'rgba(255, 245, 200, 0.15)';
-                setTimeout(() => {
-                    if (mainContent) mainContent.style.backgroundColor = '';
-                }, 500);
+                setTimeout(() => { if (mainContent) mainContent.style.backgroundColor = ''; }, 500);
             }
         }
         
@@ -601,16 +867,17 @@
         window.addEventListener('beforeunload', () => {
             if (window.speechSynthesis) window.speechSynthesis.cancel();
         });
-        
-        // Interceptar mudança de idioma para parar leitura
-        const originalToggleLang = window.toggleLang;
-        
-        // ================== TRADUÇÃO COMPLETA ==================
+
+        // ============================================================
+        // 7. TRADUÇÃO COMPLETA
+        // ============================================================
         const dict = {
             pt: {
                 link_inicio: "Início",
                 master_title: "Programas de Mestrado",
+                master_sub: "Formação avançada para profissionais que buscam excelência e especialização",
                 bach_title: "Programas de Licenciatura",
+                bach_sub: "Formação completa para construir uma carreira sólida e fazer a diferença no mundo",
                 m_gestao_title: "Mestrado em Gestão",
                 m_gestao_desc: "Formação avançada em gestão estratégica, liderança organizacional e inovação.",
                 m_direito_title: "Mestrado em Direito Fiscal",
@@ -634,7 +901,9 @@
             en: {
                 link_inicio: "Home",
                 master_title: "Master Programs",
+                master_sub: "Advanced training for professionals seeking excellence and specialization",
                 bach_title: "Bachelor Programs",
+                bach_sub: "Complete training to build a solid career and make a difference in the world",
                 m_gestao_title: "Master in Management",
                 m_gestao_desc: "Advanced training in strategic management, organizational leadership and innovation.",
                 m_direito_title: "Master in Tax Law",
@@ -705,4 +974,3 @@
     </script>
 </body>
 </html>
-```
